@@ -1,0 +1,3 @@
+[submodule "icApp"]
+	path = icApp
+	url = https://github.com/IC-Tech/icApp.git
