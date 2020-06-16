@@ -17,7 +17,8 @@ module.exports = {
     'dmca': './src/dmca.js',
     'privacy': './src/privacy.js',
     'terms': './src/terms.js',
-    'about': './src/about.js'
+    'about': './src/about.js',
+    'stats': './src/stats.js'
   },
   output: {
     path: path.join(__dirname, outputDirectory),
