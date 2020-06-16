@@ -94,6 +94,7 @@ const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 			{t: 'a', at: [['href', '/terms']], txt: 'Terms of Service'}, ' | ',
 			{t: 'a', at: [['href', '/dmca']], txt: 'Disclaimer'}, ' | ',
 			{t: 'a', at: [['href', '/dmca']], txt: 'DMCA'}, ' | ',
+			{t: 'a', at: [['href', '/stats']], txt: 'Stats'}, ' | ',
 			{t: 'a', at: [['href', '/about']], txt: 'About'},
 		]}]},
 		{t: 'span', nodes: 1, ch: ['IAnime © 2020, All Rights Reserved. Developed by ', {t: 'a', at: [['href', 'https://ic-tech.now.sh']], txt: 'IC-Tech'}]}
