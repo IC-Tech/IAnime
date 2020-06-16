@@ -1,0 +1,188 @@
+@import 'main.scss';
+.content {
+	> * {
+		display: block;
+		&:not(.shadow) {
+			margin: 20px auto 0;
+			max-width: 1000px;
+		}
+	}
+	.title {
+		display: block;
+		text-align: center;
+		font-size: 18px;
+		//font-weight: bold;
+		//padding: 20px 0;
+	}
+	.watch {
+		//margin: 0 auto;
+		padding: 10px 20px;
+		box-sizing: border-box;
+		background-color: $pcol2;
+		border-radius: 8px;
+		box-shadow: 0 0 10px #0004;
+		width: 80vw;
+		> * {
+			display: block;
+		}
+		iframe {
+			width: calc(80vw - 40px);
+			max-width: calc(1000px - 40px);
+			height: calc(48vw - 40px);
+			max-height: calc(600px - 40px);
+			margin: 4px 0;
+		}
+		.red {
+			width: 100%;
+			height: 40vw;
+			background-size: cover;
+			background-position: center center;
+			a {
+				position: relative;
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			div {
+				position: absolute;
+				margin-left: calc(50% - 50px); 
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				width: 100px;
+				height: 100%;
+				svg {
+					fill: $fcol1;
+					border-radius: 50%;
+					box-shadow: 0 0 20px #000A;
+				}
+			}
+		}
+		.names {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			max-width: 100%;
+			font-size: 14px;
+			color: $fcol2;
+		}
+		.title-b {
+			color: $fcol1;
+			font-size: 16px;
+		}
+		.title-b, .name {
+			display: inline-block;
+		}
+		/*.name {
+			font-size: 14px;
+			color: $fcol2;
+			padding-left: 6px;
+		}*/
+	}
+	/* not cool.........
+	.ani-s {
+		padding-bottom: 20px;
+	 	box-shadow: 0 0 20px #0008;
+	}*/
+	.ani {
+		padding: 0 40px;
+		display: flex;
+		.image {
+			display: block;
+			width: 200px;
+			height: 300px;
+			background-size: cover;
+			background-position: top center;
+			box-shadow: 0 0 20px #0008;
+			border-radius: 16px;
+		}
+		.ani-l {
+			margin-right: 32px;
+		}
+		.name {
+			font-size: 20px;
+			display: block;
+			margin-bottom: 10px;
+			text-decoration: none;
+		}
+		.des {
+			color: $fcol2;
+		}
+	}
+	.mir {
+		display: flex;
+		padding-top: 4px;
+		flex-wrap: wrap;
+		//text-align: center;
+		.wrp {
+			flex: 1;
+			flex-shrink: revert;
+			box-sizing: border-box;
+			text-align: center;
+		}
+		a {
+			color: $fcol1;
+			background-color: $pcol2;
+			border: 0;
+			padding: 8px 16px;
+			box-shadow: 0 0 10px #0008;
+			border-radius: 4px;
+			cursor: pointer;
+			transition-duration: $default-transition;
+			position: relative;
+			top: 8px;
+			text-decoration: none;
+			&.nope {
+				display: none;
+			}
+			&:active, &.c1 {
+				background-color: $pcol1;
+				box-shadow: 0 2px 16px #0008;
+			}
+		}
+		select {
+			color: $fcol1;
+			background-color: $pcol2;
+			border: 0;
+			font-size: 16px;
+			padding: 6px 12px;
+			margin-top: 2px;
+			border: 1px solid $pcol1;
+			box-shadow: 0 0 10px #0004;
+			border-radius: 6px;
+			option {
+				text-align: center;
+			}
+		}
+	}
+}
+@media (max-width: 600px) {
+  .content .watch {
+  	width: calc(98vw - 10px);
+  	iframe {
+  		width: calc(98vw - 50px);
+  	}
+  }
+  .content .ani {
+  	display: block;
+  	.name {
+  		margin-top: 10px;
+  	}
+  }
+}
+@media (max-width: 700px) {
+  .content .mir {
+  	display: block;
+  	a {
+  		display: block;
+  		width: 100%;
+  		box-sizing: border-box;
+  	}
+  	.wrp:nth-child(2) {
+  		margin: 22px 0 6px 0;
+  	}
+  	.wrp:nth-child(3) {
+  		margin-bottom: 10px;
+  	}
+  }
+}

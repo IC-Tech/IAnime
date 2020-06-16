@@ -1,0 +1,146 @@
+@import 'main.scss';
+.top .ser {
+	display: none;
+}
+@keyframes ser-ani1 {
+	from {
+		background-color: $pcol2;
+		transition-duration: 1s;
+	}
+	to {
+		background-color: $fcol1;
+		transition-duration: revert;
+	}
+}
+@keyframes ser-ani2 {
+	from {
+		background-color: $pcol2;
+	}
+	to {
+		background-color: $pcol3;
+	}
+}
+.content {
+	.pri, .res {
+		display: block;
+		width: 90%;
+		max-width: 1000px;
+		margin: 0 auto;
+		position: relative;
+	}
+	.pri {
+		> * {
+			display: block;
+		}
+		.ti {
+			box-sizing: border-box;
+			padding-top: 20px;
+			text-align: left;
+			font-size: 32px;
+		}
+		.ser {
+			width: 100%;
+			position:relative;
+			margin-top: 10px;
+			z-index: 0;
+			box-shadow: 0 4px 10px #0004;
+			&::after {
+				content: '';
+				display: block;
+				position: absolute;
+				width: calc(100% + 4px);
+				height: calc(100% + 4px);
+				top: -2px;
+				left: -2px;
+				position: absolute;
+    		z-index: -1;
+			}
+			&.s1::after {
+    		animation: ser-ani1 2s forwards alternate 1;
+			}
+			&.s2::after {
+    		animation: ser-ani2 1s forwards alternate infinite;
+			}
+			&::after, input {
+				border-radius: 40px;
+			}
+			.ico {
+				position: absolute;
+				margin-top: 1px;
+    		left: 0;
+    		cursor: pointer;
+				svg {
+					fill: $fcol1;
+					width: 48px;
+					height: 48px;
+				}
+			}
+			input {
+				font-size: 26px;
+				width: 100%;
+				padding: 10px 20px;
+				padding-left: 46px;
+				box-sizing: border-box;
+				color: $fcol1;
+				background-color: $pcol2;
+				border: 0;
+				border-radius: 40px;
+				transition-duration: $default-transition;
+				outline: none !important;
+				line-height: 1;
+			}
+		}
+	}
+	.res {
+		display: grid;
+		//grid-template-columns: repeat(auto-fill,minmax(210px, 1fr));
+		&.nope {
+			display: table;
+			height: 100%;
+			max-height: calc(100% - 220px);
+			min-width: 100%;
+			position: absolute;
+			.nope {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			span {
+				display: block;
+				text-align: center;
+				font-size: 18px;
+			}
+		}
+	}
+	/*.more {
+		display: block;
+		text-align: center;
+		&.nope {
+			display: none;
+		}
+		button {
+			border: 0;
+			padding: 8px 16px;
+			margin: 10px;
+			cursor: pointer;
+			border-radius: 4px;
+			background-color: $pcol2;
+			box-shadow: 0 0 10px #0004;
+			transition-duration: $default-transition;
+			&:active {
+				background-color: $pcol1;
+				box-shadow: 0 0 10px #0008;
+			}
+			span {
+				color: $fcol1;
+			}
+		}
+	}*/
+	.load {
+		display: block;
+		text-align: center;
+		margin-top: 10px;
+		&.nope {
+			display: none;
+		}
+	}
+}
