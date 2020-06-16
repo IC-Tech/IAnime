@@ -1,0 +1,8 @@
+
+node_modules/
+.temp/
+public/
+src/public/yandex*
+src/public/google*
+src/public/Bing*
+package-lock.json
