@@ -112,7 +112,7 @@ const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 ]})
 const episodeUI = (a,b,c) => ({ t: 'a', at: [['href', a.web], ['title', TitleCase((a.a = (c ? c + ' ' : '') + 'Episode ' + (a.ep || '')) + ' ' + (a.name || ''))]], cl: 'ep', ch: [
 	{t:'div', cl: 'poster', s: {'background-image': `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}},
-	{t:'span', cl: 'title', txt: a.a + ' '},
+	{t:'span', cl: 'title', txt: TitleCase(a.a + ' ')},
 	{t:'span', cl: 'name', txt: TitleCase(a.name) || ''},
 ]})
 export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI}

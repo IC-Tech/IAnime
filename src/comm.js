@@ -1,5 +1,5 @@
 const API = API_SERVER || 'https://ianime.now.sh/api'
-const TitleCase = (a,b=1) => a ? a.replace(/([^a-zA-Z]|^)(iii|ii|vii|iv|vi|tv|ova|ona|pg)([^a-zA-Z]|$)/gi, _ => _.toUpperCase()).replace(/([^a-zA-Z']|^|[^a-zA-Z]')([a-z])/g, (_, a, b) => a + b.toUpperCase()) : a
+const TitleCase = (a,b=1) => a ? a.replace(/([^a-zA-Z]|^)(iii|ii|vii|iv|vi|tv|ova|ona|pg)([^a-zA-Z]|$)/gi, _ => _.toUpperCase()).replace(/([^0-9a-zA-Z']|^|[^a-zA-Z]')([a-z])/g, (_, a, b) => a + b.toUpperCase()) : a
 const num = a => {
 	a = typeof a == 'string' ? a : a.toString()
 	var b = parseInt(a.length / 3)
