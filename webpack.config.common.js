@@ -18,7 +18,8 @@ module.exports = {
     'privacy': './src/privacy.js',
     'terms': './src/terms.js',
     'about': './src/about.js',
-    'stats': './src/stats.js'
+    'stats': './src/stats.js',
+    'faq': './src/faq.js'
   },
   output: {
     path: path.join(__dirname, outputDirectory),
