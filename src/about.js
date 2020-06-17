@@ -71,6 +71,7 @@ class IAnime extends IAR {
 							['https://nodejs.org/en/', 'NodeJS'],
 							['https://github.com/IC-Tech/icApp', 'icApp-render'],
 							['https://www.cloudaccess.net/about-us/network.html', 'CloudAccess'],
+							['https://chartjs.org', 'ChartJS'],
 						].map((a,b) => ({t: 'a', cl: 'it', at:[['href', a[0]]], ch:[
 							{t: 'div', cl: 'img', s: {'background-image': `url("/images/202006151356.png")`, 'background-position-x': (b * -100) + 'px'}},
 							{t: 'span', cl: 'na', txt: a[1]}
