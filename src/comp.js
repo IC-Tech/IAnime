@@ -52,8 +52,7 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 	{t:'div', cl: 'top-l', ch: [
 		{t: 'a', cl: 'logo', at: [['href', '/']], ch: [
 		 	{t: 'div', ch: [
-				{t: 'img', at:[['src', '/favicon-32x32.png'], ['alt', 'IAnime icon']]},
-				{t: 'span', txt: 'IAnime'}
+				{t: 'img', at:[['src', '/images/ianime-i16-196px.png'], ['alt', 'IAnime icon']]},
 		 	]}
 		]},
 		{t: 'a', at: [['href', '/search']], ch: [
