@@ -115,12 +115,21 @@ class IAnime extends IAR {
 		})
 		this.ine = new icApp.e('form input')
 		window.addEventListener('resize', this.sli_e)
+		window.addEventListener('resize', a => this.update())
 		this.update({ui: 1})
 		this.sli_e()
 	}
 	didUpdate() {}
 	willUpdate() {}
 	render() {
+		var a = [
+			this.recent,
+			this.eps,
+			this.newest
+		]
+		if(document.body.offsetWidth < 640) {
+			a = a.map(a => a.slice(0, Math.ceil(a.length / 3 * 1)))
+		}
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
@@ -128,15 +137,15 @@ class IAnime extends IAR {
 				{t: 'main', at:[['id', 'main']], cl: 'content', ch: [
 					{t: 'div', cl: 'li', ch: [
 						{t: 'span', cl: 'title', txt: 'Recently Added Animes'},
-						this.sli_ui(0, this.recent.map(a => AniUI(a))),
+						this.sli_ui(0, a[0].map(a => AniUI(a))),
 					]},
 					{t: 'div', cl: 'li', ch: [
 						{t: 'span', cl: 'title', txt: 'Recently Added Episodes'},
-						this.sli_ui(1, this.eps.map(a => EpUI(a, a.anime, a.anime.title))),
+						this.sli_ui(1, a[1].map(a => EpUI(a, a.anime, a.anime.title))),
 					]},
 					{t: 'div', cl: 'li', ch: [
 						{t: 'span', cl: 'title', txt: 'Newest Animes'},
-						this.sli_ui(2, this.newest.map(a => AniUI(a))),
+						this.sli_ui(2, a[2].map(a => AniUI(a))),
 					]},
 					{t: 'div', cl: ['more', 'li'], ch: [
 						{t:'a', at: [['href', '/search']], ch: [
