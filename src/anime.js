@@ -42,6 +42,7 @@ class IAnime extends IAR {
 		if(window.IAnime.page_data && window.IAnime.page_data.anime) {
 			var a = (this._anime = window.IAnime.page_data.anime).data
 			;['title', 'description', 'poster', 'banner', 'tags', 'epsCount', 'type', 'year', 'rating'].forEach(b => a[b] ? this.anime[b] = a[b] : 0)
+			this.anime.tags = this.anime.tags.filter((a,b,c) => !c.some((d,e) => a.id == d.id && b > e))
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.episodes) {
 			this.episodes = (this._episodes = window.IAnime.page_data.episodes).data
