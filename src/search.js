@@ -56,12 +56,16 @@ class IAnime extends IAR {
 		})
 
     this.scroll = document.scrollingElement
-    this.escroll = (a => ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 40 ? this.loadNext() : 0).bind(this)
-    if(!this.user.noAutoLoad) window.addEventListener('scroll', this.escroll)
+    this.escroll = (a => ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 120 ? this.loadNext() : 0).bind(this)
+    if(!this.user.noAutoLoad) {
+    	window.addEventListener('scroll', this.escroll)
+    	window.addEventListener('resize', this.escroll)
+    }
 
 		this.update({ui: 1})
 		if(this._res.input_all || this._res.input) icApp.qs('.content .ser input').value = TitleCase(this._res.input_all || this._res.input)
 		;(this.ine = new icApp.e('.content .ser input')).v.focus()
+		this.escroll()
 	}
 	loadNext() {
 		if(this._loadNext || !this._res.next) return
@@ -81,7 +85,6 @@ class IAnime extends IAR {
 		this._loadNext = 0
 		this.ine.p.clr('s2')
 		this.update()
-		this.escroll()
 	}
 	search(a) {
 		if(a) this._search = a
@@ -103,7 +106,9 @@ class IAnime extends IAR {
 			this.update()
 		}
 	}
-	didUpdate() {}
+	didUpdate() {
+		this.escroll()
+	}
 	willUpdate() {}
 	input(a) {
 		a = this.ine //new icApp.e(a.target)
@@ -138,8 +143,8 @@ class IAnime extends IAR {
 							{t: 'span', txt: this.search_something ? "Sorry, We couldn't find anything\ntry again with something else." : ''}
 						]}
 					]},
-					{t:'div', cl: this.load ? 'load' : ['load', 'nope'], ch: [
-						{t: 'span', txt: 'Searching...'}
+					{t:'div', cl: this._res.length > (this._res.index + this.res.length) || this.load ? 'load' : ['load', 'nope'], ch: [
+						{t: 'span', txt: this.load ? 'Searching...' : 'Scroll Down to Load More'}
 					]},
 					...(this.user.noAutoLoad ? [{t:'div', cl: this._res.length > (this._res.index + this.res.length) ? 'more' : ['more', 'nope'], ch: [
 						{t: 'button', e: [['onclick', this.more]], ch: [
