@@ -148,6 +148,11 @@
     }
   }
 }
+@media (max-width: 520px) {
+  .content .ep > *{
+    width: calc(90vw - 60px);
+  }
+}
 @media (max-width: 600px) {
   .content .cont {
     display: block;
@@ -157,8 +162,5 @@
   }
   .content .cont-r .info {
     display: block !important;
-  }
-  .content .ep > *{
-    width: calc(90vw - 60px);
   }
 }

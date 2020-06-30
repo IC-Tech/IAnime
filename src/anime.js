@@ -3,7 +3,7 @@ import '../icApp/icApp.js'
 import {IAR} from '../icApp/icApp-render.js'
 import {XHR} from '../icApp/common.js'
 import {top, bottom, comp_init, EpUI} from './comp.js'
-import {TitleCase, gtag} from './comm.js'
+import {TitleCase, gtag, ACreate} from './comm.js'
 import {meta_init} from './meta.js'
 import './anime.scss'
 
@@ -36,6 +36,9 @@ class IAnime extends IAR {
 			tags: [],
 			epsCount: 0,
 		}
+		this.settings = {
+			loadSize: 12
+		}
 		this.page = window.IAnime.page || 1
 		this.pageWait = 0
 		this.episodes = []
@@ -46,6 +49,8 @@ class IAnime extends IAR {
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.episodes) {
 			this.episodes = (this._episodes = window.IAnime.page_data.episodes).data
+			//lets use default
+			this.settings.loadSize = this._episodes.limit || this.settings.loadSize
 		}
 		this.perf = {
 			page: 0
@@ -94,6 +99,7 @@ class IAnime extends IAR {
 			page_path: location.pathname,
 			page_location: location.href
 		})
+		this.load = 0
 		this.update()
 		this.pageWait = 0
 	}
@@ -127,6 +133,8 @@ class IAnime extends IAR {
 			history.pushState({}, this.title + (this.page > 0 ? ' · IAnime | Page ' + this.page : ''), this._anime.web + (this.page == 1 ? '' : '?page=' + this.page))
 		} catch (e) {}
 		this.perf.page = Date.now()
+		this.load = 1
+		this.update()
 		XHR(this._anime.data.episodes + '?index=' + (--a * default_episodes) + '&limit=' + default_episodes, a => !a.success ? 0 : this.addEps(a.result))
 	}
 	render() {
@@ -137,6 +145,8 @@ class IAnime extends IAR {
 			['Episodes', this._episodes.length + (this.anime.epsCount ? ' of ' + this.anime.epsCount : '')],
 			['Rating', this.anime.rating || '']
 		].map(a => a[1] ? [{t: 'span', cl: 'inf-t', txt: a[0]}, {t: 'span', cl: 'inf-v', txt: TitleCase(a[1])}] : null).forEach(_a => !_a ? 0 : [a.push(_a[0]), a.push(_a[1])])
+		var b = ACreate(this.settings.loadSize).map(a => 'skeleton')
+		var b = this.load ? b : this.episodes
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
@@ -159,8 +169,7 @@ class IAnime extends IAR {
 							]}
 						]},
 					]},
-					//{t: 'div', cl: 'shadow'},
-					{t: 'div', cl: this.episodes.length == 0 ? ['eps', 'nope'] : 'eps', ch: this.episodes.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : this.episodes.map(a => EpUI(a, this.anime))},
+					{t: 'div', cl: b.length == 0 ? ['eps', 'nope'] : 'eps', ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime))},
 					{t: 'div', cl: 'more', ch: [
 						{t:'a', e: [['onclick', this.pev]], cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this._anime.web + (this.page == 2 ? '' : '?page=' + (this.page - 1))]], ch: [
 							{t:'span', txt: 'Previous'}

@@ -3,7 +3,7 @@ import '../icApp/icApp.js'
 import {IAR} from '../icApp/icApp-render.js'
 import {XHR} from '../icApp/common.js'
 import {top, bottom, comp_init, AniUI, serEv0} from './comp.js'
-import {TitleCase, gtag, API} from './comm.js'
+import {TitleCase, gtag, API, ACreate} from './comm.js'
 import './search.scss'
 
 window.ic = window.ic || []
@@ -26,7 +26,10 @@ class IAnime extends IAR {
 			login: false,
 			avatar: '/images/default/avatar_op.jpg',
 			autoSearch: 1,
-			noAutoLoad: 0
+			noAutoLoad: 0,
+		}
+		this.settings = {
+			loadSize: 10
 		}
 		this.search_something = 0
 		this.load = 0
@@ -43,6 +46,8 @@ class IAnime extends IAR {
 		this.res = []
 		if(window.IAnime.page_data && window.IAnime.page_data.search) {
 			this.res = (this._res = window.IAnime.page_data.search).data
+			//lets use default
+			this.settings.loadSize = this._res.limit || this.settings.loadSize
 		}
 		comp_init(a => this.update())
 	}
@@ -126,6 +131,8 @@ class IAnime extends IAR {
 		loadNext()
 	}
 	render() {
+		var a = ACreate(this.settings.loadSize).map(a => 'skeleton')
+		a = this._loadNext ? this.res.concat(a) : (this.load ? a : this.res)
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
@@ -138,15 +145,15 @@ class IAnime extends IAR {
 							{t: 'input', at:[['type', 'text']], e: [['oninput', this.input]]}
 						]}
 					]},
-					{t: 'div', cl: ['res', 'ani-li', this.res.length > 0 ? 'k' : 'nope'], ch: this.res.length > 0 ? this.res.map(a => AniUI(a)) : [
+					{t: 'div', cl: ['res', 'ani-li', a.length > 0 ? 'k' : 'nope'], ch: a.length > 0 ? a.map(a => AniUI(a)) : [
 						{t: 'div', cl: 'nope', ch: [
 							{t: 'span', txt: this.search_something ? "Sorry, We couldn't find anything\ntry again with something else." : ''}
 						]}
 					]},
-					{t:'div', cl: this._res.length > (this._res.index + this.res.length) || this.load ? 'load' : ['load', 'nope'], ch: [
+					{t:'div', cl: this._res.length > (this._res.index + a.length) || this.load ? 'load' : ['load', 'nope'], ch: [
 						{t: 'span', txt: this.load ? 'Searching...' : 'Scroll Down to Load More'}
 					]},
-					...(this.user.noAutoLoad ? [{t:'div', cl: this._res.length > (this._res.index + this.res.length) ? 'more' : ['more', 'nope'], ch: [
+					...(this.user.noAutoLoad ? [{t:'div', cl: this._res.length > (this._res.index + a.length) ? 'more' : ['more', 'nope'], ch: [
 						{t: 'button', e: [['onclick', this.more]], ch: [
 							{t: 'span', txt: 'Load More'}
 						]}

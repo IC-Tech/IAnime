@@ -33,6 +33,7 @@ $pcol2: #393e46;
 $pcol3: #00adb5;
 $fcol1: #eee;
 $fcol2: #ccc;
+$skecol1: #fff3;
 
 body, a, span, p, textarea {
   font-family: Inter,Roboto,Helvetica,'Segoe UI Emoji',-apple-system,BlinkMacSystemFont,Arial,'IC Noto Sans Sinhala','Segoe UI',Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue', sans-serif;
@@ -439,6 +440,19 @@ a[href="#main"] {
   box-shadow: 0 0 20px #0008;
   clip-path: polygon(0 10px, 100% 10px, 100% 40px, 0 40px);
 }
+
+@keyframes skeleton0 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .content {
   min-height: calc(100vh - 120px);
   padding-bottom: 20px;
@@ -483,6 +497,7 @@ a[href="#main"] {
         padding: 2px 4px;
         position: relative;
         z-index: 2;
+        box-sizing: border-box;
         @include trim();
       }
       .ani-ep, .ani-yr {
@@ -500,6 +515,33 @@ a[href="#main"] {
         width: 100%;
         bottom: 0;
         text-align: center;
+      }
+    }
+  }
+  .skeleton {
+    &.ani {
+      .name {
+        height: 10px;
+        margin-top: 6px;
+      }
+      .name, .img {
+        background-color: $skecol1;
+        animation: skeleton0 1.5s ease-in-out 0.5s infinite;
+      }
+    }
+    &.ep {
+      padding-bottom: 3px;
+      .title {
+        height: 14px;
+        margin-top: 8px;
+      }
+      .name {
+        margin-top: 4px;
+        height: 10px;
+      }
+      .poster, .title, .name {
+        background-color: $skecol1;
+        animation: skeleton0 1.5s ease-in-out 0.5s infinite;
       }
     }
   }

@@ -23,4 +23,9 @@ const parentClass = (a, b) => {
 	}
 	return a.v && a.clc(b)
 }
-export {TitleCase, gtag, API, parentClass, num}
+const ACreate = a => {
+	var b = []
+	for (var i = 0; i < a; i++) b.push(1)
+	return b
+}
+export {TitleCase, gtag, API, parentClass, num, ACreate}
