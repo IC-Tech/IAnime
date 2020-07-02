@@ -131,7 +131,8 @@ class IAnime extends IAR {
 		loadNext()
 	}
 	render() {
-		var a = ACreate(this.settings.loadSize).map(a => 'skeleton')
+		var a = this._res.length - ((this._res.index || 0) + this._res.data.length)
+		a = ACreate(this._loadNext && a < this.settings.loadSize ? a : this.settings.loadSize).map(a => 'skeleton')
 		a = this._loadNext ? this.res.concat(a) : (this.load ? a : this.res)
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},

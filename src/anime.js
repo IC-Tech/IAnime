@@ -39,6 +39,7 @@ class IAnime extends IAR {
 		this.settings = {
 			loadSize: 12
 		}
+		this.loadSize = this.settings.loadSize
 		this.page = window.IAnime.page || 1
 		this.pageWait = 0
 		this.episodes = []
@@ -50,7 +51,7 @@ class IAnime extends IAR {
 		if(window.IAnime.page_data && window.IAnime.page_data.episodes) {
 			this.episodes = (this._episodes = window.IAnime.page_data.episodes).data
 			//lets use default
-			this.settings.loadSize = this._episodes.limit || this.settings.loadSize
+			this.loadSize = this._episodes.limit || this.loadSize
 		}
 		this.perf = {
 			page: 0
@@ -111,6 +112,8 @@ class IAnime extends IAR {
   			'event_category': 'selfLoad',
 			})
 			;(new icApp.e('a.next')).cla('c1')
+			this.loadSize = this._episodes.length - ((this._episodes.limit || 0) + (this._episodes.index || 0))
+			if(this._episodes.limit && this._episodes.limit < this.loadSize) this.loadSize = this._episodes.limit
 			this.goPage(++this.page)
 		}
 		return false
@@ -123,6 +126,8 @@ class IAnime extends IAR {
   			'event_category': 'selfLoad',
 			})
 			;(new icApp.e('a.pev')).cla('c1')
+			// 12 is server default value
+			this.loadSize = this._episodes.limit || 12
 			this.goPage(--this.page)
 		}
 		return false
@@ -145,8 +150,8 @@ class IAnime extends IAR {
 			['Episodes', this._episodes.length + (this.anime.epsCount ? ' of ' + this.anime.epsCount : '')],
 			['Rating', this.anime.rating || '']
 		].map(a => a[1] ? [{t: 'span', cl: 'inf-t', txt: a[0]}, {t: 'span', cl: 'inf-v', txt: TitleCase(a[1])}] : null).forEach(_a => !_a ? 0 : [a.push(_a[0]), a.push(_a[1])])
-		var b = ACreate(this.settings.loadSize).map(a => 'skeleton')
-		var b = this.load ? b : this.episodes
+		var b = ACreate(this.loadSize).map(a => 'skeleton')
+		b = this.load ? b : this.episodes
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
