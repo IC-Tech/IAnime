@@ -85,7 +85,7 @@ class IAnime extends IAR {
 	aniLoad(a, b) {
 		this.search_something = 1
 		a = (this._res = a).data
-		this.res = b ? this.res.concat(a) : a
+		this.res = this._loadNext ? this.res.concat(a) : a
 		this.load = 0
 		this._loadNext = 0
 		this.ine.p.clr('s2')
@@ -97,6 +97,7 @@ class IAnime extends IAR {
 		if(a) {
 			this.ine.p.cla('s2')
 			this.load = 1
+			this._loadNext = 0
 			a = encodeURIComponent(a)
 			try {
 				history.pushState({q:a}, document.title, location.pathname + '?q=' + a)

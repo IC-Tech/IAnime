@@ -44,8 +44,7 @@ class IAnime extends IAR {
 		this.pageWait = 0
 		this.episodes = []
 		if(window.IAnime.page_data && window.IAnime.page_data.anime) {
-			var a = (this._anime = window.IAnime.page_data.anime).data
-			;['title', 'description', 'poster', 'banner', 'tags', 'epsCount', 'type', 'year', 'rating'].forEach(b => a[b] ? this.anime[b] = a[b] : 0)
+			this.anime = window.IAnime.page_data.anime
 			this.anime.tags = this.anime.tags.filter((a,b,c) => !c.some((d,e) => a.id == d.id && b > e))
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.episodes) {
@@ -135,12 +134,12 @@ class IAnime extends IAR {
 	goPage(a) {
 		this.pageWait = 1
 		try {
-			history.pushState({}, this.title + (this.page > 0 ? ' · IAnime | Page ' + this.page : ''), this._anime.web + (this.page == 1 ? '' : '?page=' + this.page))
+			history.pushState({}, this.title + (this.page > 0 ? ' · IAnime | Page ' + this.page : ''), this.anime.web + (this.page == 1 ? '' : '?page=' + this.page))
 		} catch (e) {}
 		this.perf.page = Date.now()
 		this.load = 1
 		this.update()
-		XHR(this._anime.data.episodes + '?index=' + (--a * default_episodes) + '&limit=' + default_episodes, a => !a.success ? 0 : this.addEps(a.result))
+		XHR(this.anime.episodes + '?index=' + (--a * default_episodes) + '&limit=' + default_episodes, a => !a.success ? 0 : this.addEps(a.result))
 	}
 	render() {
 		var a = []
@@ -176,10 +175,10 @@ class IAnime extends IAR {
 					]},
 					{t: 'div', cl: b.length == 0 ? ['eps', 'nope'] : 'eps', ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime))},
 					{t: 'div', cl: 'more', ch: [
-						{t:'a', e: [['onclick', this.pev]], cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this._anime.web + (this.page == 2 ? '' : '?page=' + (this.page - 1))]], ch: [
+						{t:'a', e: [['onclick', this.pev]], cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.anime.web + (this.page == 2 ? '' : '?page=' + (this.page - 1))]], ch: [
 							{t:'span', txt: 'Previous'}
 						]},
-						{t:'a', e: [['onclick', this.next]], cl: this._episodes.length - (this.page * default_episodes) > 0 ? 'next' : ['next', 'nope'], at: [['href', this._anime.web + '?page=' + (this.page + 1)]], ch: [
+						{t:'a', e: [['onclick', this.next]], cl: this._episodes.length - (this.page * default_episodes) > 0 ? 'next' : ['next', 'nope'], at: [['href', this.anime.web + '?page=' + (this.page + 1)]], ch: [
 							{t:'span', txt: 'Next'}
 						]}
 					]}

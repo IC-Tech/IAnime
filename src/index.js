@@ -95,10 +95,16 @@ class IAnime extends IAR {
 		this.eps = []
 		this.rand = parseInt(Math.random() * 10) + 1
 		if(window.IAnime.page_data && window.IAnime.page_data.recent) {
-			this.recent = window.IAnime.page_data.recent
+			this.recent = window.IAnime.page_data.recent.map(a => {
+				a.d_year = a.year
+				return a
+			})
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.newest) {
-			this.newest = window.IAnime.page_data.newest
+			this.newest = window.IAnime.page_data.newest.map(a => {
+				a.d_year = a.year
+				return a
+			})
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.eps) {
 			this.eps = window.IAnime.page_data.eps
@@ -141,7 +147,7 @@ class IAnime extends IAR {
 					]},
 					{t: 'div', cl: 'li', ch: [
 						{t: 'span', cl: 'title', txt: 'Recently Added Episodes'},
-						this.sli_ui(1, a[1].map(a => EpUI(a, a.anime, a.anime.title))),
+						this.sli_ui(1, a[1].map(a => EpUI(a, a.parent, a.parent.title))),
 					]},
 					{t: 'div', cl: 'li', ch: [
 						{t: 'span', cl: 'title', txt: 'Newest Animes'},

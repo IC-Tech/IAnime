@@ -39,7 +39,7 @@ class IAnime extends IAR {
 			mirrors: []
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.episode) {
-			this.episode = (this._episode = window.IAnime.page_data.episode).data
+			this.episode = window.IAnime.page_data.episode
 		}
 		this.pageWait = 0
 		this.perf = {
@@ -65,7 +65,7 @@ class IAnime extends IAR {
 	}
 	loadEp(a) {
 		try {
-			history.pushState({}, TitleCase(a.data.parent.title + ' episode ' + a.data.ep), a.web)
+			history.pushState({}, TitleCase(a.parent.title + ' episode ' + a.ep), a.web)
 		} catch (e) { console.error(e) }
 
 		gtag('event', 'timing_complete', {
@@ -74,7 +74,7 @@ class IAnime extends IAR {
 		  event_category: 'XHR'
 		})
 
-		this.episode = (this._episode = a).data
+		this.episode = a
 		this.pageWait = 0
 		this.update()
 	}
@@ -94,7 +94,7 @@ class IAnime extends IAR {
 			event_label: 'next episode',
 			event_category: 'selfLoad'
 		})
-		if(!this.pageWait && this._episode.next) this.goPage(this._episode.next.url)
+		if(!this.pageWait && this.episode.next) this.goPage(this.episode.next.url)
 		return false
 	}
 	pev(a) {
@@ -103,14 +103,14 @@ class IAnime extends IAR {
 			event_label: 'pev episode',
 			event_category: 'selfLoad'
 		})
-		if(!this.pageWait && this._episode.previous) this.goPage(this._episode.previous.url)
+		if(!this.pageWait && this.episode.previous) this.goPage(this.episode.previous.url)
 		return false
 	}
 	_mirSel(a) {
 		this.mirror = parseInt(a || '0') || 0
 		gtag('event', 'change mirror')
 		try {
-			history.pushState({}, TitleCase(this.episode.parent.title + ' episode ' + this.episode.ep), this._episode.web + (this.mirror != 0 ? '?mirror=' + (this.mirror + 1) : ''))
+			history.pushState({}, TitleCase(this.episode.parent.title + ' episode ' + this.episode.ep), this.episode.web + (this.mirror != 0 ? '?mirror=' + (this.mirror + 1) : ''))
 		} catch (e) { console.error(e) }
 		this.update()
 	}
@@ -142,7 +142,7 @@ class IAnime extends IAR {
 						]}),
 						{t: 'div', cl: 'mir', ch: [
 							{t: 'div', cl: 'wrp', ch: [
-								{t: 'a', cl: this._episode.previous ? 'c0' : 'nope', at: [['href', this._episode.previous && this._episode.previous.web || '']], e: [['onclick', this.pev]], txt: 'Previous'}
+								{t: 'a', cl: this.episode.previous ? 'c0' : 'nope', at: [['href', this.episode.previous && this.episode.previous.web || '']], e: [['onclick', this.pev]], txt: 'Previous'}
 							]},
 							{t: 'div', cl: 'wrp', ch: [
 								{t: 'span', txt: 'Mirrors: '},
@@ -157,7 +157,7 @@ class IAnime extends IAR {
 								{t: 'select', e: [['onchange', this.mirSel2]], ch: this.episode.mirrors.map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase((a = (a.watch || a.url).match(/(\w+)[^w](?=\.)/gi)) ? a[0] : 'Unknown')}))}
 							]},
 							{t: 'div', cl: 'wrp', ch: [
-								{t: 'a', cl: this._episode.next ? 'c0' : 'nope', at: [['href', this._episode.next && this._episode.next.web || '']], e: [['onclick', this.next]], txt: 'Next'}
+								{t: 'a', cl: this.episode.next ? 'c0' : 'nope', at: [['href', this.episode.next && this.episode.next.web || '']], e: [['onclick', this.next]], txt: 'Next'}
 							]},
 						]}
 					]},

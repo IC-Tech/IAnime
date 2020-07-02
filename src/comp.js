@@ -69,7 +69,7 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 				{t:'a', at: [['href', a.web]], cl:'res', ch: [
 						{t:'div', cl:'img', s:{'background-image': `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
 						{t:'div', cl: 'name-c', ch: [
-							{t:'span', cl: 'name', txt: TitleCase(a.name)}
+							{t:'span', cl: 'name', txt: TitleCase(a.title)}
 						]}
 					]}
 				]})
@@ -101,13 +101,13 @@ const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 ]})
 const comp_init = a => up = a
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
-	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase(a.name)]], ch: [
+	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase(a.title)]], ch: [
 		{t:'div', cl: 'img-c', ch: [
 			{t:'div', cl: 'img', s: a == 'skeleton' ? {} : {'background-image': `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
 			...(a.d_year ? [{t: 'span', cl: 'ani-yr', txt: a.d_year}] : []),		
 			...(a.ep ? [{t: 'span', cl: 'ani-ep', txt: 'Ep.' + a.ep}] : []),
 		]},
-		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name)}
+		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.title)}
 	]}
 ]})
 const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase((a.a = (c ? c + ' ' : '') + 'Episode ' + (a.ep || '')) + ' ' + (a.name || ''))]], ch: [
