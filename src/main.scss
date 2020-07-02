@@ -283,6 +283,9 @@ a[href="#main"] {
     img {
       height: 52px;
       margin-top: -10px;
+
+      // pervent image padding
+      margin-left: -10px;
     }
   }
   .ser {
