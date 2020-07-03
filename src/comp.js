@@ -110,7 +110,7 @@ const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.title)}
 	]}
 ]})
-const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase((a.a = a.title || ((c ? c + ' ' : '') + 'Episode ' + (a.ep || ''))) + ' ' + (a.name || ''))]], ch: [
+const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase((a.a = a.title || ((c ? c + ' ' : '') + 'Episode ' + (a.ep || ''))) + ((a.name && (' ' + a.name)) || ''))]], ch: [
 	{t:'div', cl: 'poster-c', ch: [
 		{t:'div', cl: 'poster', s: a == 'skeleton' ? {} : {'background-image': `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
 	]},
