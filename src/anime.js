@@ -48,7 +48,10 @@ class IAnime extends IAR {
 			this.anime.tags = this.anime.tags.filter((a,b,c) => !c.some((d,e) => a.id == d.id && b > e))
 		}
 		if(window.IAnime.page_data && window.IAnime.page_data.episodes) {
-			this.episodes = (this._episodes = window.IAnime.page_data.episodes).data
+			this.episodes = (this._episodes = window.IAnime.page_data.episodes).data.map(a => {
+				a.title = a.shortTitle || a.title
+				return a
+			})
 			//lets use default
 			this.loadSize = this._episodes.limit || this.loadSize
 		}

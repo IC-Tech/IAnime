@@ -131,10 +131,10 @@ class IAnime extends IAR {
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
 				top(this.user),
 				{t: 'main', at:[['id', 'main']], cl: 'content', ch: [
-					{t: 'span', cl: 'title', txt: TitleCase(this.episode.parent.title + ' episode ' + this.episode.ep)},
+					{t: 'span', cl: 'title', txt: TitleCase(this.episode.title || (this.episode.parent.title + ' episode ' + this.episode.ep))},
 					{t: 'div', cl: 'watch', ch: [
 						{t: 'span', cl: 'names', nodes: 1, ch: [
-							{t: 'span', cl: 'title-b', txt: TitleCase('episode ' + this.episode.ep) + ' '},
+							{t: 'span', cl: 'title-b', txt: TitleCase(this.episode.shortTitle || ('episode ' + this.episode.ep)) + ' '},
 							' ' + TitleCase(this.episode.name || '')
 						]},
 						mirr.watch ? ({t: 'iframe', at: [['src', mirr.watch], ['FRAMEBORDER', '0'], ['MARGINWIDTH', '0'], ['MARGINHEIGHT', '0'], ['SCROLLING', 'no']]}) : ({t: 'div', cl: 'red', s: {'background-image': `url(${this.episode.image || this.episode.parent.poster || '/images/default/poster_2.jpg'})`}, ch: [
