@@ -96,7 +96,10 @@ class IAnime extends IAR {
 		  event_category: 'XHR'
 		})
 		this._episodes = a
-		this.episodes = a.data
+		this.episodes = a.data.map(a => {
+			a.title = a.shortTitle || a.title
+			return a
+		})
 		gtag('config', window.GT_ID, {
 			page_title : document.title,
 			page_path: location.pathname,
