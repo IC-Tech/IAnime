@@ -45,8 +45,8 @@ class IAnime extends IAR {
 		this.perf = {
 			page: 0
 		}
-		this.mirror = pram('mirror') || 0
-		if(this.episode.mirrors.length <= this.mirror) this.mirror = 0
+		this.mirror = parseInt(pram('mirror') || '') || 0
+		if(this.episode.mirrors.length <= --this.mirror || this.mirror < 0) this.mirror = 0
 		;['goPage', 'next', 'pev', 'loadEp', 'mirSel', '_mirSel', 'mirSel2'].forEach(a => this[a] = this[a].bind(this))
 		comp_init(a => this.update())
 	}
@@ -61,6 +61,7 @@ class IAnime extends IAR {
     
     var _a
     meta_init(icApp, this.title = TitleCase(this.episode.parent.title + ' episode ' + this.episode.ep), ((_a = 'Watch ' + this.title + ' at IAnime - ' + this.episode.parent.description).length > 300 ? (_a.substr(0, 300) + '...') : _a), (_a = this.episode.image || '').startsWith('/') ? (location.origin + _a) : _a)
+    new icApp.e('.mir select').val = this.mirror.toString()
 		this.update({ui: 1})
 	}
 	loadEp(a) {
@@ -125,7 +126,7 @@ class IAnime extends IAR {
 	didUpdate() {}
 	willUpdate() {}
 	render() {
-		var mirr = this.episode.mirrors[this.mirror]
+		var mirr = this.episode.mirrors[this.mirror] || this.episode.mirrors[0]
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},
 			{s: {display: this.data.ui == 1 ? 'block' : 'none'}, t:'div', cl: 'main', ch: [
