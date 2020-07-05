@@ -7,7 +7,7 @@
     "build": "webpack --mode production --config webpack.config.pro.js",
     "dev": "webpack-dev-server --mode development --devtool inline-source-map --hot --config webpack.config.dev.js"
   },
-  "author": "Imesh Chamara <imesh1chamara@gmail.com> (http://ic-tech.now.sh/)",
+  "author": "Imesh Chamara <imesh1chamara@gmail.com> (https://ic-tech.now.sh/)",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^9.7.5",
