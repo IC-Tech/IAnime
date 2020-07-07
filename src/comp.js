@@ -101,18 +101,18 @@ const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 ]})
 const comp_init = a => up = a
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
-	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase(a.title)]], ch: [
+	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], '']) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
 		{t:'div', cl: 'img-c', ch: [
-			{t:'div', cl: 'img', s: a == 'skeleton' ? {} : {'background-image': `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
+			{t:'div', cl: 'img', s: {'background-image': a == 'skeleton' ? '' : `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
 			...(a.d_year ? [{t: 'span', cl: 'ani-yr', txt: a.d_year}] : []),		
 			...(a.ep ? [{t: 'span', cl: 'ani-ep', txt: 'Ep.' + a.ep}] : []),
 		]},
 		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.title)}
 	]}
 ]})
-const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [] : [['href', a.web], ['title', TitleCase((a.a = a.title || ((c ? c + ' ' : '') + 'Episode ' + (a.ep || ''))) + ((a.name && (' ' + a.name)) || ''))]], ch: [
+const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase((a.a = a.title || ((c ? c + ' ' : '') + 'Episode ' + (a.ep || ''))) + ((a.name && (' ' + a.name)) || ''))]], ch: [
 	{t:'div', cl: 'poster-c', ch: [
-		{t:'div', cl: 'poster', s: a == 'skeleton' ? {} : {'background-image': `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
+		{t:'div', cl: 'poster', s: {'background-image': a == 'skeleton' ? '' : `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
 	]},
 	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.a + ' ')},
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
