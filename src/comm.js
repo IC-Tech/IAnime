@@ -63,6 +63,6 @@ const xhr = a => new Promise(_ => {
 	if(window.ic_token) op.head = {
 		'x-ic-token': window.ic_token
 	}
-	XHR(API + '/' + a, a => _(a), op)
+	XHR(a.indexOf('://') > 0 ? a : (API + '/' + a), a => _(a), op)
 })
 export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr}
