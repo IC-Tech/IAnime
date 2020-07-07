@@ -530,6 +530,7 @@ a[href="#main"] {
       .name, .img {
         background-color: $skecol1;
         animation: skeleton0 1.5s ease-in-out 0.5s infinite;
+        border-radius: 4px;
       }
     }
     &.ep {
@@ -545,6 +546,7 @@ a[href="#main"] {
       .poster, .title, .name {
         background-color: $skecol1;
         animation: skeleton0 1.5s ease-in-out 0.5s infinite;
+        border-radius: 4px;
       }
     }
   }
