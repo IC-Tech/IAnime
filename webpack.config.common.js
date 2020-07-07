@@ -19,12 +19,13 @@ module.exports = {
     'terms': './src/terms.js',
     'about': './src/about.js',
     'stats': './src/stats.js',
-    'faq': './src/faq.js'
+    'faq': './src/faq.js',
+    'one': './src/one.js'
   },
   output: {
     path: path.join(__dirname, outputDirectory),
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name]-[hash].bundle.js',
+    chunkFilename: '[name]-[hash].bundle.js',
     publicPath: '/'
   },
   module: {

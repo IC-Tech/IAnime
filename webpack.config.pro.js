@@ -56,8 +56,8 @@ module.exports = merge(common, {
   plugins: [
     new webpack.BannerPlugin(banner),
     new MiniCssExtractPlugin({
-      filename: 'style/[name].css',
-      chunkFilename: 'style/[id].css',
+      filename: 'style/[name]-[hash].css',
+      chunkFilename: 'style/[id]-[hash].css',
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -76,7 +76,7 @@ module.exports = merge(common, {
       'terms',
       'about',
       'stats',
-      'faq',
+      //'faq',
     ].map(a => new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: a + '.html',
