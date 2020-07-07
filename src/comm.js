@@ -28,4 +28,41 @@ const ACreate = a => {
 	for (var i = 0; i < a; i++) b.push(1)
 	return b
 }
-export {TitleCase, gtag, API, parentClass, num, ACreate}
+const XHR = (url, call, op = {}, data = null) => {
+  var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
+  xhr.open(data || op.meth ? 'POST' : 'GET', url + (op.noNew ? '' : ((url.indexOf('?') >= 0 ? '&' : '?') + 't=' + new Date().getTime())))
+  Object.keys(op.head ? op.head : {}).forEach(a => xhr.setRequestHeader(a, op.head[a]))
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4 && xhr.status != 0) {
+      if(xhr.response) {
+        var v
+        try {
+          v = op.raw ? xhr.response : JSON.parse(xhr.response)
+        } catch(e) {
+          //console.error('Server response error. (EC: 0xA2 >>> ' + e + ' <)', op.err ? op.err : undefined)
+          call(null)
+        }
+        call(v)
+      }
+      else {
+        //console.error('Server response error. (EC: 0xA1)', op.err ? op.err : undefined)
+        call(null)
+      }
+    }
+  }
+  xhr.onerror = function (e) {
+    if(e.target.status == 0) {
+      //console.error("The Webpage can't connect to the server. Try again in a few moments.", op && op.err ? op.err : undefined)
+      call(null)
+    }
+  }
+  xhr.send(data)
+}
+const xhr = a => new Promise(_ => {
+	var op = {}
+	if(window.ic_token) op.head = {
+		'x-ic-token': window.ic_token
+	}
+	XHR(API + '/' + a, a => _(a), op)
+})
+export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr}
