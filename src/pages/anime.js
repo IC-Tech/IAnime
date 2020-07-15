@@ -53,7 +53,7 @@ class anime extends page {
 			if((a = new icApp.e(document.scrollingElement)).v.scrollTop > 200 && !_root_.clc('top-scroll')) _root_.cla('top-scroll')
 			else if(a.v.scrollTop <= 200 && _root_.clc('top-scroll')) _root_.clr('top-scroll')
 		})
-		var a = new icApp.e('.ser input')
+		var a = new icApp.e(this.e.v.querySelector('.ser input'))
 		a.ae('focus', a => this.active && !_root_.clc('top-ser') ? _root_.cla('top-ser') : 0)
 		a.ae('blur', a => _root_.clc('top-ser') ? _root_.clr('top-ser') : 0)
 	}
