@@ -9,7 +9,7 @@ window.ic.pageLoad = Date.now()
 let icApp = ic.icApp, cpage
 var _root_ = new icApp.e('#root')
 ;['name="theme-color"', 'name="msapplication-navbutton-color"', 'name="apple-mobile-web-app-status-bar-style"'].forEach(a => new icApp.e(`[${a}]`).sa('content', '#171b22'))
-
+const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'home', '']
 class IAnime extends IAR {
 	constructor() {
 		super()
@@ -54,13 +54,14 @@ class IAnime extends IAR {
 			if(!a.startsWith('/')) a = (b = location.pathname.split('/')).slice(0, b.length - 1).join('/') + '/' + a
 			a = a.split('/').slice(1)
 			if(a.length == 0) return 0
-			return ['anime', 'episode', ''/*'home'*/].some((b,c) => b == a[0] ? [a[0] = c] : 0) ? a : 0
+			if(!a[0] && a[0] == '') a[0] == 'home'
+			return pages.some(b => b == a[0]) ? a : 0
 		}
 		this.loadUrl = a => {
 			a = a || (this.urlTest(location.href) || [2])
-   		if(a[0] == 0) this.switchPage('anime', a[1])
-   		else if(a[0] == 1) this.switchPage('episode', a[1])
-   		else if(a[0] == 2) this.switchPage('home')
+			console.log(a)
+			if(!a) return
+			if(pages.some(b => b == a[0])) this.switchPage(...a)
 		}
 	}
 	didMount() {
