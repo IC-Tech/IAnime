@@ -59,6 +59,7 @@ class IAnime extends IAR {
 		this.loadUrl = a => {
 			a = a || (this.urlTest(location.href) || [2])
    		if(a[0] == 0) this.switchPage('anime', a[1])
+   		else if(a[0] == 1) this.switchPage('episode', a[1])
    		else if(a[0] == 2) this.switchPage('home')
 		}
 	}
