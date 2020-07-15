@@ -21,7 +21,33 @@ $default-transition: .3s;
     display:block;
   }
 }
-
+@mixin skeleton($sel: '&.skeleton'){
+  #{$sel} {
+    background-color: $skecol1;
+    animation: skeleton0 1.5s ease-in-out 0.5s infinite;
+  }
+}
+@mixin skeleton-text($height, $width: null, $sel: '&.skeleton', $min: 200, $max: 300){
+  #{$sel} {
+    background-color: $skecol1;
+    animation: skeleton0 1.5s ease-in-out 0.5s infinite;
+    height: $height;
+    border-radius: 8px;
+    @if $width == null {
+      width: (random($max - $min) + $min)+px;
+    }
+    @else {
+      width: $width;
+    }
+  }
+}
+@mixin skeleton-list($length: 10, $min: 200, $max: 300, $sel: '&.skeleton>*') {
+  @for $i from 1 through $max {
+    #{$sel}:nth-child(#{$i}) {
+      width: (random($max - $min) + $min)+px;
+    }
+  }
+}
 /*
 $pcol1: #202040;
 $pcol2: #543864;
