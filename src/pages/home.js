@@ -91,6 +91,7 @@ class home extends page {
 			this.eps = a.eps
 			this.load_ = 0
 			this.update()
+			this.sli_e()
 		}
 	}
 	load() {
