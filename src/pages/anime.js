@@ -37,6 +37,7 @@ class anime extends page {
 			if(a = (a && a.success && a.result)) {
 				this.anime = a
 				this.load_ = 0
+				if(!this.init) this._load = !(this.init = !0)
 				this.loadSize = a.eps > default_episodes ? default_episodes : a.eps
 				this.update()
 				await this.epParse(a.episodes + '?limit=' + default_episodes)
@@ -65,10 +66,12 @@ class anime extends page {
 			index: 0
 		}
 		this.loadSize = default_episodes
-		this.parse(a)
 		this.epLoad = 1
+		this._load = 1
 		this.load_ = 1
 		this.page = 1
+		this.init = 0
+		this.parse(a)
 		this.update()
 	}
 	next(a) {

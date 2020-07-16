@@ -80,6 +80,7 @@ class home extends page {
 		this.parse = async a => {
 			a = a || await xhr('new')
 			if(!(a = a && a.success && a.result)) return
+			if(!this.init) this._load = !(this.init = !0)
 			this.recent = a.recent.map(b => {
 				b.d_year = b.year
 				return b
@@ -96,6 +97,8 @@ class home extends page {
 	}
 	load() {
 		this.load_ = 1
+		this._load = 1
+		this.init = 0
 		this.update()
 		this.sli_e()
 		this.parse()

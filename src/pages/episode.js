@@ -18,6 +18,7 @@ class episode extends page {
 			a = await xhr(op.raw ? a : 'episode/' + a)
 			if(a = (a && a.success && a.result)) {
 				this.episode = a
+				if(!this.init) this._load = !(this.init = !0)
 				this.load_ = 0
 				this.epLoad = 0
 				this.update()
@@ -32,6 +33,8 @@ class episode extends page {
 		this.parse(a)
 		this.epLoad = 1
 		this.load_ = 1
+		this._load = 1
+		this.init = 0
 		this.update()
 	}
 	next(a) {
