@@ -16,6 +16,7 @@ class page extends IAR {
 		}
 		comp_init(a => this.update())
 	}
+	load() {}
 	render() {
 		return ([
 			{t: 'div', cl: 'page-load-c', ch: [{t: 'div', cl: this._load ? 'page-load' : ['page-load', 'nope'], ch: [{t: 'div'}]}]},
