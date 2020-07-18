@@ -6,7 +6,6 @@ const num = a => {
 	var c = []
 	for (var i = 0; i < b; i++) {
 		c.push(a.substr(a.length - 3, 3))
-		console.log(c)
 		a = a.substr(0, a.length - 3)
 	}
 	return (a ? c.concat(a) : c).reverse().join(',')
@@ -29,40 +28,49 @@ const ACreate = a => {
 	return b
 }
 const XHR = (url, call, op = {}, data = null) => {
-  var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
-  xhr.open(data || op.meth ? 'POST' : 'GET', url + (op.noNew ? '' : ((url.indexOf('?') >= 0 ? '&' : '?') + 't=' + new Date().getTime())))
-  Object.keys(op.head ? op.head : {}).forEach(a => xhr.setRequestHeader(a, op.head[a]))
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4 && xhr.status != 0) {
-      if(xhr.response) {
-        var v
-        try {
-          v = op.raw ? xhr.response : JSON.parse(xhr.response)
-        } catch(e) {
-          //console.error('Server response error. (EC: 0xA2 >>> ' + e + ' <)', op.err ? op.err : undefined)
-          call(null)
-        }
-        call(v)
-      }
-      else {
-        //console.error('Server response error. (EC: 0xA1)', op.err ? op.err : undefined)
-        call(null)
-      }
-    }
-  }
-  xhr.onerror = function (e) {
-    if(e.target.status == 0) {
-      //console.error("The Webpage can't connect to the server. Try again in a few moments.", op && op.err ? op.err : undefined)
-      call(null)
-    }
-  }
-  xhr.send(data)
+	var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
+	xhr.open(data || op.meth ? 'POST' : 'GET', url + (op.noNew ? '' : ((url.indexOf('?') >= 0 ? '&' : '?') + 't=' + new Date().getTime())))
+	Object.keys(op.head ? op.head : {}).forEach(a => xhr.setRequestHeader(a, op.head[a]))
+	xhr.onreadystatechange = () => {
+		if (xhr.readyState == 4 && xhr.status != 0) {
+			if(xhr.response) {
+				var v
+				try {
+					v = op.raw ? xhr.response : JSON.parse(xhr.response)
+				} catch(e) {
+					//console.error('Server response error. (EC: 0xA2 >>> ' + e + ' <)', op.err ? op.err : undefined)
+					call(null)
+				}
+				call(v)
+			}
+			else {
+				//console.error('Server response error. (EC: 0xA1)', op.err ? op.err : undefined)
+				call(null)
+			}
+		}
+	}
+	xhr.onerror = function (e) {
+		if(e.target.status == 0) {
+			//console.error("The Webpage can't connect to the server. Try again in a few moments.", op && op.err ? op.err : undefined)
+			call(null)
+		}
+	}
+	xhr.send(data)
 }
 const xhr = a => new Promise(_ => {
 	var op = {}
 	if(window.ic_token) op.head = {
-		'x-ic-token': window.ic_token
+		'x-ic-token': window.ic_token,
+		'x-ic-analysis': 'IAnime-web, on'
 	}
 	XHR(a.indexOf('://') > 0 ? a : (API + '/' + a), a => _(a), op)
 })
-export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr}
+const pram = a => {
+	a = (a = a || location.search).startsWith('?') ? a.substr(1) : a
+	var b = {}
+	var c = /(\?|&|^)([^]*?)=([^]*?)(?=$|#|&)/g
+	var d
+	while((d = c.exec(a))) b[d[2]] = d[3]
+	return b
+}
+export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr, pram}

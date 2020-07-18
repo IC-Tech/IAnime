@@ -32,7 +32,6 @@ class search extends page {
 			this.aniLoad(a, 1)
 		}
 		this.parse = async a => {
-			console.log(a)
 			const r = Date.now()
 			this.lastReq = r
 			this.load_ = 1
