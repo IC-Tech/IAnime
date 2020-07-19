@@ -1,0 +1,105 @@
+@import 'main.scss';
+[ui='random'] {
+.content {
+	width: 80%;
+	max-width: 1000px;
+	margin: 0 auto;
+	.title {
+		display: block;
+		padding: 20px 0 40px;
+		font-size: 30px;
+		text-align: center;
+	}
+	.rand {
+		display: flex;
+		flex-direction: row;
+		.ra-l {
+			margin-right: 32px;
+		}
+		.ra-r {
+			> * {
+				display: block;
+			}
+		}
+		.name {
+			font-size: 20px;
+			margin-bottom: 10px;
+			text-decoration: none;
+			display: inline-block;
+			@include skeleton-text(22px);
+		}
+		.des {
+			display: block;
+			color: $fcol2;
+			@include skeleton-text(16px, null, '&.skeleton>*');
+			@include skeleton-list(20, 80, 180);
+			&.skeleton>* {
+				display: inline-block;
+				margin: 0 6px 3px 0;
+			}
+		}
+		.tags {
+			padding-top: 12px;
+			display: block;
+			justify-content: center;
+		}
+		@for $i from 1 through 20 {
+			.tag.skeleton:nth-child(#{$i}) {
+				width: (random(60) + 40)+px;
+			}
+		}
+		.tag {
+			display: inline-block;
+			padding: 4px 8px;
+			background-color: $pcol3;
+			border-radius: 16px;
+			cursor: pointer;
+			text-decoration: none;
+			margin: 2px;
+			box-shadow: 0 0 10px #0004;
+			font-size: 14px;
+			@include skeleton;
+			&.skeleton {
+				height: 14px;
+				cursor: default;
+			}
+		}
+		.img {
+			display: block;
+			width: 200px;
+			height: 300px;
+			background-size: cover;
+			background-position: top center;
+			box-shadow: 0 0 20px #0008;
+			border-radius: 16px;
+			@include skeleton;
+		}
+	}
+	.more-c {
+		display: block;
+		text-align: center;
+		margin-top: 20px;
+	}
+	.more {
+		@include button;
+		@include skeleton;
+		&.skeleton {
+			color: #0000;
+			cursor: default;
+		}
+	}
+}
+@media (max-width: 600px) {
+	.content {
+		.rand {
+			display: block;
+			.ra-l {
+				margin-bottom: 10px;
+			}
+		}
+		.name {
+			text-decoration: underline !important;
+		}
+	}
+}
+}
