@@ -82,7 +82,7 @@ class search extends page {
 		this.inputE.p.cla('s2')
 		a = encodeURIComponent(a)
 		try {
-			history.pushState({q:a}, document.title, location.pathname + '?q=' + a)
+			if(a) history.pushState({q:a}, document.title, location.pathname + '?q=' + a)
 		}catch(e){console.error(e)}
 		this.parse(a)
 		this.update()
