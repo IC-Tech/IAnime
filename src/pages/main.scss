@@ -48,6 +48,19 @@ $default-transition: .3s;
     }
   }
 }
+@mixin button() {
+  color: $fcol1;
+  background-color: $pcol2;
+  border: 0;
+  padding: 8px 16px;
+  box-shadow: 0 0 10px #0004;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-duration: $default-transition;
+  &.nope {
+    display: none;
+  }
+}
 /*
 $pcol1: #202040;
 $pcol2: #543864;
