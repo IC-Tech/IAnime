@@ -1,0 +1,41 @@
+@import 'main.scss';
+[ui='stats'] {
+.content {
+	.title-a, .title, .info {
+		display: block;
+		text-align: center;
+	}
+	.title-a {
+		font-size: 28px;
+		padding: 20px;
+	}
+	.title {
+		font-size: 22px;
+		padding: 12px 0 0;
+	}
+	.info {
+		color: $fcol2;
+		padding-bottom: 12px;
+    @include skeleton-text(18px);
+	}
+	.chart-c {
+		display: block;
+		max-height: 500px;
+		max-width: 1000px;
+		width: 80vw;
+		height: 40vw;
+		//background-color: $pcol2;
+		margin: 0 auto;
+		@include skeleton;
+		&.skeleton .chart {
+			display: none !important;
+		}
+	}
+}
+@media (max-width: 420px) {
+	.chart-c {
+		width: calc(100vw - 20px) !important;
+		height: calc(50vw - 20px) !important;
+	}
+}
+}
