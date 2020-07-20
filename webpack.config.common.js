@@ -20,7 +20,7 @@ module.exports = {
     'about': './src/about.js',
     'stats': './src/stats.js',
     'faq': './src/faq.js',
-    'one': './src/one.js'
+    'beta': './src/one.js'
   },
   output: {
     path: path.join(__dirname, outputDirectory),
