@@ -9,7 +9,7 @@ window.ic.pageLoad = Date.now()
 let icApp = ic.icApp, cpage
 var _root_ = new icApp.e('#root')
 ;['name="theme-color"', 'name="msapplication-navbutton-color"', 'name="apple-mobile-web-app-status-bar-style"'].forEach(a => new icApp.e(`[${a}]`).sa('content', '#171b22'))
-const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'search', 'stats', 'about', 'random', 'home', '']
+const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'search', 'stats', 'about', 'random', 'faq', 'home', '']
 class IAnime extends IAR {
 	constructor() {
 		super()
@@ -76,7 +76,7 @@ class IAnime extends IAR {
     }).bind(this)
     document.addEventListener('click', this.click)
     //window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || ' '))
-    this.switchPage()
+    this.switchPage('home')
 		this.update({ui: 1})
 	}
 	didUpdate() {
