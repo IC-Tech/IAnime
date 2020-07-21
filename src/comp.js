@@ -51,9 +51,9 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 	{t:'a', txt: 'Skip to content', at: [['href', '#main']]},
 	{t:'div', cl: 'top-l', ch: [
 		{t: 'a', cl: 'logo', at: [['href', '/']], ch: [
-		 	{t: 'div', ch: [
+			{t: 'div', ch: [
 				{t: 'img', at:[['src', '/images/ianime-i16-196px.png'], ['alt', 'IAnime icon']]},
-		 	]}
+			]}
 		]},
 		{t: 'a', at: [['href', '/search']], ch: [
 			{t: 'span', txt: 'Browse'}
@@ -100,6 +100,11 @@ const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 	]}
 ]})
 const comp_init = a => up = a
+const clean_search = a => {
+	res = []
+	_res = {length:0}
+	state = 0
+}
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], '']) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
 		{t:'div', cl: 'img-c', ch: [
@@ -117,4 +122,4 @@ const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] 
 	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.a + ' ')},
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 ]})
-export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI}
+export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search}
