@@ -24,7 +24,7 @@ class episode extends page {
 				this.update()
 			}
 		}
-		;['next', 'pev'].forEach(a => this[a] = this[a].bind(this))
+		;['next', 'pev', 'mirSel'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
 	}
@@ -55,6 +55,13 @@ class episode extends page {
 		this.parse(b, {raw: 1})
 		return !1
 	}
+	mirSel(a) {
+		this.mirror = parseInt(a.target.value || '0') || 0
+		try {
+			history.pushState({}, TitleCase(this.episode.title), this.episode.web + (this.mirror != 0 ? '?mirror=' + (this.mirror + 1) : ''))
+		} catch (e) { console.error(e) }
+		this.update()
+	}
 	content() {
 		var a = a => this.load_ ? [a, 'skeleton'] : a
 		var a_ = a => this.epLoad || this.load_ ? [a, 'skeleton'] : a
@@ -78,7 +85,7 @@ class episode extends page {
 					]},
 					{t: 'div', cl: 'wrp', ch: [
 						{t: 'span', txt: 'Mirrors: '},
-						{t: 'select', cl: a_('select'), e: [['onchange', this.mirSel2]], ch: ((!this.epLoad && !this.load_ && this.episode.mirrors) || []).map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase((a = (a.watch || a.url).match(/(\w+)[^w](?=\.)/gi)) ? a[0] : 'Unknown')}))}
+						{t: 'select', cl: a_('select'), e: [['onchange', this.mirSel]], ch: ((!this.epLoad && !this.load_ && this.episode.mirrors) || []).map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase((a = (a.watch || a.url).match(/(\w+)[^w](?=\.)/gi)) ? a[0] : 'Unknown')}))}
 					]},
 					{t: 'div', cl: 'wrp', ch: [
 						{t: 'a', d: {reg: '1'}, cl: [!this.load_ && this.episode.next ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: [['href', b((this.episode.next && this.episode.next.web) || '')]], e: [['onclick', this.next]], txt: 'Next'}
