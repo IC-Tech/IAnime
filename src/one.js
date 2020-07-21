@@ -39,12 +39,14 @@ class IAnime extends IAR {
 			var a = cpage.e || new icApp.e('.main')
 			a.p.v.replaceChild(b.e.v, a.v)
 			cpage.active = 0
+			if(cpage.core_unload) cpage.core_unload(op)
 			cpage = b
 			cpage.active = 1
 			cpage._load = 0
-			cpage.load(op)
+			cpage.core_load(op)
 			new icApp.e(document.body).sa('ui', cpage.name)
 			this.update()
+			document.scrollingElement.scrollTop = 0
 		}
 		this.urlTest = a => {
 			var b

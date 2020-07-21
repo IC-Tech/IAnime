@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../icApp/icApp.js'
 import {IAR} from '../icApp/icApp-render.js'
-import {top, bottom,comp_init} from './comp.js'
+import {top, bottom, comp_init, clean_search} from './comp.js'
 //import './main.scss'
 
 //I will add loading UI and others to here
@@ -15,8 +15,17 @@ class page extends IAR {
 			avatar: '/images/default/avatar_op.jpg'
 		}
 		comp_init(a => this.update())
+		this.core_load = a => {
+			this.load(a)
+		}
+		this.core_unload = a => {
+			clean_search()
+			this.update()
+			this.unload(a)
+		}
 	}
 	load() {}
+	unload() {}
 	render() {
 		return ([
 			{t: 'div', cl: 'page-load-c', ch: [{t: 'div', cl: this._load ? 'page-load' : ['page-load', 'nope'], ch: [{t: 'div'}]}]},
