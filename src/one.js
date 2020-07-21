@@ -61,30 +61,35 @@ class IAnime extends IAR {
 			if(!a[0] && a[0] == '') a[0] == 'home'
 			return pages.some(b => b == a[0]) ? a : 0
 		}
-		this.loadUrl = (a,b) => {
+		this.loadUrl = (a,b,c) => {
 			a = a || (this.urlTest(typeof b == 'string' ? b : location.href) || !1)
 			b = (b = b || a && a.join('/')) && b.startsWith('/') ? b : (typeof b == 'string' ? '/' + b : b)
 			if(a && b && pages.some(b => b == a[0])) {
+				if(!c) {
+					try {
+						history.pushState({url: b}, document.title, location.origin + b)
+					} catch (e) { console.error(e) }
+				}
 				this.switchPage(...a)
 			}
-			else {
-				this.switchPage('nope')
-			}
+			else this.switchPage('nope')
 		}
-    this.click = (a => {
-    	var b = new icApp.e(a.target)
-    	while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
-    	if(b.v && (b = this.urlTest(b.v.href))) {
-    		a.preventDefault()
-    		this.loadUrl(b)
-    		return !1
-    	}
-    }).bind(this)
+		this.click = (a => {
+			var b = new icApp.e(a.target)
+			while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
+			if(b.v && (b = this.urlTest(b.v.href))) {
+				a.preventDefault()
+				this.loadUrl(b)
+				return !1
+			}
+		}).bind(this)
+		this.popstate = (a => this.loadUrl(0, ((a.state || {}).url || location.href).replace(location.origin, ''), 1)).bind(this)
 	}
 	didMount() {
-    document.addEventListener('click', this.click)
-    //window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || ' '))
-    this.loadUrl(0, '/')
+		document.addEventListener('click', this.click)
+		window.addEventListener('popstate', this.popstate)
+		//window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || '0'))
+		this.loadUrl(0, '/', 1)
 		this.update({ui: 1})
 	}
 	render() {
