@@ -102,6 +102,7 @@ const clean_search = a => {
 	res = []
 	_res = {length:0}
 	state = 0
+	if((a = new icApp.e('.top .ser input')).v) a.val = ''
 }
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], '']) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
