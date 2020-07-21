@@ -1,0 +1,23 @@
+@import 'main.scss';
+[ui='nope'] {
+.content {
+	width: 80%;
+	max-width: 800px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	.title {
+		display: block;
+		padding: 20px 0 0;
+		font-size: 30px;
+		text-align: center;
+	}
+	.big-title {
+		display: block;
+		padding: 20px 0 0;
+		font-size: 80px;
+		text-align: center;
+	}
+}
+}
