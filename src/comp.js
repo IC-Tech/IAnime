@@ -8,8 +8,6 @@ var search = a => {
 	if(_ev) _ev(a_search)
 	state = 1
 	up()
-	//no advanced mode, for speed improvement
-	//maybe I should add it anyway
 	const r = Date.now()
 	req = r
 	XHR(API + '/search?q=' + encodeURIComponent(a) + '&mode=advanced&limit=6', a => {

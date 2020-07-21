@@ -7,7 +7,6 @@ class about extends page {
 		super()
 		this.name = 'about'
 	}
-	load() {}
 	content() {
 		var a = a => {
 			var b = [

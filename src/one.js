@@ -81,9 +81,6 @@ class IAnime extends IAR {
     this.switchPage('home')
 		this.update({ui: 1})
 	}
-	didUpdate() {
-	}
-	willUpdate() {}
 	render() {
 		return ([
 			{s: {display: this.data.ui == 0 ? 'flex' : 'none'}},

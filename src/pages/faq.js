@@ -31,7 +31,12 @@ class faq extends page {
 			this.update()
 		}).bind(this)
 	}
-	load() {}
+	load() {
+		this.faq = this.faq.map(a => {
+			a.s = !1
+			return a
+		})
+	}
 	content() {
 		var c = (a,b) => b ? [a, 'show'] : a
 		var a = (a,b) => ({t: 'div', cl: 'faq', d: {ty: 'q', in: b.toString(), sh: a.s ? 1 : 0}, ch: [
