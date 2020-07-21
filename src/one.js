@@ -36,6 +36,8 @@ class IAnime extends IAR {
 			if(cpage.update) cpage.update()
 			var b = await this.getPage(a || 'home')
 			b._load = 1
+			b.loadUrl = this.loadUrl
+			b.switchPage = this.switchPage
 			var a = cpage.e || new icApp.e('.main')
 			a.p.v.replaceChild(b.e.v, a.v)
 			cpage.active = 0
@@ -59,14 +61,16 @@ class IAnime extends IAR {
 			if(!a[0] && a[0] == '') a[0] == 'home'
 			return pages.some(b => b == a[0]) ? a : 0
 		}
-		this.loadUrl = a => {
-			a = a || (this.urlTest(location.href) || [2])
-			if(!a) return
-			if(pages.some(b => b == a[0])) this.switchPage(...a)
+		this.loadUrl = (a,b) => {
+			a = a || (this.urlTest(typeof b == 'string' ? b : location.href) || !1)
+			b = (b = b || a && a.join('/')) && b.startsWith('/') ? b : (typeof b == 'string' ? '/' + b : b)
+			if(a && b && pages.some(b => b == a[0])) {
+				this.switchPage(...a)
+			}
+			else {
+				this.switchPage('nope')
+			}
 		}
-	}
-	didMount() {
-    console.log('icApp-render:speed - ' + (Date.now() - window.ic.pageLoad))
     this.click = (a => {
     	var b = new icApp.e(a.target)
     	while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
@@ -76,9 +80,11 @@ class IAnime extends IAR {
     		return !1
     	}
     }).bind(this)
+	}
+	didMount() {
     document.addEventListener('click', this.click)
     //window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || ' '))
-    this.switchPage('home')
+    this.loadUrl(0, '/')
 		this.update({ui: 1})
 	}
 	render() {

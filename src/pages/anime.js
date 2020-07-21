@@ -33,14 +33,20 @@ class anime extends page {
 			}
 		}
 		this.parse = async a => {
-			a = await xhr('anime/' + a)
-			if(a = (a && a.success && a.result)) {
-				this.anime = a
+			var b = a = await xhr('anime/' + a)
+			if(!this.init) this._load = !(this.init = !0)
+			if(b = (b && b.success && b.result)) {
+				this.anime = b
 				this.load_ = 0
-				if(!this.init) this._load = !(this.init = !0)
-				this.loadSize = a.eps > default_episodes ? default_episodes : a.eps
+				this.loadSize = b.eps > default_episodes ? default_episodes : b.eps
 				this.update()
-				await this.epParse(a.episodes + '?limit=' + default_episodes)
+				await this.epParse(b.episodes + '?limit=' + default_episodes)
+			}
+			else {
+				if(a.success) return
+				if(a.error && a.error.code == 404) {
+					this.switchPage('nope')
+				}
 			}
 		}
 		;['next', 'pev'].forEach(a => this[a] = this[a].bind(this))
