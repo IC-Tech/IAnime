@@ -76,6 +76,7 @@ module.exports = merge(common, {
       'terms',
       'about',
       'stats',
+      'beta',
       //'faq',
       'one',
     ].map(a => new HtmlWebpackPlugin({

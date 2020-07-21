@@ -1,6 +1,6 @@
 {
   "name": "ianime",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "IAnime (Project 202005200959)",
   "main": "src/index.js",
   "scripts": {
@@ -29,6 +29,9 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"
+  },
+  "engines": {
+    "node": "12.x"
   },
   "browserslist": [
     "> 1%",

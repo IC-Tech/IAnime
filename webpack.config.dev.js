@@ -45,7 +45,7 @@ module.exports = merge(common, {
       'about',
       'stats',
       'faq',
-      'one',
+      'beta',
     ].map(a => new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: a + '.html',
