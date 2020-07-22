@@ -15,13 +15,19 @@ class episode extends page {
 		this.name = 'episode'
 		this.episode = {}
 		this.parse = async (a, op={}) => {
-			a = await xhr(op.raw ? a : 'episode/' + a)
-			if(a = (a && a.success && a.result)) {
-				this.episode = a
+			var b = (a = await xhr(op.raw ? a : 'episode/' + a)) && a.success && a.result
+			if(b) {
+				this.episode = b
 				if(!this.init) this._load = !(this.init = !0)
 				this.load_ = 0
 				this.epLoad = 0
 				this.update()
+			}
+			else {
+				if(a.success) return
+				if(a.error && a.error.code == 404) {
+					this.switchPage('nope')
+				}
 			}
 		}
 		;['next', 'pev', 'mirSel'].forEach(a => this[a] = this[a].bind(this))
