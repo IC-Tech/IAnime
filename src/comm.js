@@ -66,11 +66,11 @@ const xhr = a => new Promise(_ => {
 	XHR(a.indexOf('://') > 0 ? a : (API + '/' + a), a => _(a), op)
 })
 const pram = a => {
-	a = (a = a || location.search).startsWith('?') ? a.substr(1) : a
+	a = a || location.search
 	var b = {}
-	var c = /(\?|&|^)([^]*?)=([^]*?)(?=$|#|&)/g
+	var c = /(?:(?:\?|&)?([^=&?#]*)=([^=&?#]*))/g
 	var d
-	while((d = c.exec(a))) b[d[2]] = d[3]
+	while((d = c.exec(a))) b[d[1]] = decodeURIComponent(d[2])
 	return b
 }
 export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr, pram}
