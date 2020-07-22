@@ -30,7 +30,7 @@ class episode extends page {
 	}
 	load(a) {
 		this.episode = {}
-		this.parse(a)
+		this.parse(a.ex)
 		this.epLoad = 1
 		this.load_ = 1
 		this._load = 1

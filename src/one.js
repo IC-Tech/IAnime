@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../icApp/icApp.js'
 import {IAR} from '../icApp/icApp-render.js'
-
+import {pram} from './comm.js'
 ;(a => {
 window.ic = window.ic || []
 window.IAnime = window.IAnime || {}
@@ -51,9 +51,10 @@ class IAnime extends IAR {
 			document.scrollingElement.scrollTop = 0
 		}
 		this.urlTest = a => {
-			var b
 			if(!a) return 0
 			a = (a.startsWith('//') ? location.protocol + a : a).replace(location.origin, '')
+			var b = /([^]*?)(\?|&|#|$)/g.exec(a)
+			if(b[1]) a = b[1]
 			if(a.startsWith('http')) return 0
 			if(!a.startsWith('/')) a = (b = location.pathname.split('/')).slice(0, b.length - 1).join('/') + '/' + a
 			a = a.split('/').slice(1)
@@ -63,23 +64,27 @@ class IAnime extends IAR {
 		}
 		this.loadUrl = (a,b,c) => {
 			a = a || (this.urlTest(typeof b == 'string' ? b : location.href) || !1)
-			b = (b = b || a && a.join('/')) && b.startsWith('/') ? b : (typeof b == 'string' ? '/' + b : b)
+			b = (b = b || a && a.join('/')) && (b = b.replace(location.origin, '')).startsWith('/') ? b : (typeof b == 'string' ? '/' + b : b)
 			if(a && b && pages.some(b => b == a[0])) {
 				if(!c) {
 					try {
 						history.pushState({url: b}, document.title, location.origin + b)
 					} catch (e) { console.error(e) }
 				}
-				this.switchPage(...a)
+				this.switchPage(a[0], {
+					ex: a[1],
+					url: b,
+					pram: pram(b)
+				})
 			}
 			else this.switchPage('nope')
 		}
 		this.click = (a => {
-			var b = new icApp.e(a.target)
+			var b = new icApp.e(a.target), c
 			while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
-			if(b.v && (b = this.urlTest(b.v.href))) {
+			if(b.v && (b = this.urlTest(c = b.v.href))) {
 				a.preventDefault()
-				this.loadUrl(b)
+				this.loadUrl(b, c)
 				return !1
 			}
 		}).bind(this)

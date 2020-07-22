@@ -77,7 +77,7 @@ class anime extends page {
 		this.load_ = 1
 		this.page = 1
 		this.init = 0
-		this.parse(a)
+		this.parse(a.ex)
 		this.update()
 	}
 	next(a) {
