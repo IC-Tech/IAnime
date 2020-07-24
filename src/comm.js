@@ -33,28 +33,16 @@ const XHR = (url, call, op = {}, data = null) => {
 	Object.keys(op.head ? op.head : {}).forEach(a => xhr.setRequestHeader(a, op.head[a]))
 	xhr.onreadystatechange = () => {
 		if (xhr.readyState == 4 && xhr.status != 0) {
-			if(xhr.response) {
-				var v
-				try {
-					v = op.raw ? xhr.response : JSON.parse(xhr.response)
-				} catch(e) {
-					//console.error('Server response error. (EC: 0xA2 >>> ' + e + ' <)', op.err ? op.err : undefined)
-					call(null)
-				}
-				call(v)
-			}
-			else {
-				//console.error('Server response error. (EC: 0xA1)', op.err ? op.err : undefined)
-				call(null)
+			if(!xhr.response) return call({success: false, error: {code: 3, message: 'server did not respond'}})
+			try {
+				call(op.raw ? xhr.response : JSON.parse(xhr.response))
+			} catch(e) {
+				call({success: false, error: {code: 4, message: 'response could not parse'}})
 			}
 		}
 	}
-	xhr.onerror = function (e) {
-		if(e.target.status == 0) {
-			//console.error("The Webpage can't connect to the server. Try again in a few moments.", op && op.err ? op.err : undefined)
-			call(null)
-		}
-	}
+	xhr.onerror = a => call({success: false, error: {code: 1, message: 'network error occurred'}})
+	xhr.ontimeout = a => call({success: false, error: {code: 2, message: 'request timed out'}})
 	xhr.send(data)
 }
 const xhr = a => new Promise(_ => {
@@ -65,6 +53,30 @@ const xhr = a => new Promise(_ => {
 	}
 	XHR(a.indexOf('://') > 0 ? a : (API + '/' + a), a => _(a), op)
 })
+const cr = b => {
+	var a = new Array(8).map((a,b,c) => c.length - b)
+	for (var i = 0; i < b.length; i++) {
+		var c = a[i % a.length]
+		a[i % a.length] = ((b.charCodeAt(i) | (c << 6) + (c << 16)) & 0xff)
+	}
+	return a.map(a => a.toString(16).padStart(2, '0')).join('')
+}
+const api2 = (a,b) => new Promise(async _ => {
+	b = b || {}
+	if(typeof b == 'string') b = {id: b}
+	var t = [window.ic_token, window.ic_token && cr(window.ic_token)].filter(a => a)
+	var op = {
+		meth: 'POST',
+		head: {
+			'x-ic-token': t[0],
+			'x-ic-s-token': t[1],
+			'x-ic-analysis': 'IAnime-web, on',
+			'x-ic-analysis-url': location.href,
+			'content-type': 'text/json'
+		}
+	}
+	XHR(API + '/v2/endpoint', _, op, JSON.stringify(Object.assign({query: a}, b)))
+})
 const pram = a => {
 	a = a || location.search
 	var b = {}
@@ -73,4 +85,4 @@ const pram = a => {
 	while((d = c.exec(a))) b[d[1]] = decodeURIComponent(d[2])
 	return b
 }
-export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr, pram}
+export {TitleCase, gtag, API, parentClass, num, ACreate, XHR, xhr, pram, api2}

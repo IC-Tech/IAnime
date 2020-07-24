@@ -19,7 +19,16 @@ class faq extends page {
 			{q: 'How to create an IAnime Account?', a: "The accounts is not complete building and we have a lack of users."},
 			{q: 'How to find trending/popular anime?', a: "You can't find them right now. We have a lack of users so we do not have enough data to calculate them. Sorry."},
 			{q: 'What is "Safe Mode"?', a: "IAnime could have nsfw/adult/+18 contents. This will let you surf safe on our website and blur/hide all nsfw content."},
-			{q: 'Can I donate you?', ch: ['sure, thank you very much.\n', {t: 'a', at: [['href', 'https://ko-fi.com/imesh']], txt: 'https://ko-fi.com/imesh'}]},
+			{q: 'Can I donate you?', ch: ['sure, thank you very much.\n', {t: 'a', at: [['href', 'https://ko-fi.com/imesh']], txt: 'ko-fi.com/imesh'}]},
+			{q: 'Links?', ch: ((a,b=[]) => ([a.forEach(a => [b.push(a[0]), b.push({t: 'a', at: [['href', a[2]]], txt: a[1]}), b.push({t: 'br'})]), b])[1])([
+				['Developer: ', 'IC-Tech', 'https://ic-tech.now.sh'],
+				['Roadmap: ', 'Trello Board', 'https://trello.com/b/viWs81k8/ianime'],
+				['Donate: ', 'ko-fi.com/imesh', 'https://ko-fi.com/imesh'],
+				['Client Framework: ', 'icApp-render', 'https://github.com/IC-Tech/icApp'],
+				['Source Code: ', 'Github', 'https://github.com/IC-Tech/IAnime'],
+				['Source Code: ', 'Gitlab', 'https://gitlab.com/IC-Tech/IAnime'],
+				['Source Code: ', 'Bitbucket', 'https://bitbucket.org/IC-Tech/IAnime'],
+			])},
 		]
 		this.faq_ = (a => {
 			a = new icApp.e(a.target)
