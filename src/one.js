@@ -30,6 +30,7 @@ class IAnime extends IAR {
 			b.mount(c.v)
 			return this.pages[a] = b
 		}
+		this.page_op = {}
 		this.switchPage = async (a, op) => {
 			cpage = cpage || {}
 			cpage._load = 1
@@ -48,7 +49,8 @@ class IAnime extends IAR {
 			cpage.core_load(op)
 			new icApp.e(document.body).sa('ui', cpage.name)
 			this.update()
-			document.scrollingElement.scrollTop = 0
+			if(this.page_op.ex != op.ex) document.scrollingElement.scrollTop = 0
+			this.page_op = op
 		}
 		this.urlTest = a => {
 			if(!a) return 0
@@ -63,7 +65,7 @@ class IAnime extends IAR {
 			return pages.some(b => b == a[0]) ? a : 0
 		}
 		this.loadUrl = (a,b,c) => {
-			a = a || (this.urlTest(typeof b == 'string' ? b : location.href) || !1)
+			a = a || (this.urlTest(b = typeof b == 'string' ? b : location.href) || !1)
 			b = (b = b || a && a.join('/')) && (b = b.replace(location.origin, '')).startsWith('/') ? b : (typeof b == 'string' ? '/' + b : b)
 			if(a && b && pages.some(b => b == a[0])) {
 				if(!c) {
@@ -94,7 +96,7 @@ class IAnime extends IAR {
 		document.addEventListener('click', this.click)
 		window.addEventListener('popstate', this.popstate)
 		//window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || '0'))
-		this.loadUrl(0, '/', 1)
+		this.loadUrl(0, 0, 1)
 		this.update({ui: 1})
 	}
 	render() {
