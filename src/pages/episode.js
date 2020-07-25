@@ -62,11 +62,9 @@ class episode extends page {
 		this.mirror = parseInt(a.target.value || '0') || 0
 		try {
 			history.pushState({}, TitleCase(this.episode.title), this.episode.web + (this.mirror != 0 ? '?mirror=' + (this.mirror + 1) : ''))
-			gtag('send', {
-			  hitType: 'event',
-  			eventCategory: 'mirror',
-			  eventAction: 'change',
-  			eventLabel: this.episode.mirrors[this.mirror].title
+			gtag('event', 'change', {
+				event_category: 'mirror',
+				event_label: this.episode.mirrors[this.mirror].title,
 			})
 		} catch (e) { console.error(e) }
 		this.update()

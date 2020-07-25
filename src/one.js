@@ -32,6 +32,7 @@ class IAnime extends IAR {
 		}
 		this.page_op = {}
 		this.switchPage = async (a, op) => {
+			var _t = Date.now()
 			cpage = cpage || {}
 			cpage._load = 1
 			if(cpage.update) cpage.update()
@@ -51,6 +52,14 @@ class IAnime extends IAR {
 			this.update()
 			if(this.page_op.ex != op.ex) document.scrollingElement.scrollTop = 0
 			this.page_op = op
+			try{
+				gtag('event', 'timing_complete', {
+					'name' : 'switch_page',
+					'value' : Date.now() - _t,
+					'event_category' : 'Page'
+				})
+			}
+			catch(e) {console.error(e)}
 		}
 		this.urlTest = a => {
 			if(!a) return 0
@@ -71,7 +80,7 @@ class IAnime extends IAR {
 				if(!c) {
 					try {
 						history.pushState({url: b}, document.title, location.origin + b)
-						gtag('send', 'pageview', location.pathname)
+						gtag('config', window.GT_ID, { page_path: location.pathname, page_location: location.href })
 					} catch (e) { console.error(e) }
 				}
 				this.switchPage(a[0], {

@@ -10,6 +10,7 @@ class faq extends page {
 	constructor() {
 		super()
 		this.name = 'faq'
+		var link = a => ({t: 'a', txt: a.t, at: [['href', a.l], ['target', '_blank']]})
 		this.faq = [
 			{q: 'Why are there advertisements when watching videos?', a: 'We know that advertisements are annoying.\nIAnime dose not show any advertisements. but video providers may contain ads.'},
 			{q: 'Why IAnime dose not provides the videos?', a: "The main reason is that we do not have the money to pay for a large storage server."},
@@ -20,8 +21,8 @@ class faq extends page {
 			{q: 'How to create an IAnime Account?', a: "The accounts is not complete building and we have a lack of users."},
 			{q: 'How to find trending/popular anime?', a: "You can't find them right now. We have a lack of users so we do not have enough data to calculate them. Sorry."},
 			{q: 'What is "Safe Mode"?', a: "IAnime could have nsfw/adult/+18 contents. This will let you surf safe on our website and blur/hide all nsfw content."},
-			{q: 'Can I donate you?', ch: ['sure, thank you very much.\n', {t: 'a', at: [['href', 'https://ko-fi.com/imesh']], txt: 'ko-fi.com/imesh'}]},
-			{q: 'Links?', ch: ((a,b=[]) => ([a.forEach(a => [b.push(a[0]), b.push({t: 'a', at: [['href', a[2]]], txt: a[1]}), b.push({t: 'br'})]), b])[1])([
+			{q: 'Can I donate you?', ch: ['sure, thank you very much.\n', link({t: 'ko-fi.com/imesh', l: 'https://ko-fi.com/imesh'})]},
+			{q: 'Links?', ch: ((a,b=[]) => ([a.forEach(a => [b.push(a[0]), b.push(link({t: a[1], l: a[2]})), b.push({t: 'br'})]), b])[1])([
 				['Developer: ', 'IC-Tech', 'https://ic-tech.now.sh'],
 				['Roadmap: ', 'Trello Board', 'https://trello.com/b/viWs81k8/ianime'],
 				['Donate: ', 'ko-fi.com/imesh', 'https://ko-fi.com/imesh'],
