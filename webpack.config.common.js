@@ -10,17 +10,7 @@ const PACKAGE = require('./package.json');
 
 module.exports = {
   entry: {
-    'ianime': './src/index.js',
-    'anime': './src/anime.js',
-    'episode': './src/episode.js',
-    'search': './src/search.js',
-    'dmca': './src/dmca.js',
-    'privacy': './src/privacy.js',
-    'terms': './src/terms.js',
-    'about': './src/about.js',
-    'stats': './src/stats.js',
-    'faq': './src/faq.js',
-    'beta': './src/one.js'
+    'one': './src/one.js'
   },
   output: {
     path: path.join(__dirname, outputDirectory),

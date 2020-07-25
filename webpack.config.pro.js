@@ -68,16 +68,6 @@ module.exports = merge(common, {
       }
     }),
     ...[
-      'anime',
-      'episode',
-      'search',
-      'dmca',
-      'privacy',
-      'terms',
-      'about',
-      'stats',
-      'beta',
-      //'faq',
       'one',
     ].map(a => new HtmlWebpackPlugin({
       template: './src/index.html',

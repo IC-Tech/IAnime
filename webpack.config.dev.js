@@ -36,16 +36,7 @@ module.exports = merge(common, {
       chunks: ['ianime', 'vendor']
     }),
     ...[
-      'anime',
-      'episode',
-      'search',
-      'dmca',
-      'privacy',
-      'terms',
-      'about',
-      'stats',
-      'faq',
-      'beta',
+      'one',
     ].map(a => new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: a + '.html',
