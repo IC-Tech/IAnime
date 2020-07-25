@@ -70,11 +70,11 @@ const api2 = (a,b) => new Promise(async _ => {
 		head: {
 			'x-ic-token': t[0],
 			'x-ic-s-token': t[1],
-			'x-ic-analysis': 'IAnime-web, on',
-			'x-ic-analysis-url': location.href,
+			'x-ic-analysis': 'IAnime-web, ' + (navigator.doNotTrack == '1' ? 'off' : 'on'),
 			'content-type': 'text/json'
 		}
 	}
+	if(navigator.doNotTrack != '1') op.head['x-ic-analysis-url'] = location.href
 	XHR(API + '/v2/endpoint', _, op, JSON.stringify(Object.assign({query: a}, b)))
 })
 const pram = a => {
