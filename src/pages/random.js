@@ -1,7 +1,9 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import './random.scss'
-import {TitleCase, xhr, ACreate} from '../comm.js'
-import {page} from '../page.js'
+import {TitleCase, ACreate} from '../comm'
+import {meta_init} from '../meta'
+import {data} from '../data'
+import {page} from '../page'
 
 class random extends page {
 	constructor() {
@@ -9,7 +11,7 @@ class random extends page {
 		this.name = 'random'
 		this.rand = {}
 		this.parse = async a => {
-			a = await xhr('random')
+			a = await data('random',0,1)
 			if(!(a = (a && a.success && a.result))) return
 			this.rand = a
 			this.load_ = 0
@@ -29,6 +31,7 @@ class random extends page {
 		this.init = 0
 		this.parse()
 		this.update()
+		meta_init(0, 'Random')
 	}
 	content() {
 		var a = a => this.load_ ? ['skeleton', a] : a

@@ -1,9 +1,11 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
-import {EpUI} from '../comp.js'
-import {TitleCase, xhr, ACreate} from '../comm.js'
-import './episode.scss'
+import {EpUI} from '../comp'
+import {TitleCase, ACreate} from '../comm'
+import {meta_init} from '../meta'
+import {data} from '../data'
 import {page} from '../page'
+import './episode.scss'
 
 const default_episodes = 12
 let icApp = ic.icApp
@@ -15,13 +17,23 @@ class episode extends page {
 		this.name = 'episode'
 		this.episode = {}
 		this.parse = async (a, op={}) => {
-			var b = (a = await xhr(op.raw ? a : 'episode/' + a)) && a.success && a.result
+			var b = (a = await data('episode', {
+				id:a,
+				filter: {
+					create: 0,
+					mirrors: { type: 0, name: 0 },
+					parent: { title: 1, poster: 1, description: 1, web: 1},
+					previous: { web: 1 },
+					next: { web: 1 }
+				}
+			})) && a.success && a.result
 			if(b) {
 				this.episode = b
 				if(!this.init) this._load = !(this.init = !0)
 				this.load_ = 0
 				this.epLoad = 0
 				this.update()
+				meta_init(icApp, b.title, 'Watch ' + b.title + ' on IAnime, ' + b.parent.description, b.image || b.parent.poster, b.web)
 			}
 			else {
 				if(a.success) return
@@ -30,7 +42,7 @@ class episode extends page {
 				}
 			}
 		}
-		;['next', 'pev', 'mirSel'].forEach(a => this[a] = this[a].bind(this))
+		;['mirSel'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
 	}
@@ -42,24 +54,6 @@ class episode extends page {
 		this._load = 1
 		this.init = 0
 		this.update()
-	}
-	next(a) {
-		var b = this.episode.next && this.episode.next.url
-		if(!b) return
-		a.preventDefault()
-		this.epLoad = 1
-		this.update()
-		this.parse(b, {raw: 1})
-		return !1
-	}
-	pev(a) {
-		var b = this.episode.previous && this.episode.previous.url
-		if(!b) return
-		a.preventDefault()
-		this.epLoad = 1
-		this.update()
-		this.parse(b, {raw: 1})
-		return !1
 	}
 	mirSel(a) {
 		this.mirror = parseInt(a.target.value || '0') || 0
@@ -87,14 +81,14 @@ class episode extends page {
 				]}),
 				{t: 'div', cl: 'mir', ch: [
 					{t: 'div', cl: 'wrp', ch: [
-						{t: 'a', d: {reg: '1'}, cl: [!this.load_ && this.episode.previous ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: [['href', b((this.episode.previous && this.episode.previous.web) || '')]], e: [['onclick', this.pev]], txt: 'Previous'}
+						{t: 'a', cl: [!this.load_ && this.episode.previous ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: [['href', b((this.episode.previous && this.episode.previous.web) || '')]], txt: 'Previous'}
 					]},
 					{t: 'div', cl: 'wrp', ch: [
 						{t: 'span', txt: 'Mirrors: '},
-						{t: 'select', cl: a_('select'), e: [['onchange', this.mirSel]], ch: ((!this.epLoad && !this.load_ && this.episode.mirrors) || []).map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase((a = (a.watch || a.url).match(/(\w+)[^w](?=\.)/gi)) ? a[0] : 'Unknown')}))}
+						{t: 'select', cl: a_('select'), e: [['onchange', this.mirSel]], ch: ((!this.epLoad && !this.load_ && this.episode.mirrors) || []).map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase(a.title || 'Unknown')}))}
 					]},
 					{t: 'div', cl: 'wrp', ch: [
-						{t: 'a', d: {reg: '1'}, cl: [!this.load_ && this.episode.next ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: [['href', b((this.episode.next && this.episode.next.web) || '')]], e: [['onclick', this.next]], txt: 'Next'}
+						{t: 'a', cl: [!this.load_ && this.episode.next ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: [['href', b((this.episode.next && this.episode.next.web) || '')]], txt: 'Next'}
 					]},
 				]}
 			]},

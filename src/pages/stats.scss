@@ -1,13 +1,13 @@
 @import 'main.scss';
 [ui='stats'] {
 .content {
-	.title-a, .title, .info {
+	.title-a, .title, .info, .range {
 		display: block;
 		text-align: center;
 	}
 	.title-a {
 		font-size: 28px;
-		padding: 20px;
+		padding: 20px 0 0;
 	}
 	.title {
 		font-size: 22px;
@@ -16,7 +16,10 @@
 	.info {
 		color: $fcol2;
 		padding-bottom: 12px;
-    @include skeleton-text(18px);
+		@include skeleton-text(18px);
+	}
+	.range {
+		color: $fcol2;
 	}
 	.chart-c {
 		display: block;

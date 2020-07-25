@@ -1,9 +1,11 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
-import {AniUI, EpUI} from '../comp.js'
-import {xhr, ACreate} from '../comm.js'
+import {AniUI, EpUI} from '../comp'
+import {ACreate} from '../comm'
+import {data} from '../data'
+import {meta_init} from '../meta'
+import {page} from '../page'
 import './home.scss'
-import {page} from '../page.js'
 
 let icApp = ic.icApp
 
@@ -78,7 +80,11 @@ class home extends page {
 		this.eps = []
 		this.rand = parseInt(Math.random() * 10) + 1
 		this.parse = async a => {
-			a = a || await xhr('new')
+			a = a || await data('latest', {filter: {
+				recent: { title: 1, poster: 1, web: 1, year: 1, ep: 1 },
+				newest: { title: 1, poster: 1, web: 1, year: 1, ep: 1 },
+				eps: { title: 1, name: 1, image: 1, web: 1, parent: { poster: 1 }}
+			}})
 			if(!(a = a && a.success && a.result)) return
 			if(!this.init) this._load = !(this.init = !0)
 			this.recent = a.recent.map(b => {
@@ -102,6 +108,7 @@ class home extends page {
 		this.update()
 		this.sli_e()
 		this.parse()
+		meta_init(icApp, 'Home')
 	}
 	didMount() {
 		this.ine = new icApp.e('form input')

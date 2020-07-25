@@ -1,11 +1,15 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import './about.scss'
-import {page} from '../page.js'
+import {meta_init} from '../meta'
+import {page} from '../page'
 
 class about extends page {
 	constructor() {
 		super()
 		this.name = 'about'
+	}
+	load() {
+		meta_init(0, 'About')
 	}
 	content() {
 		var a = a => {

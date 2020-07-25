@@ -1,11 +1,13 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
-import {AniUI, serEv0} from '../comp.js'
-import {TitleCase, xhr, ACreate} from '../comm.js'
-import './search.scss'
+import {AniUI, serEv0} from '../comp'
+import {TitleCase, ACreate} from '../comm'
+import {data} from '../data'
 import {page} from '../page'
+import {meta_init} from '../meta'
+import './search.scss'
 
-const default_episodes = 12
+const default_episodes = 10
 let icApp = ic.icApp
 var _root_ = new icApp.e('#root')
 class search extends page {
@@ -14,7 +16,6 @@ class search extends page {
 		this.name = 'search'
 		this.search_something = 0
 		this.load_ = 0
-		;['input', 'search', 'aniLoad', 'loadNext'].forEach(a => this[a] = this[a].bind(this))
 		this.load_ = 0
 		this.lastReq = 0
 		this.loadNext_ = 0
@@ -26,9 +27,11 @@ class search extends page {
 		}
 		this.res = []
 		this.parseNext = async a => {
-			this.loadNext_ = 1
-			a = await xhr(this._res.next)
-			if(!(a = (a && a.success && a.result)) || this.load_) return
+			a = await data('search', {
+				mode: 'advanced', search: this.search_text, index: this._res.index + this._res.limit, limit: default_episodes,
+				filter: {data: {title: 1, poster: 1, web: 1}}
+			})
+			if(!(a = (a && a.success && a.result)) || this.load_) return 0
 			this.aniLoad(a, 1)
 		}
 		this.parse = async a => {
@@ -37,35 +40,42 @@ class search extends page {
 			this.load_ = 1
 			this.loadNext_ = 0
 			this.search_text = a
-			a = await xhr('search?mode=advanced&q=' + a)
+			a = await data('search', {
+				mode: 'advanced', search: a, limit: default_episodes,
+				filter: {data: {title: 1, poster: 1, web: 1}}
+			})
 			if(this.lastReq != r || !(a = (a && a.success && a.result))) return
 			if(!this.init) this._load = !(this.init = !0)
 			this.aniLoad(a)
 		}
+		;['input', 'search', 'aniLoad', 'loadNext', 'parse', 'parseNext'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
-    this.scroll = document.scrollingElement
-    this.escroll = (a => this.active && ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 120 ? this.loadNext() : 0).bind(this)
-   	window.addEventListener('scroll', this.escroll)
-   	window.addEventListener('resize', this.escroll)
-   	this.inputE = new icApp.e(this.e.v.querySelector('.content .ser input'))
+		this.scroll = document.scrollingElement
+		this.escroll = (a => this.active && ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 120 ? this.loadNext() : 0).bind(this)
+		window.addEventListener('scroll', this.escroll)
+		window.addEventListener('resize', this.escroll)
+		this.inputE = new icApp.e(this.e.v.querySelector('.content .ser input'))
 	}
 	load(a) {
 		this.inputE.val = TitleCase(a = ((a && a.pram && a.pram.q) || '').toString())
 		this.inputE.v.focus()
-		this.reset = 1
+		this.reset = !a ? 1 : 0
 		this._load = 1
 		this.init = 0
 		this.search(a)
 	}
 	loadNext() {
-		if(this.load_ || this.loadNext_ || !this._res.next) return
+		if(this.loadNext_ || this.load_ || (this._res.length - (this._res.index + this._res.limit)) <= 0) return
+		this.loadNext_ = 1
 		this.parseNext()
 		this.update()
 	}
 	aniLoad(a, b) {
+		if(!a) return 0
 		a = (this._res = a).data
-		this.res = this.loadNext_ ? this.res.concat(a) : a
+		if(this._res.index == 0) this.res = a
+		else this.res = Array.from(this.res).concat(a)
 		this.load_ = 0
 		this.loadNext_ = 0
 		this.inputE.p.clr('s2')
@@ -80,9 +90,9 @@ class search extends page {
 			this.reset = !1
 		}
 		this.inputE.p.cla('s2')
-		a = encodeURIComponent(a)
 		try {
-			if(a) history.pushState({q:a}, document.title, location.pathname + '?q=' + a)
+			if(a && location.href.toString().replace(location.origin, '') != (location.pathname.toString() + '?q=' + encodeURIComponent(a))) history.pushState({q:a}, document.title, location.pathname + '?q=' + encodeURIComponent(a))
+			meta_init(icApp, 'Search ' + a)
 		}catch(e){console.error(e)}
 		this.parse(a)
 		this.update()
@@ -119,7 +129,7 @@ class search extends page {
 				]}
 			]},
 			{t:'div', cl: this._res.length > (this._res.index + a.length) || this.load_ ? 'load' : ['load', 'nope'], ch: [
-				{t: 'span', txt: this.load_ ? 'Searching...' : 'Scroll Down to Load More'}
+				{t: 'span', txt: this.load_ ? 'Searching...' : (this.loadNext_ ? 'Loading...' : 'Scroll Down to Load More')}
 			]},
 			...(this.user.noAutoLoad ? [{t:'div', cl: this._res.length > (this._res.index + a.length) ? 'more' : ['more', 'nope'], ch: [
 				{t: 'button', e: [['onclick', this.more]], ch: [

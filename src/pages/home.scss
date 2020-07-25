@@ -68,7 +68,7 @@
 				margin: 0;
 				background-color: #0000;
 				border-radius: 50%;
-				transition-duration: $default-transition;
+				transition: background-color $default-transition;
 			}
 			&.sel span {
 				background-color: $fcol1;
@@ -76,22 +76,22 @@
 		}
 	}
 	.ani-c {
-	  margin: 10px;
-	  &:hover {
-	  	transform: none !important;
-	  }
-  }
+		margin: 10px;
+		&:hover {
+			transform: none !important;
+		}
+	}
 	.ep {
 		margin: 10px;
-	  &:hover {
-	  	transform: none !important;
-	  }
+		&:hover {
+			transform: none !important;
+		}
 		.title {
 			font-size: 14px;
-	   }
+		 }
 		.name {
 			font-size: 12px;
-	   }
+		 }
 	}
 	.rand-ce {
 		display: flex;
@@ -101,7 +101,7 @@
 	.rand-c {
 		margin: 0 auto;
 		box-shadow: 0 0 20px #0008;
-    overflow: hidden;
+		overflow: hidden;
 		&:hover {
 			box-shadow: 0 4px 20px #0008;
 			.img {
@@ -113,14 +113,14 @@
 		}
 		&, .img, .cli{
 			border-radius: 6px;
-      width: 200px;
-      height: 320px;
-      position: relative;
-      transition-duration: $default-transition;
+			width: 200px;
+			height: 320px;
+			position: relative;
+			transition-duration: $default-transition;
 		}
 		.img {
 			display: block;
-      background-position: center;
+			background-position: center;
 		}
 		.cli {
 			position: absolute;

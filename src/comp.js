@@ -1,6 +1,6 @@
 import '../icApp/icApp.js'
-import {XHR} from '../icApp/common.js'
-import {TitleCase, API, parentClass} from './comm.js'
+import {TitleCase, API, parentClass} from './comm'
+import {data} from './data'
 const icApp = ic.icApp
 var _ev, fo, _res = {length: 0}, res = [], serTimeout, _search, up = a => {}, state = 0, req
 var search = a => {
@@ -10,10 +10,10 @@ var search = a => {
 	up()
 	const r = Date.now()
 	req = r
-	XHR(API + '/search?q=' + encodeURIComponent(a) + '&mode=advanced&limit=6', a => {
+	data('search', {search: a, mode: 'advanced', limit: 6, filter: {data: {title: 1, poster: 1, web: 1}}}).then(a => {
 		if(r != req) return
 		if(!a.success) return state = 2
-		res = (_res = a.result).data
+		res = ((_res = a.result).data || [])
 		state = _res.length == 0 ? 2 : 0
 		up()
 	})

@@ -1,6 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import './common_page.scss'
-import {page} from '../page.js'
+import {meta_init} from '../meta'
+import {page} from '../page'
 
 const comm = op => {
 	class comm extends page {
@@ -9,7 +10,9 @@ const comm = op => {
 			this.name = 'comm'
 			this.subName = op.name
 		}
-		load() {}
+		load() {
+			meta_init(0, op.title)
+		}
 		content() {
 			return ([
 				{t: 'div', cl: 'cent', ch: op.content}

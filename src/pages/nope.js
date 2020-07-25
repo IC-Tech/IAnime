@@ -1,13 +1,16 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import './nope.scss'
-import {page} from '../page.js'
+import {meta_init} from '../meta'
+import {page} from '../page'
 
 class nope extends page {
 	constructor() {
 		super()
 		this.name = 'nope'
 	}
-	load() {}
+	load() {
+		meta_init()
+	}
 	content() {
 		return ([
 			{t: 'span', cl: 'big-title', txt: '404'},

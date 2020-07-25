@@ -1,9 +1,11 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
-import {EpUI} from '../comp.js'
-import {TitleCase, xhr, ACreate} from '../comm.js'
-import './anime.scss'
+import {EpUI} from '../comp'
+import {TitleCase, ACreate} from '../comm'
+import {data} from '../data'
+import {meta_init} from '../meta'
 import {page} from '../page'
+import './anime.scss'
 
 const default_episodes = 12
 let icApp = ic.icApp
@@ -20,8 +22,11 @@ class anime extends page {
 			index: 0
 		}
 		this.page = 1
-		this.epParse = async a => {
-			var b = await xhr(a)
+		this.epParse = async (a) => {
+			var b = await data('episodes', {
+				id: this.anime.id, index: default_episodes * (this.page - 1), limit: default_episodes,
+				filter: {data: {id: 0, create: 0, next: 0, previous: 0}}
+			})
 			if(b = (b && b.success && b.result)) {
 				this._episodes = b
 				this.episodes = b.data.map(a => {
@@ -33,14 +38,15 @@ class anime extends page {
 			}
 		}
 		this.parse = async a => {
-			var b = a = await xhr('anime/' + a)
+			var b = a = await data('anime', {id: a, filter: {tags: {id: 0}, update: 0}})
 			if(!this.init) this._load = !(this.init = !0)
 			if(b = (b && b.success && b.result)) {
 				this.anime = b
 				this.load_ = 0
-				this.loadSize = b.eps > default_episodes ? default_episodes : b.eps
+				this.loadSize = b.eps < default_episodes ? b.eps : ((this.loadSize = b.eps - (default_episodes * (this.page - 1))) > default_episodes ? default_episodes : this.loadSize)
 				this.update()
-				await this.epParse(b.episodes + '?limit=' + default_episodes)
+				this.epParse()
+				meta_init(icApp, b.title, b.description, b.poster, b.web)
 			}
 			else {
 				if(a.success) return
@@ -49,7 +55,7 @@ class anime extends page {
 				}
 			}
 		}
-		;['next', 'pev'].forEach(a => this[a] = this[a].bind(this))
+		this.url = a => this.anime.web + (a > 1 ? '?page=' + a : '')
 	}
 	didMount() {
 		window.addEventListener('scroll', a => {
@@ -75,34 +81,10 @@ class anime extends page {
 		this.epLoad = 1
 		this._load = 1
 		this.load_ = 1
-		this.page = 1
+		this.page = (this.page = parseInt(a.pram.page) || 0) > 0 ? this.page : 1
 		this.init = 0
 		this.parse(a.ex)
 		this.update()
-	}
-	next(a) {
-		a.preventDefault()
-		if(!this.epLoad) {
-			;(new icApp.e('a.next')).cla('c1')
-			this.loadSize = this._episodes.length - ((this._episodes.limit || 0) + (this._episodes.index || 0))
-			if(this._episodes.limit && this._episodes.limit < this.loadSize) this.loadSize = this._episodes.limit
-			this.epLoad = 1
-			this.update()
-			this.epParse(`${this.anime && this.anime.episodes}?index=${this.page++ * default_episodes}&limit=${default_episodes}`)
-		}
-		return false
-	}
-	pev(a) {
-		a.preventDefault()
-		if(!this.epLoad) {
-			;(new icApp.e('a.pev')).cla('c1')
-			// 12 is server default value
-			this.loadSize = this._episodes.limit || default_episodes
-			this.epLoad = 1
-			this.update()
-			this.epParse(`${this.anime && this.anime.episodes}?index=${(--this.page - 1) * default_episodes}&limit=${default_episodes}`)
-		}
-		return false
 	}
 	content() {
 		var a = []
@@ -110,7 +92,7 @@ class anime extends page {
 			[
 				['Format', this.anime.type || ''],
 				['Year', this.anime.year || ''],
-				['Episodes', this._episodes.length + (this.anime.epsCount ? ' of ' + this.anime.epsCount : '')],
+				['Episodes', (this.anime.eps || this._episodes.length) + (this.anime.epsCount ? ' of ' + this.anime.epsCount : '')],
 				['Rating', this.anime.rating || '']
 			].map(a => a[1] ? [{t: 'span', cl: 'inf-t', txt: a[0]}, {t: 'span', cl: 'inf-v', txt: TitleCase(a[1])}] : null).forEach(_a => !_a ? 0 : [a.push(_a[0]), a.push(_a[1])])
 		}
@@ -136,10 +118,10 @@ class anime extends page {
 			]},
 			{t: 'div', cl: b.length == 0 ? ['eps', 'nope'] : 'eps', ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime))},
 			{t: 'div', cl: 'more', ch: [
-				{t:'a', e: [['onclick', this.pev]], d: {reg: '1'}, cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.anime.web + (this.page == 2 ? '' : '?page=' + (this.page - 1))]], ch: [
+				{t:'a', cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.page > 1 ? this.url(this.page - 1) : '']], ch: [
 					{t:'span', txt: 'Previous'}
 				]},
-				{t:'a', e: [['onclick', this.next]], d: {reg: '1'}, cl: this._episodes.length - (this.page * default_episodes) > 0 ? 'next' : ['next', 'nope'], at: [['href', this.anime.web + '?page=' + (this.page + 1)]], ch: [
+				{t:'a', cl: this._episodes.length - (this.page * default_episodes) > 0 ? 'next' : ['next', 'nope'], at: [['href', this.url(this.page + 1)]], ch: [
 					{t:'span', txt: 'Next'}
 				]}
 			]}

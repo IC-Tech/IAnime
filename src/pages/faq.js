@@ -1,7 +1,8 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
+import {meta_init} from '../meta'
+import {page} from '../page'
 import './faq.scss'
-import {page} from '../page.js'
 
 let icApp = ic.icApp
 
@@ -45,6 +46,7 @@ class faq extends page {
 			a.s = !1
 			return a
 		})
+		meta_init(0, 'Frequently Asked Questions')
 	}
 	content() {
 		var c = (a,b) => b ? [a, 'show'] : a
