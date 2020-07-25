@@ -1,44 +1,76 @@
 var icApp = (window.ic && window.ic.icApp) || {}
 const meta_init = (a, b, c, d, e) => {
-	icApp = a
-	if(b) title(b)
-	if(c) description(c)
-	if(d) image(d)
-	if(e) url(e)
-    
-/*
-	Backend will mange this
-	var ap =[]
-
-		b = (new icApp.e('title').txt = b + ' · IAnime')
-		ap.push(['meta', [['name', 'title'], ['content', b], ['property', 'og:title']]])
-		ap.push(['meta', [['name', 'twitter:title'], ['content', b]]])
-
-
-    ap.push(['meta', [['name', 'description'], ['content', c]]])
-    ap.push(['meta', [['name', 'twitter:description'], ['content', c]]])
-		ap.push(['meta', [['property', 'og:description'], ['content', c]]])
-
-
-		ap.push(['meta', [['name', 'twitter:image'], ['content', d]]])
-    ap.push(['meta', [['property', 'og:image'], ['content', d]]])
-
-
-		ap.push(['link', [['rel', 'canonical'], ['href', e]]])
-    ap.push(['meta', [['property', 'og:url'], ['content', e]]])
-
-	var a = new icApp.e('head')
-	ap.forEach(b => {
-		var _a = new icApp.e(icApp.cE(b[0]))
-		b[1].forEach(a => _a.sa(a[0], a[1]))
-		a.ap(_a.v)
-	})
-*/
+	icApp = a || (window.ic && window.ic.icApp) || {}
+	title(b || defaults.title)
+	description(c || defaults.description)
+	image(d || defaults.image)
+	url(e || defaults.url)
 }
-const _con = (a, b) => a.forEach(a => new icApp.e(a).sa('content', b))
-const title = a => _con(['[name="title"]', '[name="twitter:title"]'], new icApp.e('title').txt = a + ' · IAnime')
-const description = a => _con(['[name="description"]', '[name="twitter:description"]', '[property="og:description"]'], a)
-const image = a => _con(['[name="twitter:image"]', '[property="og:image"]'], a)
-const url = a => _con(['[rel="canonical"]', '[property="og:url"]'], a)
-
-export { meta_init, title, description, image, url }
+const _con = (a, c) => a.forEach(a => {
+	var b = new icApp.e(`${a[0]}[${a[1][0]}="${a[1][1]}"]`)
+	if(b.v) return b.sa(a[2][0], c)
+	b = new icApp.e(icApp.cE(a[0]))
+	a.slice(1).forEach(a => b.sa(a[0], a[1] == '!' ? c : a[1]))
+	new icApp.e('head').ap(b.v)
+})
+const title = a => _con([
+	[
+		'meta',
+		['name', 'title'],
+		['content', '!'],
+		['property', 'og:title']
+	],
+	[
+		'meta',
+		['name', 'twitter:title'],
+		['content', '!']
+	],
+], new icApp.e('title').txt = (a=a.toString().trim()).length > 0 ? a + ' · IAnime' : defaults.title)
+const description = a => _con([
+	[
+		'meta',
+		['name','description'],
+		['content', '!']
+	],
+	[
+		'meta',
+		['name','twitter:description'],
+		['content', '!']
+	],
+	[
+		'meta',
+		['property','og:description'],
+		['content', '!']
+	],
+], a)
+const image = a => _con([
+	[
+		'meta',
+		['name', 'twitter:image'],
+		['content', '!']
+	],
+	[
+		'meta',
+		['property', 'og:image'],
+		['content', '!']
+	],
+], a)
+const url = a => _con([
+	[
+		'link',
+		['rel', 'canonical'],
+		['href', '!']
+	],
+	[
+		'meta',
+		['property', 'og:url'],
+		['content', '!']
+	],
+], a)
+const defaults = {
+	title: 'IAnime',
+	description: 'Watch, Stream Subbed Dubbed Anime Shows, Movies for Free at IAnime',
+	image: 'https://ianime.now.sh/images/ianime-i17-512px.png',
+	url: location.origin // https://ianime.now.sh
+}
+export { meta_init, title, description, image, url, defaults }
