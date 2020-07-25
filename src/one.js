@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../icApp/icApp.js'
 import {IAR} from '../icApp/icApp-render.js'
-import {pram} from './comm.js'
+import {pram, gtag} from './comm.js'
 ;(a => {
 window.ic = window.ic || []
 window.IAnime = window.IAnime || {}
@@ -71,6 +71,7 @@ class IAnime extends IAR {
 				if(!c) {
 					try {
 						history.pushState({url: b}, document.title, location.origin + b)
+						gtag('send', 'pageview', location.pathname)
 					} catch (e) { console.error(e) }
 				}
 				this.switchPage(a[0], {

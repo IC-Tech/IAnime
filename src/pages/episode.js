@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
 import {EpUI} from '../comp'
-import {TitleCase, ACreate} from '../comm'
+import {TitleCase, ACreate, gtag} from '../comm'
 import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
@@ -53,12 +53,21 @@ class episode extends page {
 		this.load_ = 1
 		this._load = 1
 		this.init = 0
+		if(a.pram.mirror) {
+			if((a = parseInt(a.pram.mirror)) > 0) this.mirror = a
+		}
 		this.update()
 	}
 	mirSel(a) {
 		this.mirror = parseInt(a.target.value || '0') || 0
 		try {
 			history.pushState({}, TitleCase(this.episode.title), this.episode.web + (this.mirror != 0 ? '?mirror=' + (this.mirror + 1) : ''))
+			gtag('send', {
+			  hitType: 'event',
+  			eventCategory: 'mirror',
+			  eventAction: 'change',
+  			eventLabel: this.episode.mirrors[this.mirror].title
+			})
 		} catch (e) { console.error(e) }
 		this.update()
 	}
