@@ -3,8 +3,7 @@ const default_expire = 5 * 60 * 1000
 var _data = {}
 if(window.IAnime && window.IAnime.data && typeof window.IAnime.data == 'string') {
 	try {
-	window.data = JSON.parse(atob(window.IAnime.data))
-	window.data.forEach(a => {
+	JSON.parse(decodeURIComponent(atob(window.IAnime.data))).forEach(a => {
 		_data[a.q] = _data[a.q] || []
 		_data[a.q].push({
 			req: a.req,
