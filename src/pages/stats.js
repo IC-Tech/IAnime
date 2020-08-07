@@ -1,6 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import '../../icApp/icApp.js'
 import {ACreate, num} from '../comm'
+import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
 import Chart from 'chart.js'

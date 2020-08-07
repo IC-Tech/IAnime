@@ -58,7 +58,7 @@ class search extends page {
 		this.inputE = new icApp.e(this.e.v.querySelector('.content .ser input'))
 	}
 	load(a) {
-		this.inputE.val = TitleCase(a = ((a && a.pram && a.pram.q) || '').toString())
+		this.inputE.val = TitleCase(a = ((a && a.pram && a.pram.q) || '').toString().replace(/\+/g, ' '))
 		this.inputE.v.focus()
 		this.reset = !a ? 1 : 0
 		this._load = 1
