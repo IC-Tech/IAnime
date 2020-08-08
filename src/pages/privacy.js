@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import comm from './common_page.js'
+import comm from '../common_page.js'
 
 const privacy = comm({name: 'privacy', title: 'Privacy Policy', content: [
 	{t:'span', cl: 'title', txt: 'Privacy Policy'},

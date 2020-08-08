@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import comm from './common_page.js'
+import comm from '../common_page.js'
 
 const terms = comm({name: 'terms', title: 'Terms of Service', content: [
 	{t:'span', cl: 'title', txt: 'IAnime Terms of Service'},

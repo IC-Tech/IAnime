@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import comm from './common_page.js'
+import comm from '../common_page.js'
 
 const dmca = comm({name: 'dmca', title: 'DMCA Notice of Copyright Infringement', content: [
 	{t:'span', cl: 'title', txt: 'Legal Disclaimer'},

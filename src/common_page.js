@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../style/common_page.scss'
-import {meta_init} from '../meta'
-import {page} from '../page'
+import './style/common_page.scss'
+import {meta_init} from './meta'
+import {page} from './page'
 
 const comm = op => {
 	class comm extends page {
