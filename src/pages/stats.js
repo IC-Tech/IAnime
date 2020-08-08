@@ -5,7 +5,7 @@ import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
 import Chart from 'chart.js'
-import './stats.scss'
+import '../style/stats.scss'
 
 let icApp = ic.icApp
 var _root_ = new icApp.e('#root')

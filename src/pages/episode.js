@@ -5,7 +5,7 @@ import {TitleCase, ACreate, gtag} from '../comm'
 import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
-import './episode.scss'
+import '../style/episode.scss'
 
 const default_episodes = 12
 let icApp = ic.icApp

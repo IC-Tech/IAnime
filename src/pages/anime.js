@@ -5,7 +5,7 @@ import {TitleCase, ACreate} from '../comm'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import './anime.scss'
+import '../style/anime.scss'
 
 const default_episodes = 12
 let icApp = ic.icApp

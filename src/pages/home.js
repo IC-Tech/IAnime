@@ -5,9 +5,9 @@ import {ACreate} from '../comm'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import './home.scss'
 
 let icApp = ic.icApp
+import '../style/home.scss'
 
 class home extends page {
 	constructor() {

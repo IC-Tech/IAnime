@@ -5,7 +5,7 @@ import {TitleCase, ACreate} from '../comm'
 import {data} from '../data'
 import {page} from '../page'
 import {meta_init} from '../meta'
-import './search.scss'
+import '../style/search.scss'
 
 const default_episodes = 10
 let icApp = ic.icApp

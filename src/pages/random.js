@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import './random.scss'
+import '../style/random.scss'
 import {TitleCase, ACreate} from '../comm'
 import {meta_init} from '../meta'
 import {data} from '../data'

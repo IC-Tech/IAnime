@@ -2,9 +2,9 @@
 import '../../icApp/icApp.js'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import './faq.scss'
 
 let icApp = ic.icApp
+import '../style/faq.scss'
 
 class faq extends page {
 	constructor() {

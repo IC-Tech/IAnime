@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import './common_page.scss'
+import '../style/common_page.scss'
 import {meta_init} from '../meta'
 import {page} from '../page'
 
