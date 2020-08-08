@@ -9,6 +9,7 @@ import '../style/anime.scss'
 
 const default_episodes = 12
 var _root_ = new icApp('#root')
+var sort = !!parseInt(localStorage.getItem('ianime-anime-sort-0') || 0)
 
 class anime extends page {
 	constructor() {
@@ -23,8 +24,8 @@ class anime extends page {
 		this.page = 1
 		this.epParse = async (a) => {
 			var b = await data('episodes', {
-				id: this.anime.id, index: default_episodes * (this.page - 1), limit: default_episodes,
-				filter: {data: {id: 0, create: 0, next: 0, previous: 0}}
+				id: this.anime.id, index: default_episodes * (this.page - 1), limit: default_episodes, sort: sort ? 1 : -1,
+				filter: {data: {id: 0, create: 0, next: 0, previous: 0, ep: 0}, sort: 0}
 			})
 			if(b = (b && b.success && b.result)) {
 				this._episodes = b
@@ -55,6 +56,13 @@ class anime extends page {
 			}
 		}
 		this.url = a => this.anime.web + (a > 1 ? '?page=' + a : '')
+		this.sort = a => {
+			sort =! sort
+			this.page = 1
+			this.epLoad = 1
+			this.update()
+			this.parse(this.anime.id)
+		}
 	}
 	didMount() {
 		window.addEventListener('scroll', a => {
@@ -114,6 +122,14 @@ class anime extends page {
 						{t: 'div', cl: 'info', ch: a}
 					]}
 				]},
+			]},
+			{t: 'div', cl: 'opt', ch: [
+				{t: 'div', cl: 'srt', ch: [
+					{t: 'button', cl: ['btn', sort ? 'asc' : 'desc'], e: {onclick: this.sort}, ch: [
+						{t: 'div', cl: 'ico', ch: ['a','b','c','d','e','f'].map(a => ({t: 'div', cl: a}))},
+						//{t: 'span', txt: sort ? 'asc' : 'desc'},
+					]}
+				]}
 			]},
 			{t: 'div', cl: b.length == 0 ? ['eps', 'nope'] : 'eps', ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime))},
 			{t: 'div', cl: 'more', ch: [
