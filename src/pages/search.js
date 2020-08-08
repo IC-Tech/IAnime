@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
+import {icApp} from 'ic-app'
 import {AniUI, serEv0} from '../comp'
 import {TitleCase, ACreate} from '../comm'
 import {data} from '../data'
@@ -8,8 +8,6 @@ import {meta_init} from '../meta'
 import '../style/search.scss'
 
 const default_episodes = 10
-let icApp = ic.icApp
-var _root_ = new icApp.e('#root')
 class search extends page {
 	constructor() {
 		super()
@@ -55,7 +53,7 @@ class search extends page {
 		this.escroll = (a => this.active && ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 120 ? this.loadNext() : 0).bind(this)
 		window.addEventListener('scroll', this.escroll)
 		window.addEventListener('resize', this.escroll)
-		this.inputE = new icApp.e(this.e.v.querySelector('.content .ser input'))
+		this.inputE = new icApp(this.e.v.querySelector('.content .ser input'))
 	}
 	load(a) {
 		this.inputE.val = TitleCase(a = ((a && a.pram && a.pram.q) || '').toString().replace(/\+/g, ' '))
@@ -92,7 +90,7 @@ class search extends page {
 		this.inputE.p.cla('s2')
 		try {
 			if(a && location.href.toString().replace(location.origin, '') != (location.pathname.toString() + '?q=' + encodeURIComponent(a))) history.pushState({q:a}, document.title, location.pathname + '?q=' + encodeURIComponent(a))
-			meta_init(icApp, 'Search ' + a)
+			meta_init(0, 'Search ' + a)
 		}catch(e){console.error(e)}
 		this.parse(a)
 		this.update()

@@ -1,11 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../icApp/icApp.js'
-import {IAR} from '../icApp/icApp-render.js'
+import {IAR} from 'ic-app'
 import {top, bottom, comp_init, clean_search} from './comp.js'
-//import './main.scss'
 
-//I will add loading UI and others to here
-//this is just a placeholder
 class page extends IAR {
 	constructor() {
 		super()

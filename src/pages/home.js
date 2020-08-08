@@ -1,12 +1,10 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
+import {icApp} from 'ic-app'
 import {AniUI, EpUI} from '../comp'
 import {ACreate} from '../comm'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
-
-let icApp = ic.icApp
 import '../style/home.scss'
 
 class home extends page {
@@ -19,7 +17,7 @@ class home extends page {
 		this.sli_ce = (a => {
 			var c = a.target.nodeName.toLowerCase() == 'button'
 			var b = {
-				in: parseInt(c ? new icApp.e(a.target).p.p.d.in : new icApp.e(a.target).p.p.p.d.in),
+				in: parseInt(c ? new icApp(a.target).p.p.d.in : new icApp(a.target).p.p.p.d.in),
 				p: 0
 			}
 			if(b.in >= 0) {
@@ -48,7 +46,7 @@ class home extends page {
 				var b = icApp.ds({ty: 'sli', in: a[1]})
 				b = {
 					cont: a[0].offsetWidth,
-					count: (b = new icApp.e(b.chn[0]).chn).length,
+					count: (b = new icApp(b.chn[0]).chn).length,
 					w0: c(b[0], [/*'padding-left', 'padding-right', */'margin-left']),
 					w1: c(b[0], ['margin-right'], 0),
 					pos: 0
@@ -108,10 +106,10 @@ class home extends page {
 		this.update()
 		this.sli_e()
 		this.parse()
-		meta_init(icApp, 'Home')
+		meta_init(0, 'Home')
 	}
 	didMount() {
-		this.ine = new icApp.e('form input')
+		this.ine = new icApp('form input')
 		window.addEventListener('resize', a => {
 			if(this.active) this.update()
 		})

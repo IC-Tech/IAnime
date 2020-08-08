@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
+import {icApp} from 'ic-app'
 import {ACreate, num} from '../comm'
 import {meta_init} from '../meta'
 import {data} from '../data'
@@ -7,8 +7,6 @@ import {page} from '../page'
 import Chart from 'chart.js'
 import '../style/stats.scss'
 
-let icApp = ic.icApp
-var _root_ = new icApp.e('#root')
 class stats extends page {
 	constructor() {
 		super()

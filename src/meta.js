@@ -1,17 +1,17 @@
-var icApp = (window.ic && window.ic.icApp) || {}
+import {icApp} from 'ic-app'
+
 const meta_init = (a, b, c, d, e) => {
-	icApp = a || (window.ic && window.ic.icApp) || {}
 	title(b || defaults.title)
 	description(c || defaults.description)
 	image(d || defaults.image)
 	url(e || defaults.url)
 }
 const _con = (a, c) => a.forEach(a => {
-	var b = new icApp.e(`${a[0]}[${a[1][0]}="${a[1][1]}"]`)
+	var b = new icApp(`${a[0]}[${a[1][0]}="${a[1][1]}"]`)
 	if(b.v) return b.sa(a[2][0], c)
-	b = new icApp.e(icApp.cE(a[0]))
+	b = new icApp(a[0], 1)
 	a.slice(1).forEach(a => b.sa(a[0], a[1] == '!' ? c : a[1]))
-	new icApp.e('head').ap(b.v)
+	new icApp('head').ap(b.v)
 })
 const title = a => _con([
 	[
@@ -25,7 +25,7 @@ const title = a => _con([
 		['name', 'twitter:title'],
 		['content', '!']
 	],
-], new icApp.e('title').txt = (a=a.toString().trim()).length > 0 ? a + ' · IAnime' : defaults.title)
+], new icApp('title').txt = (a=a.toString().trim()).length > 0 ? a + ' · IAnime' : defaults.title)
 const description = a => _con([
 	[
 		'meta',

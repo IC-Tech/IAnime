@@ -1,9 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
+import {icApp} from 'ic-app'
 import {meta_init} from '../meta'
 import {page} from '../page'
-
-let icApp = ic.icApp
 import '../style/faq.scss'
 
 class faq extends page {
@@ -33,7 +31,7 @@ class faq extends page {
 			])},
 		]
 		this.faq_ = (a => {
-			a = new icApp.e(a.target)
+			a = new icApp(a.target)
 			while(a.v && !a.d.ty) a = a.p
 			if(!a.v) return
 			a = [a.d.in, a.d.s].map(a => parseInt(a))

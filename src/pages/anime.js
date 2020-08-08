@@ -1,15 +1,14 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
-import {EpUI} from '../comp'
+import {icApp} from 'ic-app'
 import {TitleCase, ACreate} from '../comm'
+import {EpUI} from '../comp'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
 import '../style/anime.scss'
 
 const default_episodes = 12
-let icApp = ic.icApp
-var _root_ = new icApp.e('#root')
+var _root_ = new icApp('#root')
 
 class anime extends page {
 	constructor() {
@@ -63,10 +62,10 @@ class anime extends page {
 				if(_root_.clc('top-scroll')) _root_.clr('top-scroll')
 				return
 			}
-			if((a = new icApp.e(document.scrollingElement)).v.scrollTop > 200 && !_root_.clc('top-scroll')) _root_.cla('top-scroll')
+			if((a = new icApp(document.scrollingElement)).v.scrollTop > 200 && !_root_.clc('top-scroll')) _root_.cla('top-scroll')
 			else if(a.v.scrollTop <= 200 && _root_.clc('top-scroll')) _root_.clr('top-scroll')
 		})
-		var a = new icApp.e(this.e.v.querySelector('.ser input'))
+		var a = new icApp(this.e.v.querySelector('.ser input'))
 		a.ae('focus', a => this.active && !_root_.clc('top-ser') ? _root_.cla('top-ser') : 0)
 		a.ae('blur', a => _root_.clc('top-ser') ? _root_.clr('top-ser') : 0)
 	}

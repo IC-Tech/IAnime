@@ -1,5 +1,4 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../../icApp/icApp.js'
 import {EpUI} from '../comp'
 import {TitleCase, ACreate, gtag} from '../comm'
 import {meta_init} from '../meta'
@@ -8,9 +7,6 @@ import {page} from '../page'
 import '../style/episode.scss'
 
 const default_episodes = 12
-let icApp = ic.icApp
-var _root_ = new icApp.e('#root')
-
 class episode extends page {
 	constructor() {
 		super()
@@ -33,7 +29,7 @@ class episode extends page {
 				this.load_ = 0
 				this.epLoad = 0
 				this.update()
-				meta_init(icApp, b.title, 'Watch ' + b.title + ' on IAnime, ' + b.parent.description, b.image || b.parent.poster, b.web)
+				meta_init(0, b.title, 'Watch ' + b.title + ' on IAnime, ' + b.parent.description, b.image || b.parent.poster, b.web)
 			}
 			else {
 				if(a.success) return

@@ -1,14 +1,12 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import '../icApp/icApp.js'
-import {IAR} from '../icApp/icApp-render.js'
-import {pram, gtag} from './comm.js'
+import {pram, IAR, icApp} from 'ic-app'
+import {gtag} from './comm.js'
 ;(a => {
 window.ic = window.ic || []
 window.IAnime = window.IAnime || {}
 window.ic.pageLoad = Date.now()
-let icApp = ic.icApp, cpage
-var _root_ = new icApp.e('#root')
-;['name="theme-color"', 'name="msapplication-navbutton-color"', 'name="apple-mobile-web-app-status-bar-style"'].forEach(a => new icApp.e(`[${a}]`).sa('content', '#171b22'))
+var cpage
+;['name="theme-color"', 'name="msapplication-navbutton-color"', 'name="apple-mobile-web-app-status-bar-style"'].forEach(a => new icApp(`[${a}]`).sa('content', '#171b22'))
 const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'search', 'stats', 'about', 'random', 'faq', 'home', '']
 class IAnime extends IAR {
 	constructor() {
@@ -24,7 +22,7 @@ class IAnime extends IAR {
 				'./pages/' + a
 			)
 			b = new b[a]
-			const c = new icApp.e(icApp.cE('div'))
+			const c = new icApp('div', 1)
 			c.st.display = this.data.ui == 1 ? 'block' : 'none'
 			c.cla('main')
 			b.mount(c.v)
@@ -40,7 +38,7 @@ class IAnime extends IAR {
 			b._load = 1
 			b.loadUrl = this.loadUrl
 			b.switchPage = this.switchPage
-			var a = cpage.e || new icApp.e('.main')
+			var a = cpage.e || new icApp('.main')
 			a.p.v.replaceChild(b.e.v, a.v)
 			cpage.active = 0
 			if(cpage.core_unload) cpage.core_unload(op)
@@ -48,7 +46,7 @@ class IAnime extends IAR {
 			cpage.active = 1
 			cpage._load = 0
 			cpage.core_load(op)
-			new icApp.e(document.body).sa('ui', cpage.name)
+			new icApp(document.body).sa('ui', cpage.name)
 			this.update()
 			if(this.page_op.ex != op.ex) document.scrollingElement.scrollTop = 0
 			this.page_op = op
@@ -92,7 +90,7 @@ class IAnime extends IAR {
 			else this.switchPage('nope')
 		}
 		this.click = (a => {
-			var b = new icApp.e(a.target), c
+			var b = new icApp(a.target), c
 			while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
 			if(b.v && (b = this.urlTest(c = b.v.href))) {
 				a.preventDefault()
@@ -116,5 +114,5 @@ class IAnime extends IAR {
 		])
 	}
 }
-new IAnime().mount(_root_.v)
+new IAnime().mount('#root')
 })()

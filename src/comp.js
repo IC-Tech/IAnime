@@ -1,7 +1,6 @@
-import '../icApp/icApp.js'
-import {TitleCase, API, parentClass} from './comm'
+import {icApp} from 'ic-app'
+import {TitleCase, parentClass} from './comm'
 import {data} from './data'
-const icApp = ic.icApp
 var _ev, fo, _res = {length: 0}, res = [], serTimeout, _search, up = a => {}, state = 0, req
 var search = a => {
 	if(!(a = _search)) return
@@ -38,8 +37,8 @@ var serEv0 = op => {
 	return op
 }
 document.addEventListener('click', a => {
-	a = fo = parentClass(new icApp.e(a.target), 'top')
-	var b = new icApp.e('.top')
+	a = fo = parentClass(new icApp(a.target), 'top')
+	var b = new icApp('.top')
 	var c = icApp.qs('.top-r-m input')
 	if(b.clc('fo') && !a) b.clr('fo')
 	else if(!b.clc('fo') && a) b.cla('fo')
@@ -100,7 +99,7 @@ const clean_search = a => {
 	res = []
 	_res = {length:0}
 	state = 0
-	if((a = new icApp.e('.top .ser input')).v) a.val = ''
+	if((a = new icApp('.top .ser input')).v) a.val = ''
 }
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], '']) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
