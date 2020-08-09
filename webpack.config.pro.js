@@ -87,9 +87,9 @@ module.exports = merge(common, {
       chunks: 'all',
       cacheGroups: {
         vendor: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /[\\/]node_modules[\\/](chart\.js|moment)[\\/]/,
+          name: 'chart',
           chunks: 'all',
-          name: 'vendor'
         }
       }
     }
