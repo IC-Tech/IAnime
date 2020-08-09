@@ -82,15 +82,15 @@
 		}
 	}
 	.ep {
-		margin: 10px;
+		margin: 10px !important;
 		&:hover {
 			transform: none !important;
 		}
 		.title {
-			font-size: 14px;
+			font-size: 14px !important;
 		 }
 		.name {
-			font-size: 12px;
+			font-size: 12px !important;
 		 }
 	}
 	.rand-ce {
