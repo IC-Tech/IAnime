@@ -112,11 +112,21 @@ const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.title)}
 	]}
 ]})
-const episodeUI = (a,b,c) => ({t: 'a', cl: a == 'skeleton' ? ['skeleton', 'ep'] : 'ep', at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase((a.a = a.title || ((c ? c + ' ' : '') + 'Episode ' + (a.ep || ''))) + ((a.name && (' ' + a.name)) || ''))]], ch: [
+const episodeUI = (a,b,op) => (op = op || {}).view == 'list' ? ({t: 'div', cl: ['ep', 'list', a == 'skeleton' ? 'skeleton' : 'k'], ch: [
+	{t: 'div', cl: 'se-1', ch: [
+		{t: 'a', cl: 'poster-c', at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
+			{t:'div', cl: 'poster', s: {'background-image': a == 'skeleton' ? '' : `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
+		]},
+	]},
+	{t:'div', cl: 'se-2', ch: [
+		{t:'a', at: {href: a == 'skeleton' ? '' : a.web}, cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title)},
+		{t:'a', at: {href: a == 'skeleton' ? '' : a.web}, cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
+	]}
+]}) : ({t:  'a', cl: ['ep', 'grid', a == 'skeleton' ? 'skeleton' : 'k'], at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
 	{t:'div', cl: 'poster-c', ch: [
 		{t:'div', cl: 'poster', s: {'background-image': a == 'skeleton' ? '' : `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
 	]},
-	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.a + ' ')},
+	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title + ' ')},
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 ]})
 export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search}

@@ -133,7 +133,7 @@ class home extends page {
 			]},
 			{t: 'div', cl: 'li', ch: [
 				{t: 'span', cl: 'title', txt: 'Recently Added Episodes'},
-				this.sli_ui(1, a[1].map(a => EpUI(a, a.parent, a.parent && a.parent.title))),
+				this.sli_ui(1, a[1].map(a => EpUI(a, a.parent))),
 			]},
 			{t: 'div', cl: 'li', ch: [
 				{t: 'span', cl: 'title', txt: 'Newest Animes'},

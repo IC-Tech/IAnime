@@ -9,7 +9,12 @@ import '../style/anime.scss'
 
 const default_episodes = 12
 var _root_ = new icApp('#root')
-var sort = !!parseInt(localStorage.getItem('ianime-anime-sort-0') || 0)
+const ls_vn = {
+	sort: 'ianime-anime-sort-0',
+	view: 'ianime-anime-view-0',
+}
+var sort = !!parseInt(localStorage.getItem(ls_vn.sort) || 0)
+var view = !!parseInt(localStorage.getItem(ls_vn.view) || 0)
 
 class anime extends page {
 	constructor() {
@@ -57,11 +62,20 @@ class anime extends page {
 		}
 		this.url = a => this.anime.web + (a > 1 ? '?page=' + a : '')
 		this.sort = a => {
+			if(this.load_ || this.epLoad) return
 			sort =! sort
+			localStorage.setItem(ls_vn.sort, sort ? 1 : 0)
 			this.page = 1
 			this.epLoad = 1
 			this.update()
 			this.parse(this.anime.id)
+		}
+		this.view = a => {
+			if(this.load_ || this.epLoad) return
+			view =! view
+			localStorage.setItem(ls_vn.view, view ? 1 : 0)
+			this.page = 1
+			this.update()
 		}
 	}
 	didMount() {
@@ -125,13 +139,19 @@ class anime extends page {
 			]},
 			{t: 'div', cl: 'opt', ch: [
 				{t: 'div', cl: 'srt', ch: [
-					{t: 'button', cl: ['btn', sort ? 'asc' : 'desc'], e: {onclick: this.sort}, ch: [
+					{t: 'button', cl: ['btn', sort ? 'asc' : 'desc', this.load_ || this.epLoad ? 'skeleton' : 'k'], e: {onclick: this.sort}, ch: [
+						{t: 'span', txt: 'Sort'},
 						{t: 'div', cl: 'ico', ch: ['a','b','c','d','e','f'].map(a => ({t: 'div', cl: a}))},
-						//{t: 'span', txt: sort ? 'asc' : 'desc'},
+					]}
+				]},
+				{t: 'div', cl: 'vew', ch: [
+					{t: 'button', cl: ['btn', view ? 'list' : 'grid', this.load_ || this.epLoad ? 'skeleton' : 'k'], e: {onclick: this.view}, ch: [
+						{t: 'span', txt: 'Layout'},
+						{t: 'div', cl: 'ico', ch: ['a','b','c','d','e','f','g','h'].map(a => ({t: 'div', cl: a}))},
 					]}
 				]}
 			]},
-			{t: 'div', cl: b.length == 0 ? ['eps', 'nope'] : 'eps', ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime))},
+			{t: 'div', cl: ['eps', view ? 'list' : 'grid', b.length == 0 ? 'nope' : 'k'], ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime, {view: view ? 'list' : 'grid'}))},
 			{t: 'div', cl: 'more', ch: [
 				{t:'a', cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.page > 1 ? this.url(this.page - 1) : '']], ch: [
 					{t:'span', txt: 'Previous'}
