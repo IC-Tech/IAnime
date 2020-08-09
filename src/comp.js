@@ -86,12 +86,13 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 	{t: 'div', ch: [
 		{t: 'div', ch: [{t: 'span', nodes: 1, ch: [
-			{t: 'a', at: [['href', '/privacy']], txt: 'Privacy Policy'}, ' | ',
-			{t: 'a', at: [['href', '/terms']], txt: 'Terms of Service'}, ' | ',
-			{t: 'a', at: [['href', '/dmca']], txt: 'DMCA'}, ' | ',
-			{t: 'a', at: [['href', '/faq']], txt: 'FAQ'},
+			{t: 'a', at: {href: '/privacy'}, txt: 'Privacy Policy'}, ' | ',
+			{t: 'a', at: {href: '/terms'}, txt: 'Terms of Service'}, ' | ',
+			{t: 'a', at: {href: '/dmca'}, txt: 'DMCA'}, ' | ',
+			{t: 'a', at: {href: '/faq'}, txt: 'FAQ'}, ' | ',
+			{t: 'a', at: {href: 'https://ic-tech.now.sh/contact.html?product=IAnime', target: '_blank'}, txt: 'Contact'},
 		]}]},
-		{t: 'span', nodes: 1, ch: ['IAnime © 2020, All Rights Reserved. Developed by ', {t: 'a', at: [['href', 'https://ic-tech.now.sh']], txt: 'IC-Tech'}]}
+		{t: 'span', txt: 'IAnime © 2020, All Rights Reserved.'}
 	]}
 ]})
 const comp_init = a => up = a
