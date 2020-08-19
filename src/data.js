@@ -25,8 +25,7 @@ const data = async (a,b,fresh) => {
 	var c
 	if(!fresh && _data[a]) {
 		_data[a].some(a => {
-			if((Date.now() - a.t) > default_expire) return 0
-			if(!eq(a.req, b)) return 0
+			if(!a || (Date.now() - a.t) > default_expire || !eq(a.req, b)) return 0
 			c = a.res
 		})
 	}
