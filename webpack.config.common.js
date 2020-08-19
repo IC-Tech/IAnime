@@ -6,7 +6,9 @@ const CopyPlugin = require('copy-webpack-plugin')
 //const gitRevisionPlugin = new GitRevisionPlugin()
 
 const outputDirectory = 'public';
-const PACKAGE = require('./package.json');
+const PACKAGE = require('./package.json'), config = require(`./config${process.env.WEBPACK_DEV_SERVER == 'true' ? '.dev' : ''}.json`);
+var _config = {}
+Object.keys(config).forEach(a => _config['config.' + a] = typeof config[a] == 'string' ? `"${config[a]}"` : config[a])
 
 module.exports = {
   entry: {
@@ -47,7 +49,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.__IC_DEV__': process.env.WEBPACK_DEV_SERVER == 'true' ? 'true' : 'false',
       '__VER__': JSON.stringify(PACKAGE.version),
-      'API_SERVER': process.env.WEBPACK_DEV_SERVER == 'true' ? '"http://192.168.8.11:3000/api"' : '"https://ianime.now.sh/api"',
+      ..._config,
       //'__GVER__': JSON.stringify(gitRevisionPlugin.version()),
       //'__GBRANCH__': JSON.stringify(gitRevisionPlugin.branch()),
       '__BUILD_TIME__': Date.now().toString()

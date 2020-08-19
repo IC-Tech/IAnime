@@ -5,7 +5,7 @@ import {TitleCase, ACreate} from '../comm'
 import {data} from '../data'
 import {page} from '../page'
 import {meta_init} from '../meta'
-import '../style/search.scss'
+import (/* webpackPreload: true */ '../style/search.scss')
 
 const default_episodes = 10
 class search extends page {

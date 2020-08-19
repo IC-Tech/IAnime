@@ -2,13 +2,13 @@
 import {icApp} from 'ic-app'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import '../style/faq.scss'
+import (/* webpackPreload: true */ '../style/faq.scss')
 
 class faq extends page {
 	constructor() {
 		super()
 		this.name = 'faq'
-		var link = a => ({t: 'a', txt: a.t, at: [['href', a.l], ['target', '_blank']]})
+		var link = a => ({t: 'a', txt: a.t, at: {href: a.l, target: '_blank', rel: 'noopener'}})
 		this.faq = [
 			{q: 'Why are there advertisements when watching videos?', a: 'We know that advertisements are annoying.\nIAnime dose not show any advertisements. but video providers may contain ads.'},
 			{q: 'Why IAnime dose not provides the videos?', a: "The main reason is that we do not have the money to pay for a large storage server."},

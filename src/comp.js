@@ -90,7 +90,7 @@ const bottom = a => ({t: 'footer', cl: 'bottom', ch: [
 			{t: 'a', at: {href: '/terms'}, txt: 'Terms of Service'}, ' | ',
 			{t: 'a', at: {href: '/dmca'}, txt: 'DMCA'}, ' | ',
 			{t: 'a', at: {href: '/faq'}, txt: 'FAQ'}, ' | ',
-			{t: 'a', at: {href: 'https://ic-tech.now.sh/contact.html?product=IAnime', target: '_blank'}, txt: 'Contact'},
+			{t: 'a', at: {href: 'https://ic-tech.now.sh/contact.html?product=IAnime', target: '_blank', rel: 'noreferrer'}, txt: 'Contact'},
 		]}]},
 		{t: 'span', txt: 'IAnime © 2020, All Rights Reserved.'}
 	]}

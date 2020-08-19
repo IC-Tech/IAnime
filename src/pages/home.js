@@ -5,7 +5,7 @@ import {ACreate} from '../comm'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import '../style/home.scss'
+import (/* webpackPreload: true */ '../style/home.scss')
 
 class home extends page {
 	constructor() {
