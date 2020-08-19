@@ -4,7 +4,7 @@ import {TitleCase, ACreate, gtag} from '../comm'
 import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
-import (/* webpackPreload: true */ '../style/episode.scss')
+import '../style/episode.scss'
 
 const default_episodes = 12
 class episode extends page {

@@ -5,7 +5,7 @@ import {EpUI} from '../comp'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import (/* webpackPreload: true */ '../style/anime.scss')
+import '../style/anime.scss'
 
 const default_episodes = 12
 var _root_ = new icApp('#root')

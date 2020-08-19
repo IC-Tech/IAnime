@@ -2,7 +2,7 @@
 import {icApp} from 'ic-app'
 import {meta_init} from '../meta'
 import {page} from '../page'
-import (/* webpackPreload: true */ '../style/faq.scss')
+import '../style/faq.scss'
 
 class faq extends page {
 	constructor() {

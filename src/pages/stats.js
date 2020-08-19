@@ -5,7 +5,7 @@ import {meta_init} from '../meta'
 import {data} from '../data'
 import {page} from '../page'
 import Chart from 'chart.js'
-import (/* webpackPreload: true */ '../style/stats.scss')
+import '../style/stats.scss'
 
 class stats extends page {
 	constructor() {
