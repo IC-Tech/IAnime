@@ -1,6 +1,6 @@
 {
   "name": "ianime",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "IAnime (Project 202005200959)",
   "main": "src/index.js",
   "scripts": {
