@@ -1,4 +1,6 @@
-import {api2} from './comm.js'
+import {api2} from './comm'
+import {error} from './error'
+
 const default_expire = 5 * 60 * 1000
 var _data = {}
 if(window.IAnime && window.IAnime.data && typeof window.IAnime.data == 'string') {
@@ -31,7 +33,7 @@ const data = async (a,b,fresh) => {
 	}
 	if(c) return c
 	c = await api2(a, b)
-	if(!c || !c.success) return c
+	if(!c || !c.success) return error(c && c.error)
 	if(!_data[a]) _data[a] = []
 	_data[a].push({
 		req: b,

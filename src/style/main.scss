@@ -73,6 +73,7 @@ $pcol3: #00adb5;
 $fcol1: #eee;
 $fcol2: #ccc;
 $skecol1: #fff3;
+$errcol1: #c84753;
 
 body, a, span, p, textarea {
 	font-family: Inter,Roboto,Helvetica,'Segoe UI Emoji',-apple-system,BlinkMacSystemFont,Arial,'IC Noto Sans Sinhala','Segoe UI',Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue', sans-serif;
@@ -791,6 +792,66 @@ a[href="#main"] {
 		}
 	}
 }
+.notis-c {
+	display: block;
+	position: sticky;
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	z-index: 22;
+}
+.notis {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+	.notif {
+		display: flex;
+		flex-direction: row;
+		margin: -60px auto 0;
+		background-color: $pcol2;
+		box-shadow: 0 0 20px #0008;
+		padding: 10px;
+		border-radius: 4px;
+		max-width: 60%;
+		&.s1 {
+			&:nth-child(1) {
+				margin-top: 60px;
+			}
+			margin-top: 10px;
+			transition: margin-top $default-transition;
+		}
+		&.err {
+			background-color: $errcol1;
+		}
+		> * {
+			cursor: default;
+		}
+		.btn, .ico {
+			width: 22px;
+			height: 22px;
+			background-color: transparent;
+			border: 0;
+			padding: 3px;
+			margin: 0;
+			box-sizing: border-box;
+			margin-top: -2px;
+			color: $fcol1;
+			flex-shrink: 0;
+		}
+		.ico, .tit {
+			margin-right: 10px;
+		}
+		.btn {
+			cursor: pointer;
+		}
+	}
+}
 @media (max-width: 520px) {
 	.top {
 		.top-l > *:not(.logo) {
@@ -826,6 +887,9 @@ a[href="#main"] {
 		.eps.list {
 			padding: 20px 10px !important;
 		}
+	}
+	.notis .notif {
+		max-width: 90%;
 	}
 }
 //linked to index.js

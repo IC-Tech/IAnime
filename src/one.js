@@ -1,6 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import {pram, IAR, icApp} from 'ic-app'
 import {gtag} from './comm.js'
+import {error, clean as clean_errors} from './error'
 ;(a => {
 window.ic = window.ic || []
 window.IAnime = window.IAnime || {}
@@ -16,40 +17,61 @@ class IAnime extends IAR {
 		}
 		this.pages = {}
 		this.getPage = async a => {
-			if(this.pages[a]) return this.pages[a]
-			var b = await import(
-				/* webpackMode: 'lazy' */
-				'./pages/' + a
-			)
-			b = new b[a]
-			const c = new icApp('div', 1)
-			c.st.display = this.data.ui == 1 ? 'block' : 'none'
-			c.cla('main')
-			b.mount(c.v)
-			return this.pages[a] = b
+			try {
+				if(this.pages[a]) return this.pages[a]
+				var b = await import(
+					/* webpackMode: 'lazy' */
+					'./pages/' + a
+				)
+				b = new b[a]
+				const c = new icApp('div', 1)
+				c.st.display = this.data.ui == 1 ? 'block' : 'none'
+				c.cla('main')
+				b.mount(c.v)
+				return this.pages[a] = b
+			}
+			catch(e) {
+				/* [error] [unmanaged]
+				 *
+				 * there is no way to handle this error
+				 * so, at least we show the problem
+				 */
+				error({code: 10, message: 'page chunk load failed'})
+				console.error(e)
+				return -1
+			}
 		}
 		this.page_op = {}
 		this.switchPage = async (a, op) => {
-			var _t = Date.now()
-			cpage = cpage || {}
-			cpage._load = 1
-			if(cpage.update) cpage.update()
-			var b = await this.getPage(a || 'home')
-			b._load = 1
-			b.loadUrl = this.loadUrl
-			b.switchPage = this.switchPage
-			var a = cpage.e || new icApp('.main')
-			a.p.v.replaceChild(b.e.v, a.v)
-			cpage.active = 0
-			if(cpage.core_unload) cpage.core_unload(op)
-			cpage = b
-			cpage.active = 1
-			cpage._load = 0
-			cpage.core_load(op)
-			new icApp(document.body).sa('ui', cpage.name)
-			this.update()
-			if(this.page_op.ex != op.ex) document.scrollingElement.scrollTop = 0
-			this.page_op = op
+			try {
+				clean_errors()
+				var _t = Date.now()
+				cpage = cpage || {}
+				cpage._load = 1
+				if(cpage.update) cpage.update()
+				var b = await this.getPage(a || 'home')
+				if(b == -1) return -1
+				b._load = 1
+				b.loadUrl = this.loadUrl
+				b.switchPage = this.switchPage
+				var a = cpage.e || new icApp('.main')
+				a.p.v.replaceChild(b.e.v, a.v)
+				cpage.active = 0
+				if(cpage.core_unload) cpage.core_unload(op)
+				cpage = b
+				cpage.active = 1
+				cpage._load = 0
+				cpage.core_load(op)
+				new icApp(document.body).sa('ui', cpage.name)
+				this.update()
+				if(this.page_op.ex != op.ex) document.scrollingElement.scrollTop = 0
+				this.page_op = op
+			}
+			catch(e) {
+				/* [error] [safety first] */
+				error({code: 10, message: 'page load failed'})
+				throw e
+			}
 			try{
 				gtag('event', 'timing_complete', {
 					'name' : 'switch_page',
@@ -90,12 +112,19 @@ class IAnime extends IAR {
 			else this.switchPage('nope')
 		}
 		this.click = (a => {
-			var b = new icApp(a.target), c
-			while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
-			if(b.v && (b = this.urlTest(c = b.v.href))) {
-				a.preventDefault()
-				this.loadUrl(b, c)
-				return !1
+			try {
+				var b = new icApp(a.target), c
+				while(b.v && !(b.tag.toLowerCase() == 'a' && b.v.href && !b.d.reg)) b = b.p
+				if(b.v && (b = this.urlTest(c = b.v.href))) {
+					a.preventDefault()
+					this.loadUrl(b, c)
+					return !1
+				}
+			}
+			catch(e) {
+				/* [error] [safety first] */
+				error({code: 10, message: 'url sniff failed'})
+				throw e
 			}
 		}).bind(this)
 		this.popstate = (a => this.loadUrl(0, ((a.state || {}).url || location.href).replace(location.origin, ''), 1)).bind(this)
@@ -103,7 +132,6 @@ class IAnime extends IAR {
 	didMount() {
 		document.addEventListener('click', this.click)
 		window.addEventListener('popstate', this.popstate)
-		//window.addEventListener("unload", _ => navigator.sendBeacon("/api/sayonara", window.ic_token || '0'))
 		this.loadUrl(0, 0, 1)
 		this.update({ui: 1})
 	}

@@ -1,6 +1,6 @@
 {
   "name": "ianime",
-  "version": "2.1.5",
+  "version": "2.2.0",
   "description": "IAnime (Project 202005200959)",
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "css-loader": "^3.4.2",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.4",
-    "ic-app": "^1.2.0",
+    "ic-app": "^1.2.1",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
