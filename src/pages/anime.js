@@ -132,7 +132,7 @@ class anime extends page {
 					{t: 'div', cl: 'cont-r', ch: [
 						{t: 'span', cl: ['title', this.load_ ? 'skeleton' : 'k'], txt: TitleCase(this.anime.title || '') },
 						{t: 'span', cl: ['des', this.load_ ? 'skeleton' : 'k'], txt: this.load_ ? '' : (this.anime.description || ''), ch: this.load_ ? ACreate(Math.ceil(Math.random() * 10) + 10).map(a => ({t: 'div'})) : !1 },
-						{t: 'div', cl: 'tags', ch: (this.load_ ? ACreate(8) : (this.anime.tags || [])).map(a => ({t: 'a', cl: this.load_ ? ['skeleton', 'tag'] : 'tag', txt: this.load_ ? '' : TitleCase(a.name), at: [['href', this.load_ ? '' : a.web]]}))},
+						{t: 'div', cl: 'tags', ch: (this.load_ ? ACreate(8) : (this.anime.tags || [])).map(a => ({t: 'a', cl: this.load_ ? ['skeleton', 'tag'] : 'tag', txt: this.load_ ? '' : TitleCase(a.name), at: [['href', this.load_ ? undefined : a.web]]}))},
 						{t: 'div', cl: 'info', ch: a}
 					]}
 				]},
@@ -153,7 +153,7 @@ class anime extends page {
 			]},
 			{t: 'div', cl: ['eps', view ? 'list' : 'grid', b.length == 0 ? 'nope' : 'k'], ch: b.length == 0 ? [{t: 'span', txt: 'No Episode was found'}] : b.map(a => EpUI(a, this.anime, {view: view ? 'list' : 'grid'}))},
 			{t: 'div', cl: 'more', ch: [
-				{t:'a', cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.page > 1 ? this.url(this.page - 1) : '']], ch: [
+				{t:'a', cl: (this.page * default_episodes) - default_episodes > 0 ? 'pev' : ['pev', 'nope'], at: [['href', this.page > 1 ? this.url(this.page - 1) : undefined]], ch: [
 					{t:'span', txt: 'Previous'}
 				]},
 				{t:'a', cl: this._episodes.length - (this.page * default_episodes) > 0 ? 'next' : ['next', 'nope'], at: [['href', this.url(this.page + 1)]], ch: [

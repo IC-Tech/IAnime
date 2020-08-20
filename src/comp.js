@@ -103,7 +103,7 @@ const clean_search = a => {
 	if((a = new icApp('.top .ser input')).v) a.val = ''
 }
 const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
-	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], '']) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
+	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], undefined]) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
 		{t:'div', cl: 'img-c', ch: [
 			{t:'div', cl: 'img', s: {'background-image': a == 'skeleton' ? '' : `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
 			...(a.d_year ? [{t: 'span', cl: 'ani-yr', txt: a.d_year}] : []),		
@@ -114,15 +114,15 @@ const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 ]})
 const episodeUI = (a,b,op) => (op = op || {}).view == 'list' ? ({t: 'div', cl: ['ep', 'list', a == 'skeleton' ? 'skeleton' : 'k'], ch: [
 	{t: 'div', cl: 'se-1', ch: [
-		{t: 'a', cl: 'poster-c', at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
+		{t: 'a', cl: 'poster-c', at: a == 'skeleton' ? [['href', undefined],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
 			{t:'div', cl: 'poster', s: {'background-image': a == 'skeleton' ? '' : `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
 		]},
 	]},
 	{t:'div', cl: 'se-2', ch: [
-		{t:'a', at: {href: a == 'skeleton' ? '' : a.web}, cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title)},
-		{t:'a', at: {href: a == 'skeleton' ? '' : a.web}, cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
+		{t:'a', at: {href: a == 'skeleton' ? undefined : a.web}, cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title)},
+		{t:'a', at: {href: a == 'skeleton' ? undefined : a.web}, cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 	]}
-]}) : ({t:  'a', cl: ['ep', 'grid', a == 'skeleton' ? 'skeleton' : 'k'], at: a == 'skeleton' ? [['href', ''],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
+]}) : ({t:  'a', cl: ['ep', 'grid', a == 'skeleton' ? 'skeleton' : 'k'], at: a == 'skeleton' ? [['href', undefined],['title', '']] : [['href', a.web], ['title', TitleCase(a.title + ((a.name && (' ' + a.name)) || ''))]], ch: [
 	{t:'div', cl: 'poster-c', ch: [
 		{t:'div', cl: 'poster', s: {'background-image': a == 'skeleton' ? '' : `url("${a.image || b.poster || '/images/default/episode_2.jpg'}"), url("/images/default/episode.gif")`}}
 	]},
