@@ -1,5 +1,35 @@
 {
 	"cdn": "https://ic-tech-cdn.freesite.host",
 	"api": "http://192.168.8.11:3000/api",
-	"web": "http://192.168.8.11:3000"
+	"web": "http://192.168.8.11:3000",
+	"google": {
+		"id": "399927015974-74kr9gc17fsn0b9n0l70h14fd9v5925p.apps.googleusercontent.com",
+		"redirect": "http://localhost:3000/sign?ic_sign=google",
+		"endpoint": "https://accounts.google.com/o/oauth2/auth/oauthchooseaccount",
+		"scope": "email"
+	},
+	"github": {
+		"id": "3a8ad1dd178becc0a369",
+		"redirect": "http://localhost:3000/sign?ic_sign=github",
+		"endpoint": "https://github.com/login/oauth/authorize",
+		"scope": "user:email"
+	},
+	"gitlab": {
+		"id": "3db3ba3238d539de1b60e1ffdc31ce94e1b5f85c5bbbfe68001cd87646b3bbba",
+		"redirect": "http://localhost:3000/sign?ic_sign=gitlab",
+		"endpoint": "https://gitlab.com/oauth/authorize",
+		"scope": "email"
+	},
+	"facebook": {
+		"id": "593691504626766",
+		"redirect": "http://localhost:3000/sign?ic_sign=facebook",
+		"endpoint": "https://www.facebook.com/v8.0/dialog/oauth",
+		"scope": "email"
+	},
+	"yahoo": {
+		"id": "dj0yJmk9ckh2VzR0NWE2YXNZJmQ9WVdrOVNrOTVjR3RRZURnbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTFi",
+		"redirect": "http://localhost:3000/sign?ic_sign=yahoo",
+		"endpoint": "https://api.login.yahoo.com/oauth2/request_auth",
+		"scope": "email"
+	}
 }

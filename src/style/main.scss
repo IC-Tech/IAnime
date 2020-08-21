@@ -61,6 +61,9 @@ $default-transition: .3s;
 		display: none;
 	}
 }
+@mixin fonts() {
+	font-family: Inter,Roboto,Helvetica,'Segoe UI Emoji',-apple-system,BlinkMacSystemFont,Arial,'IC Noto Sans Sinhala','Segoe UI',Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue', sans-serif;
+}
 /*
 $pcol1: #202040;
 $pcol2: #543864;
@@ -76,7 +79,7 @@ $skecol1: #fff3;
 $errcol1: #c84753;
 
 body, a, span, p, textarea {
-	font-family: Inter,Roboto,Helvetica,'Segoe UI Emoji',-apple-system,BlinkMacSystemFont,Arial,'IC Noto Sans Sinhala','Segoe UI',Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue', sans-serif;
+	@include fonts;
 	font-size: 16px;
 }
 * {
@@ -810,6 +813,10 @@ a[href="#main"] {
 	width: 100%;
 	left: 0;
 	top: 0;
+	pointer-events: none;
+	* {
+		pointer-events: initial;
+	}
 	.notif {
 		display: flex;
 		flex-direction: row;
