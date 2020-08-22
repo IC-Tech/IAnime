@@ -14,7 +14,7 @@ class stats extends page {
 		this.charts = []
 		this.data = [[],[],[]]
 		this.parse = async a => {
-			a = await data('stats')
+			a = await data('anime:stats')
 			if(!(a = (a && a.success && a.result))) return
 			this.load_ = 0
 			this._load = 0

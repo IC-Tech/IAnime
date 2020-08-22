@@ -1,4 +1,4 @@
-import {api2} from './comm'
+import {api3} from './comm'
 import {error} from './error'
 
 const default_expire = 5 * 60 * 1000
@@ -32,7 +32,7 @@ const data = async (a,b,fresh) => {
 		})
 	}
 	if(c) return c
-	c = await api2(a, b)
+	c = await api3(a, b)
 	if(!c || !c.success) return error(c && c.error)
 	if(!_data[a]) _data[a] = []
 	_data[a].push({

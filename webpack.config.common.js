@@ -13,7 +13,6 @@ var getObj = (a,b='') => {
 	return c
 }
 var _config = getObj(config, 'config.')
-console.log(_config)
 
 module.exports = {
 	entry: {

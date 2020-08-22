@@ -28,7 +28,7 @@ class anime extends page {
 		}
 		this.page = 1
 		this.epParse = async (a) => {
-			var b = await data('episodes', {
+			var b = await data('anime:episodes', {
 				id: this.anime.id, index: default_episodes * (this.page - 1), limit: default_episodes, sort: sort ? 1 : -1,
 				filter: {data: {id: 0, create: 0, next: 0, previous: 0, ep: 0}, sort: 0}
 			})
@@ -43,7 +43,7 @@ class anime extends page {
 			}
 		}
 		this.parse = async a => {
-			var b = a = await data('anime', {id: a, filter: {tags: {id: 0}, update: 0}})
+			var b = a = await data('anime:anime', {id: a, filter: {tags: {id: 0}, update: 0}})
 			if(!this.init) this._load = !(this.init = !0)
 			if(b = (b && b.success && b.result)) {
 				this.anime = b

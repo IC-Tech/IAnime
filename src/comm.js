@@ -36,7 +36,7 @@ const cr = b => {
 	}
 	return a.map(a => a.toString(16).padStart(2, '0')).join('')
 }
-const api2 = (a,b) => new Promise(async _ => {
+const api3 = (a,b) => new Promise(async _ => {
 	b = b || {}
 	if(typeof b == 'string') b = {id: b}
 	var t = [window.ic_token, window.ic_token && cr(window.ic_token)].filter(a => a)
@@ -50,6 +50,6 @@ const api2 = (a,b) => new Promise(async _ => {
 		}
 	}
 	if(navigator.doNotTrack != '1') op.head['x-ic-analysis-url'] = location.href
-	XHR(API + '/v2/endpoint', _, op, JSON.stringify(Object.assign({query: a}, b)))
+	XHR(API + '/v3/endpoint', _, op, JSON.stringify(Object.assign({query: a}, b)))
 })
-export {TitleCase, gtag, API, parentClass, num, ACreate, api2}
+export {TitleCase, gtag, API, parentClass, num, ACreate, api3}

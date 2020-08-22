@@ -11,7 +11,7 @@ class random extends page {
 		this.name = 'random'
 		this.rand = {}
 		this.parse = async a => {
-			a = await data('random',0,1)
+			a = await data('anime:random',0,1)
 			if(!(a = (a && a.success && a.result))) return
 			this.rand = a
 			this.load_ = 0

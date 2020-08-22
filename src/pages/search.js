@@ -25,7 +25,7 @@ class search extends page {
 		}
 		this.res = []
 		this.parseNext = async a => {
-			a = await data('search', {
+			a = await data('anime:search', {
 				mode: 'advanced', search: this.search_text, index: this._res.index + this._res.limit, limit: default_episodes,
 				filter: {data: {title: 1, poster: 1, web: 1}}
 			})
@@ -38,7 +38,7 @@ class search extends page {
 			this.load_ = 1
 			this.loadNext_ = 0
 			this.search_text = a
-			a = await data('search', {
+			a = await data('anime:search', {
 				mode: 'advanced', search: a, limit: default_episodes,
 				filter: {data: {title: 1, poster: 1, web: 1}}
 			})

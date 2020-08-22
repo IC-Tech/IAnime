@@ -78,7 +78,7 @@ class home extends page {
 		this.eps = []
 		this.rand = parseInt(Math.random() * 10) + 1
 		this.parse = async a => {
-			a = a || await data('latest', {filter: {
+			a = a || await data('anime:latest', {filter: {
 				recent: { title: 1, poster: 1, web: 1, year: 1, ep: 1 },
 				newest: { title: 1, poster: 1, web: 1, year: 1, ep: 1 },
 				eps: { title: 1, name: 1, image: 1, web: 1, parent: { poster: 1 }}

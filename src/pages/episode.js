@@ -13,7 +13,7 @@ class episode extends page {
 		this.name = 'episode'
 		this.episode = {}
 		this.parse = async (a, op={}) => {
-			var b = (a = await data('episode', {
+			var b = (a = await data('anime:episode', {
 				id:a,
 				filter: {
 					create: 0,

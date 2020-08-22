@@ -9,7 +9,7 @@ var search = a => {
 	up()
 	const r = Date.now()
 	req = r
-	data('search', {search: a, mode: 'advanced', limit: 6, filter: {data: {title: 1, poster: 1, web: 1}}}).then(a => {
+	data('anime:search', {search: a, mode: 'advanced', limit: 6, filter: {data: {title: 1, poster: 1, web: 1}}}).then(a => {
 		if(r != req) return
 		if(!a.success) return state = 2
 		res = ((_res = a.result).data || [])
