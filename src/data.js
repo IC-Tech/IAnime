@@ -23,7 +23,7 @@ const eq = (a,b) => {
 	if(c.length != d.length || c.some(a => !d.some(b => a == b))) return !1
 	return !c.some(c => !eq(a[c], b[c]))
 }
-const data = async (a,b,fresh) => {
+const data = async (a,b,fresh, err) => {
 	var c
 	if(!fresh && _data[a]) {
 		_data[a].some(a => {
@@ -33,7 +33,10 @@ const data = async (a,b,fresh) => {
 	}
 	if(c) return c
 	c = await api3(a, b)
-	if(!c || !c.success) return error(c && c.error)
+	if(!c || !c.success) {
+		if(!err || !err(c.error)) error(c && c.error)
+		return c
+	}
 	if(!_data[a]) _data[a] = []
 	_data[a].push({
 		req: b,

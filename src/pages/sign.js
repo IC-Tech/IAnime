@@ -3,7 +3,7 @@ import {icApp} from 'ic-app'
 import {meta_init} from '../meta'
 import {TitleCase} from '../comm'
 import {page} from '../page'
-import {error} from '../error'
+import {error, clean} from '../error'
 import '../style/sign.scss'
 import {link} from '../comp'
 import {data} from '../data'
@@ -42,6 +42,23 @@ var ends = {
 	})}`,
 }
 
+/* 
+data.mode:
+	- 0: login
+	- 1: register
+	- 2: send reset
+	- 3: send verify
+	- 4: reset
+
+parse.a:
+	- 0: data.mode.0 [login]
+	- 1: data.mode.1 [register]
+	- 2: data.mode.2 [send reset]
+	- 3: data.mode.3 [send verify]
+	- 4: data.mode.4 [reset]
+	- 5: social
+	- 6: verify
+*/
 class sign extends page {
 	constructor() {
 		super()
@@ -71,8 +88,43 @@ class sign extends page {
 				console.error(e)
 			}
 		}
+		this.parse = async (a, b) => {
+			clean()
+			const errs = e => {
+				this.wait = 0
+				if(e.code == 406) {
+					error(e)
+					return 1
+				}
+				if(e.code == 422) {
+					error({code: e.code, message: "verify your account"})
+					this.data.mode = 3
+					return 1
+				}
+				if(e.code == 409) {
+					error({code: e.code, message: a == 1 ? "Account already exists" : "Account already verified"})
+					this.data.mode = 0
+					return 1
+				}
+				if(a <= 3 && e.code == 404) {
+					error({code: e.code, message: "Account Does not exists"})
+					this.data.mode = 1
+					return 1
+				}
+				if((a == 4 || a == 6) && e.code == 404) {
+					error({code: e.code, message: `${a == 4 ? "Reset" : "Verification"} URL already used once`})
+					this.data.mode = a == 4 ? 2 : 3
+					return 1
+				}
+				this.wait = 1
+			}
+			var d = await data(`user:${(['login', 'signup', 'sendreset', 'sendverify', 'canreset', 'verify', 'social'])[a]}`, b, 0, errs)
+			if(!d.success) return this.update()
+			this.wait = 0
+			console.log(d)
+		}
 		window.recaptcha_load = a => this.recaptcha_load()
-		;['opClick', 'submit'].forEach(a => this[a] = this[a].bind(this))
+		;['submit'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
 		this.ready = 1
@@ -80,24 +132,27 @@ class sign extends page {
 	}
 	load(a) {
 		meta_init(0, 'Sign')
-		if(a.pram.ic_sign && ends[a.pram.ic_sign = a.pram.ic_sign.toLowerCase()] && (a.pram.code || a.pram.error)) {
+		var valid_methods = ['reset', 'verify', 'google', 'facebook', 'github', 'gitlab', 'yahoo']
+		a.pram.ic_sign = (a.pram.ic_sign || '').toLowerCase()
+		var i = -1
+		this.data.mode = 0
+		if(a.pram.ic_sign && valid_methods.some((b,c) => a.pram.ic_sign == b ? [i = c] : 0) && (a.pram.code || a.pram.error)) {
 			try {
 				history.replaceState(history.state, document.title, location.pathname)
 			}
 			catch(e) {console.error(e)}
 			if(!a.pram.code && a.pram.error) error({code: 11, message: TitleCase(a.pram.ic_sign) + ' authentication Failed'})
 			else if(a.pram.code) {
-
+				this.wait = 1
 			}
 		}
+		else if(a.pram.ui) {
+			;['login', 'register', 'reset', 'verify'].some((c,b) => a.pram.ui == c ? [this.data.mode = i = b] : 0)
+		}
+		this.update()
 	}
 	signEx(a) {
 		if(ends[a]) window.location.href = ends[a]
-	}
-	opClick(a) {
-		a = new icApp(a.target)
-		if(!a.v || a.d.ty != 'op') return
-		this.update({mode: parseInt(a.d.in) || 0})
 	}
 	submit(a) {
 		a.preventDefault()
@@ -112,33 +167,38 @@ class sign extends page {
 			b.recaptcha = grecaptcha.getResponse(this.robotkey)
 		}catch (e) {console.error(e)}
 		if(!b.email) return error({code: 9, message: 'email required'})
-		if(this.data.mode == 0 && !b.password) return error({code: 9, message: 'password required'})
-		if(this.data.mode == 1 && b.password != b.repeat_password) return error({code: 9, message: 'repeated password dose not match'})
-		
+		if([1,4].some(a => this.data.mode == a)) {
+			if(!b.password) return error({code: 9, message: 'password required'})
+			if(b.password != b.repeat_password) return error({code: 9, message: 'repeated password dose not match'})
+		}
+		this.wait = 1
+		this.update()
+		this.parse(this.data.mode, b)
 		return !1
 	}
 	content() {
 		var ops = [0,1,2,3].filter(a => this.data.mode != a),
-		opns = ['Login', 'Register', 'Frogot Password', 'Resend Verification Email'],
-		opr = a => ({t: 'button', at: {type: 'button'}, cl: 'op', d: {ty: 'op', in: a = ops[a]}, e: {onclick: this.opClick}, txt: opns[a]})
+		opns = ['Login', 'Register', 'Forgot Password', 'Resend Verification Email'],
+		opls = ['', 'register', 'reset', 'verify'],
+		opr = a => ({t: 'a', at: {type: 'button', href: location.origin + location.pathname + (opls[a = ops[a]] ? '?ui=' + opls[a] : '')}, cl: 'op', txt: opns[a]})
 		return ([
-			{t: 'span', cl: 'title', txt: (['Login to IAnime', 'Register to IAnime', 'Frogot Password', 'Resend Verification Email'])[this.data.mode]},
+			{t: 'span', cl: 'title', txt: (['Login to IAnime', 'Register to IAnime', 'Forgot Password', 'Resend Verification Email', 'Reset Password'])[this.data.mode]},
 			//{t: 'span', cl: 'desc', txt: "You do not need an account to watch and download anime. This is just an external feature to improve our service."},
 			{t: 'span', cl: 'desc', s: {display: this.data.mode == 1 ? 'block' : 'none'}, nodes: 1, ch: ["Email registration is not recommended due server issues. ", link({l: 'https://gist.github.com/IC-Tech/d367256b87fef431dc58956885dbf3a3', t: 'More Info'}), '. use the social media access if you can.']},
 			{t: 'div', cl: 'cont', ch: [
 				{t: 'form', s: {display: !this.wait ? 'block' : 'none'}, at: {method: 'post', action: location.pathname, target: '_self'}, e: {onsubmit: this.submit}, ch: [
-					{t: 'div', cl: 'fields', ch: [{t: 'email', n: 'Email'}, {t: 'password', n: 'Password', d: this.data.mode != 1 && this.data.mode != 0}, {t: 'password', f: 'repeat_password', n: 'Repeat Password', d: this.data.mode != 1}, {t: 'text', f: 'code', n: 'Code', d: this.data.mode != 4}].map(a => ({t: 'div', cl: ['field', a.d ? 'nope' : 'K'], ch: [
+					{t: 'div', cl: 'fields', ch: [{t: 'email', n: 'Email', d: this.data.mode == 4}, {t: 'password', n: 'Password', d: ![0,1,4].some(a => this.data.mode == a)}, {t: 'password', f: 'repeat_password', n: 'Repeat Password', d: ![1,4].some(a => this.data.mode == a)}, {t: 'text', f: 'code', n: 'Code', d: 1}].map(a => ({t: 'div', cl: ['field', a.d ? 'nope' : 'K'], ch: [
 						{t: 'span', cl: 'tit', txt: a.n},
 						{t: 'input', at: {type: a.t, placeholder: a.n, name: a.f || a.t}}
 					]}))},
 					{t: 'div', cl: 'ops', ch: [
 						opr(0), {t: 'span', cl: 'dot', txt: '•'}, opr(1), {t: 'span', cl: 'dot', txt: '•'}, opr(2)
 					]},
-					{t: 'div', cl: 'robot', ch: [
+					{t: 'div', s: {display: this.data.mode == 4 ? 'none' : 'block'}, cl: 'robot', ch: [
 						{t: 'div', at: {id: 'robot'}}
 					]},
 					{t: 'div', cl: 'sbtn-c', ch: [
-						{t: 'button', cl: 'sbtn', txt: (['Login', 'Register', 'Send Email', 'Send Email'])[this.data.mode]}
+						{t: 'button', cl: 'sbtn', txt: (['Login', 'Register', 'Send Email', 'Send Verification Email', 'Reset Password'])[this.data.mode]}
 					]},
 				]},
 				{t: 'div', s: {display: !this.wait ? 'block' : 'none'}, cl: 'exop', ch: [

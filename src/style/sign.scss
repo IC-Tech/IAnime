@@ -1,5 +1,13 @@
 @import 'main.scss';
 [ui='sign'] {
+@keyframes signload {
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
 .content {
 	width: 80%;
 	max-width: 800px;
@@ -84,8 +92,10 @@
 		.op {
 			display: inline-block;
 			background-color: transparent;
-			color: $fcol2;
+			color: $fcol2 !important;
 			@include fonts;
+			font-size: 14px;
+			text-decoration: none;
 			border: 0;
 			padding: 0;
 			margin: 0;
@@ -93,10 +103,10 @@
 			transition-duration: $default-transition;
 			outline: none;
 			&:active, &:focus {
-				color: $fcol1;
+				color: $fcol1 !important;
 			}
 			&:hover {
-				color: $pcol3;
+				color: $pcol3 !important;
 			}
 		}
 	}
@@ -125,6 +135,20 @@
 	}
 	#robot > div {
 		margin: 0 auto;
+	}
+	.load {
+		margin-top: 10px;
+		div {
+			display: block;
+			width: 120px;
+			height: 120px;
+			border: 8px solid $pcol3;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+			border-radius: 50%;
+			margin: 0 auto;
+			animation: signload 1s infinite;
+		}
 	}
 }
 @media (max-width: 420px) {
