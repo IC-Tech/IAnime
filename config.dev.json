@@ -31,5 +31,6 @@
 		"redirect": "http://localhost:3000/sign?ic_sign=yahoo",
 		"endpoint": "https://api.login.yahoo.com/oauth2/request_auth",
 		"scope": "email"
-	}
+	},
+	"recaptcha": "6Lfn2cEZAAAAAIg5ADNBb4jXpCZy7c2_JIFyDTQw"
 }

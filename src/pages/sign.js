@@ -5,6 +5,8 @@ import {TitleCase} from '../comm'
 import {page} from '../page'
 import {error} from '../error'
 import '../style/sign.scss'
+import {link} from '../comp'
+import {data} from '../data'
 
 var u = (a,c='') => [...Object.keys(a).map(b => b + '=' + encodeURIComponent(a[b])), ...(c ? [c] : [])].join('&')
 var ends = {
@@ -39,16 +41,42 @@ var ends = {
 		response_type: 'code'
 	})}`,
 }
-console.log(ends)
+
 class sign extends page {
 	constructor() {
 		super()
 		this.data = this.data || {}
 		this.data.mode = 0
 		this.name = 'sign'
-		;['opClick'].forEach(a => this[a] = this[a].bind(this))
+		;["https://www.google.com/recaptcha/api.js?onload=recaptcha_load&render=explicit"].forEach(a => {
+			var b = new icApp('script',1)
+			b.v.src = a //a.src
+			b.v.async = !0
+			b.v.defer = !0
+			new icApp('head').ap(b)
+			//b.ae('load', a.fn)
+		})
+		this.recaptcha_load = a => {
+			if(typeof grecaptcha == 'undefined' || this._recaptcha || !this.ready) return
+			try {
+				this.robotkey = grecaptcha.render(new icApp('#robot').v, {
+					sitekey : config.recaptcha,
+					theme: 'dark'
+				})
+				this._recaptcha = 1
+				window.recaptcha_load = a => -1
+			}
+			catch(e) {
+				error({code: 11, message: 'reCAPTCHA Render Failed'})
+				console.error(e)
+			}
+		}
+		window.recaptcha_load = a => this.recaptcha_load()
+		;['opClick', 'submit'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
+		this.ready = 1
+		this.recaptcha_load()
 	}
 	load(a) {
 		meta_init(0, 'Sign')
@@ -71,6 +99,24 @@ class sign extends page {
 		if(!a.v || a.d.ty != 'op') return
 		this.update({mode: parseInt(a.d.in) || 0})
 	}
+	submit(a) {
+		a.preventDefault()
+		var b = {}
+		;['email', 'password', 'repeat_password'/*, 'code'*/].forEach(a => {
+			var c = new icApp(`[name="${a}"]`)
+			if(!c.v || !c.val) return
+			b[a] = c.val.trim()
+		})
+		;['password', 'repeat_password'].forEach(a => b[a] ? [b[a] = btoa(b[a])] : 0)
+		try {
+			b.recaptcha = grecaptcha.getResponse(this.robotkey)
+		}catch (e) {console.error(e)}
+		if(!b.email) return error({code: 9, message: 'email required'})
+		if(this.data.mode == 0 && !b.password) return error({code: 9, message: 'password required'})
+		if(this.data.mode == 1 && b.password != b.repeat_password) return error({code: 9, message: 'repeated password dose not match'})
+		
+		return !1
+	}
 	content() {
 		var ops = [0,1,2,3].filter(a => this.data.mode != a),
 		opns = ['Login', 'Register', 'Frogot Password', 'Resend Verification Email'],
@@ -78,8 +124,9 @@ class sign extends page {
 		return ([
 			{t: 'span', cl: 'title', txt: (['Login to IAnime', 'Register to IAnime', 'Frogot Password', 'Resend Verification Email'])[this.data.mode]},
 			//{t: 'span', cl: 'desc', txt: "You do not need an account to watch and download anime. This is just an external feature to improve our service."},
+			{t: 'span', cl: 'desc', s: {display: this.data.mode == 1 ? 'block' : 'none'}, nodes: 1, ch: ["Email registration is not recommended due server issues. ", link({l: 'https://gist.github.com/IC-Tech/d367256b87fef431dc58956885dbf3a3', t: 'More Info'}), '. use the social media access if you can.']},
 			{t: 'div', cl: 'cont', ch: [
-				{t: 'form', e: {onsubmit: a => console.log(a)}, ch: [
+				{t: 'form', s: {display: !this.wait ? 'block' : 'none'}, at: {method: 'post', action: location.pathname, target: '_self'}, e: {onsubmit: this.submit}, ch: [
 					{t: 'div', cl: 'fields', ch: [{t: 'email', n: 'Email'}, {t: 'password', n: 'Password', d: this.data.mode != 1 && this.data.mode != 0}, {t: 'password', f: 'repeat_password', n: 'Repeat Password', d: this.data.mode != 1}, {t: 'text', f: 'code', n: 'Code', d: this.data.mode != 4}].map(a => ({t: 'div', cl: ['field', a.d ? 'nope' : 'K'], ch: [
 						{t: 'span', cl: 'tit', txt: a.n},
 						{t: 'input', at: {type: a.t, placeholder: a.n, name: a.f || a.t}}
@@ -87,11 +134,14 @@ class sign extends page {
 					{t: 'div', cl: 'ops', ch: [
 						opr(0), {t: 'span', cl: 'dot', txt: '•'}, opr(1), {t: 'span', cl: 'dot', txt: '•'}, opr(2)
 					]},
+					{t: 'div', cl: 'robot', ch: [
+						{t: 'div', at: {id: 'robot'}}
+					]},
 					{t: 'div', cl: 'sbtn-c', ch: [
 						{t: 'button', cl: 'sbtn', txt: (['Login', 'Register', 'Send Email', 'Send Email'])[this.data.mode]}
 					]},
 				]},
-				{t: 'div', cl: 'exop', ch: [
+				{t: 'div', s: {display: !this.wait ? 'block' : 'none'}, cl: 'exop', ch: [
 					{t: 'span', txt: 'Continue With'},
 					{t: 'div', cl: 'exops', ch:[
 						{t: 'button', e: {onclick: a => this.signEx('google')}, at: {title: 'Sign with Google'}, html: `<svg xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>`},
@@ -100,6 +150,9 @@ class sign extends page {
 						{t: 'button', e: {onclick: a => this.signEx('facebook')}, at: {title: 'Sign with Facebook'}, html: `<svg xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>`},
 						{t: 'button', e: {onclick: a => this.signEx('yahoo')}, at: {title: 'Sign with Yahoo!'}, html: `<svg xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M223.69,141.06,167,284.23,111,141.06H14.93L120.76,390.19,82.19,480h94.17L317.27,141.06Zm105.4,135.79a58.22,58.22,0,1,0,58.22,58.22A58.22,58.22,0,0,0,329.09,276.85ZM394.65,32l-93,223.47H406.44L499.07,32Z"></path></svg>`}
 					]}
+				]},
+				{t: 'div', s: {display: this.wait ? 'block' : 'none'}, cl: 'load', ch: [
+					{t: 'div'}
 				]}
 			]}
 		])

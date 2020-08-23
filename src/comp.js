@@ -129,4 +129,5 @@ const episodeUI = (a,b,op) => (op = op || {}).view == 'list' ? ({t: 'div', cl: [
 	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title + ' ')},
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 ]})
-export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search}
+const link = a => ({t: 'a', txt: a.t, at: {href: a.l, target: '_blank', rel: 'noopener'}})
+export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search, link}

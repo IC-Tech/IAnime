@@ -17,6 +17,10 @@
 		max-width: 600px;
 		text-align: center;
 		margin: 0 auto;
+		a[href] {
+			color: $pcol3 !important;
+			font-size: 14px;
+		}
 	}
 	.exop {
 		display: block;
@@ -112,6 +116,15 @@
 				color: $fcol2;
 			}
 		}
+	}
+	.robot {
+		margin: 10px 0;
+	}
+	.robot, #robot {
+		display: block;
+	}
+	#robot > div {
+		margin: 0 auto;
 	}
 }
 @media (max-width: 420px) {
