@@ -46,7 +46,8 @@ const api3 = (a,b) => new Promise(async _ => {
 			'x-ic-token': t[0],
 			'x-ic-s-token': t[1],
 			'x-ic-analysis': 'IAnime-web, ' + (navigator.doNotTrack == '1' ? 'off' : 'on'),
-			'content-type': 'text/json'
+			'content-type': 'text/json',
+			'accept': 'text/json'
 		}
 	}
 	if(navigator.doNotTrack != '1') op.head['x-ic-analysis-url'] = location.href

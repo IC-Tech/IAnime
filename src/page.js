@@ -3,15 +3,13 @@ import {IAR, icApp} from 'ic-app'
 import {top, bottom, comp_init, clean_search} from './comp'
 import {TitleCase} from './comm'
 import {render as render_error, close as close_error, com as com_error} from './error'
+import {user, getuser, com} from './account'
 
 class page extends IAR {
 	constructor() {
 		super()
 		this.active = 0
-		this.user = {
-			login: false,
-			avatar: '/images/default/avatar_op.jpg'
-		}
+		this.user = user()
 		comp_init(a => this.update())
 		this.core_load = a => {
 			this.load(a)
@@ -22,6 +20,8 @@ class page extends IAR {
 			this.unload(a)
 		}
 		com_error('update', a => this.update())
+		com('update', a => this.update())
+		getuser()
 	}
 	load() {}
 	unload() {}

@@ -288,34 +288,39 @@ a[href="#main"] {
 			height: 100%;
 		}
 	}
-	.top-l{
-		float: left;
+	.topl {
+		text-decoration: none;
+		display: table;
+		position: relative;
+		height: 100%;
+		padding:0 6px;
+		&.nope {
+			display: none;
+		}
+		> *:not(.prof) {
+			display: table-cell;
+			vertical-align: middle;
+		}
+	}
+	.top-l .topl {
+		margin-right: 4px;
+	}
+	.top-r .topl {
+		margin-left: 4px;
+	}
+	.top-l, .top-r {
 		display: flex;
 		height: 100%;
-		a {
-			text-decoration: none;
-		}
-		> * {
-			display: table;
-			position: relative;
-			height: 100%;
-			padding:0 6px;
-			margin-right: 4px;
-			> * {
-				display: table-cell;
-				vertical-align: middle;
-			}
-		}
-	}
-	.top-r, .top-r-m {
-		float: right;
-	}
-	.top-r {
-		display: flex;
 		* {
 			flex-shrink: revert;
 			flex-grow: revert;
 		}
+	}
+	.top-l{
+		float: left;
+	}
+	.top-r, .top-r-m {
+		float: right;
 	}
 	.top-r-m {
 		display: none;
@@ -389,6 +394,9 @@ a[href="#main"] {
 					}
 				}
 			}
+		}
+		.mi.nope {
+			display: none;
 		}
 	}
 	.logo {
@@ -519,10 +527,13 @@ a[href="#main"] {
 	.prof {
 		width: 32px;
 		height: 32px;
-		margin: 4px 0 4px 20px;
+		margin: 4px;
 		border-radius: 50%;
 		background-size: cover;
 		cursor: pointer;
+		&.nope {
+			display: none;
+		}
 	}
 	&.fo {
 		.s-res {

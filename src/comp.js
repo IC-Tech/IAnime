@@ -44,15 +44,16 @@ document.addEventListener('click', a => {
 	else if(!b.clc('fo') && a) b.cla('fo')
 	if(!a && c.checked) c.checked = !!0
 })
+const nope = (a, b) => [b, a ? 'K' : 'nope']
 const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
-	{t:'a', txt: 'Skip to content', at: [['href', '#main']]},
+	{t:'a', txt: 'Skip to content', at: {href: '#main'}},
 	{t:'div', cl: 'top-l', ch: [
-		{t: 'a', cl: 'logo', at: [['href', '/']], ch: [
+		{t: 'a', cl: 'topl', cl: 'logo', at: {href: '/'}, ch: [
 			{t: 'div', ch: [
 				{t: 'img', at:[['src', '/images/ianime-i16-196px.png'], ['alt', 'IAnime icon']]},
 			]}
 		]},
-		{t: 'a', at: [['href', '/search']], ch: [
+		{t: 'a', cl: 'topl', at: {href: '/search'}, ch: [
 			{t: 'span', txt: 'Browse'}
 		]}
 	]},
@@ -72,14 +73,24 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 				]})
 			).concat(_res.length > 6 ? ([{t: 'a', at:[['href', '/search?q=' + encodeURIComponent(_search)]], cl: 'more', txt: 'Show More'}]) : ([]))}
 		]},
-		{t:'div', cl: 'prof', s: {'background-image': `url(${user.avatar})`}, ch: []}
+		{t: 'a', cl: nope(!user, 'topl'), at: {href: '/sign?ui=register'}, ch:[
+			{t: 'span', txt: 'Sign Up'}
+		]},
+		{t: 'a', cl: nope(!user, 'topl'), at: {href: '/sign'}, ch:[
+			{t: 'span', txt: 'Sign In'}
+		]},
+		{t: 'a', cl: nope(user, 'topl'), at: {href: user && user.web}, ch:[
+			{t:'div', cl: 'prof', s: {'background-image': `url(${(user && user.poster) || '/images/default/avatar_op.jpg'})`}, ch: []}
+		]}
 	]},
 	{t: 'label', cl: 'top-r-m', ch: [
 		{t: 'input', at:[['type', 'checkbox']]},
 		{t: 'div', cl: 'btn', ch: [0,0,0].map(a => ({t: 'div'}))},
 		{t: 'div', cl: 'men', ch: [
-			{t: 'a', txt: 'Search', at: [['href', '/search']]},
-			{t: 'a', txt: 'Profile'}
+			{t: 'a', txt: 'Search', at: {href: '/search'}},
+			{t: 'a', cl: nope(!user, 'mi'), txt: 'Sign Up', at: {href: '/sign?ui=register'}},
+			{t: 'a', cl: nope(!user, 'mi'), txt: 'Sign In', at: {href: '/sign'}},
+			{t: 'a', cl: nope(user, 'mi'), txt: 'Profile', at: {href: user && user.web}}
 		]}
 	]}
 ]})
