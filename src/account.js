@@ -8,14 +8,18 @@ var _ = {
 }
 const logout = async a => {
 	data('user:logout', {token: _.token}, 1, e => 1)
-	;['token', 'user', 'update'].forEach(a => del(a))
+	;['token', 'user'].forEach(a => {
+		del(a)
+		_[a] = null
+	})
+	_.update()
 }
 const setToken = async a => {
 	logout()
 	st('token', {token: _.token = a})
 	a = await data('user:me', {token:_.token})
 	if(!a.success) return
-	st('user', a.result)
+	st('user', _.user = a.result)
 }
 const com = (a,b,c=0) => {
 	if(!c) _[a] = b
@@ -25,7 +29,17 @@ const token = a => _.token
 const user = a => _.user
 const getuser = async (a={}) => {
 	if(!a.id) a.me = 1
-	var b = await data(a.me ? 'user:me' : 'user:profile', {id: a.id, token: _.token})
+	if(a.me && !_.token) return null
+	const err = e => {
+		if(a.me || (_.user && a.id == _.user.id)) {
+			if(e.code == 404) {
+				logout()
+				location.reload()
+				return 1
+			}
+		}
+	}
+	var b = await data(a.me ? 'user:me' : 'user:profile', {id: a.id, token: _.token}, 0, err)
 	if(!b.success) return null
 	if(b.self) {
 		st('user', _.user = b.result)
