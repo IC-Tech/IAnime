@@ -126,7 +126,7 @@ class anime extends page {
 			{t: 'div', cl: 'cont-s', ch: [
 				{t: 'div', cl: 'cont', ch: [
 					{t: 'div', cl: 'cont-l', ch: [
-						{t: 'div', cl: ['image', this.load_ ? 'skeleton' : 'k'], s: {'background-image': this.load_ ? '' : `url("${this.anime.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
+						{t: 'div', at: {role: 'img', title: this.load_ ? '' : TitleCase(this.anime.title || '')}, cl: ['image', this.load_ ? 'skeleton' : 'k'], s: {'background-image': this.load_ ? '' : `url("${this.anime.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
 						{t: 'div', cl: 'info', ch: a}
 					]},
 					{t: 'div', cl: 'cont-r', ch: [

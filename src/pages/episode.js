@@ -82,13 +82,13 @@ class episode extends page {
 					' ' + b_(TitleCase(this.episode.name || ''))
 				]},
 				mirr.watch ? ({t: 'iframe', at: [['src', b_(mirr.watch)], ['FRAMEBORDER', '0'], ['MARGINWIDTH', '0'], ['MARGINHEIGHT', '0'], ['SCROLLING', 'no']]}) : ({t: 'div', cl: a_('red'), s: {'background-image': `url(${b_(this.episode.image || parent.poster || '/images/default/poster_2.jpg')})`}, ch: [
-					{t: 'a', at: {href: c_(mirr.url), target: b_('_blank')}, ch: [{t: 'div', cl: 'btn', html: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M371.7 238l-176-107c-15.8-8.8-35.7 2.5-35.7 21v208c0 18.4 19.8 29.8 35.7 21l176-101c16.4-9.1 16.4-32.8 0-42zM504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256z"/></svg>'}]},
+					{t: 'a', at: {href: c_(mirr.url), target: b_('_blank')}, ch: [{t: 'div', cl: 'btn', html: '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="img" viewBox="0 0 512 512"><path d="M371.7 238l-176-107c-15.8-8.8-35.7 2.5-35.7 21v208c0 18.4 19.8 29.8 35.7 21l176-101c16.4-9.1 16.4-32.8 0-42zM504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256z"/></svg>'}]},
 				]}),
 				{t: 'div', cl: 'mir', ch: [
 					{t: 'div', cl: 'wrp', ch: [
 						{t: 'a', cl: [!this.load_ && this.episode.previous ? 'c0' : 'nope', this.load_ ? 'skeleton' : 'c0'].filter(a => a), at: {href: c((this.episode.previous && this.episode.previous.web) || '')}, txt: 'Previous'}
 					]},
-					{t: 'div', cl: 'wrp', ch: [
+					{t: 'label', cl: 'wrp', ch: [
 						{t: 'span', txt: 'Mirrors: '},
 						{t: 'select', cl: a_('select'), e: [['onchange', this.mirSel]], ch: ((!this.epLoad && !this.load_ && this.episode.mirrors) || []).map((a,b) => ({t: 'option', at: [['value', b.toString()]], txt: TitleCase(a.title || 'Unknown')}))}
 					]},
@@ -99,7 +99,7 @@ class episode extends page {
 			]},
 			{t: 'div', cl: 'ani', ch: [
 				{t: 'div', cl: 'ani-l', ch: [
-					{t: 'a', at: {href: c(parent.web)}, cl: a('image'), s: {'background-image': `url(${b(parent.poster || '/images/default/poster_2.jpg')})`}},
+					{t: 'a', at: {href: c(parent.web), title: b(TitleCase(parent.title))}, cl: a('image'), s: {'background-image': `url(${b(parent.poster || '/images/default/poster_2.jpg')})`}},
 				]},
 				{t: 'div', cl: 'ani-r', ch: [
 					{t: 'a', cl: a('name'), at: {href: c(parent.web)}, txt: b(TitleCase(parent.title))},

@@ -41,7 +41,7 @@ class random extends page {
 			{t: 'span', cl: 'title', txt: 'Random Select'},
 			{t: 'div', cl: 'rand', ch: [
 				{t: 'div', cl: 'ra-l', ch: [
-					{t: 'a', cl: a('img'), at: {href: d(this.rand.web)}, s: {'background-image': b(`url(${this.rand.poster || '/images/default/poster_2.jpg'}), url("/images/default/banner.gif")`)}}
+					{t: 'a', cl: a('img'), at: {href: d(this.rand.web), title: b(TitleCase(this.rand.title))}, s: {'background-image': b(`url(${this.rand.poster || '/images/default/poster_2.jpg'}), url("/images/default/banner.gif")`)}}
 				]},
 				{t: 'div', cl: 'ra-r', ch: [
 					{t: 'a', cl: a('name'), at: {href: d(this.rand.web)}, txt: b(TitleCase(this.rand.title))},

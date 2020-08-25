@@ -59,9 +59,9 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 	]},
 	{t: 'div', cl: 'top-r', ch: [
 		{t: 'div', cl: 'ser', ch: [
-			{t: 'div', ch: [
-				{t: 'div', html: '<svg width="25" height="25" class="svgIcon-use" viewBox="0 0 25 25"><path d="M20.067 18.933l-4.157-4.157a6 6 0 10-.884.884l4.157 4.157a.624.624 0 10.884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path></svg>'},
-				{t:'input', at:[['type', 'text']], e: [['oninput', serEv1]]}
+			{t: 'label', ch: [
+				{t: 'div', html: '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="img" viewBox="0 0 25 25"><path d="M20.067 18.933l-4.157-4.157a6 6 0 10-.884.884l4.157 4.157a.624.624 0 10.884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path></svg>'},
+				{t:'input', at:{type: 'text', name: 'quick-search', placeholder: 'Search Anime'}, e: {oninput: serEv1}}
 			]},
 			{t: 'div', cl: 's-res', ch: state != 0 ? [{t: 'div', cl: 'n-res', ch: [{t: 'span', txt: state == 1 ? 'Searching...' : 'Nothing found'}]}] : res.map(a => ({t:'div', cl: 'res-c', ch: [
 				{t:'a', at: [['href', a.web]], cl:'res', ch: [
@@ -79,11 +79,11 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 		{t: 'a', cl: nope(!user, 'topl'), at: {href: '/sign'}, ch:[
 			{t: 'span', txt: 'Sign In'}
 		]},
-		{t: 'a', cl: nope(user, 'topl'), at: {href: user && user.web}, ch:[
+		{t: 'a', cl: nope(user, 'topl'), at: {href: user && user.web, title: 'Profile'}, ch:[
 			{t:'div', cl: 'prof', s: {'background-image': `url(${(user && user.poster) || '/images/default/avatar_op.jpg'})`}, ch: []}
 		]}
 	]},
-	{t: 'label', cl: 'top-r-m', ch: [
+	{t: 'label', cl: 'top-r-m', at: {role: 'button', 'aria-label': 'menu', tabindex: '0'}, ch: [
 		{t: 'input', at:[['type', 'checkbox']]},
 		{t: 'div', cl: 'btn', ch: [0,0,0].map(a => ({t: 'div'}))},
 		{t: 'div', cl: 'men', ch: [

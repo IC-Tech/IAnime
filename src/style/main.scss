@@ -325,6 +325,11 @@ a[href="#main"] {
 	.top-r-m {
 		display: none;
 		position: relative;
+		&:focus {
+			.btn > * {
+				background-color: $fcol2;
+			}
+		}
 		.btn {
 			display: block;
 			float: right;
@@ -423,24 +428,27 @@ a[href="#main"] {
 			color: $fcol1;
 			fill: $fcol1;
 		}
-		> div:not(.s-res) {
-			background-color: #0004;
-			border-radius: 12px;
-			padding: 4px;
-			margin-top: 6px;
+		label {
+			margin-top: 4px;
+			position: relative;
 			input {
-				background-color: #fff0;
+				font-size: 16px;
+				background-color: #0005;
 				border: 0;
 				line-height: 1;
 				width: 160px;
-				padding-left: 24px;
+				padding: 6px 6px 6px 28px;
+				border-radius: 18px;
 				outline-style: none;
+				&:focus {
+					background-color: #0006;
+				}
 			}
 			div {
 				position: absolute;
 				width: 24px;
 				height: 24px;
-				margin-top: -2px;
+				margin: 3px 0 0 3px;
 				cursor: pointer;
 			}
 		}
