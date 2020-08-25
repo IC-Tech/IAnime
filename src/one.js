@@ -8,7 +8,7 @@ window.IAnime = window.IAnime || {}
 window.ic.pageLoad = Date.now()
 var cpage
 ;['name="theme-color"', 'name="msapplication-navbutton-color"', 'name="apple-mobile-web-app-status-bar-style"'].forEach(a => new icApp(`[${a}]`).sa('content', '#171b22'))
-const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'search', 'stats', 'about', 'random', 'faq', 'sign', 'user', 'home', '']
+const pages = ['anime', 'episode', 'dmca', 'privacy', 'terms', 'search', 'stats', 'about', 'random', 'faq', 'sign', 'user', 'settings', 'home', '']
 class IAnime extends IAR {
 	constructor() {
 		super()

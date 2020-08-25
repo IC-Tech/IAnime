@@ -9,7 +9,7 @@ class user extends page {
 		this.name = 'user'
 	}
 	load() {
-		meta_init(0, 'user')
+		meta_init(0, 'User')
 	}
 	content() {
 		return ([
