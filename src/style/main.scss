@@ -57,6 +57,7 @@ $default-transition: .3s;
 	border-radius: 4px;
 	cursor: pointer;
 	transition-duration: $default-transition;
+	text-decoration: none;
 	&.nope {
 		display: none;
 	}
