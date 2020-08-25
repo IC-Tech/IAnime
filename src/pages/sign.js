@@ -1,12 +1,13 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import {icApp} from 'ic-app'
+import {error, clean} from '../error'
 import {meta_init} from '../meta'
 import {TitleCase} from '../comm'
 import {page} from '../page'
-import {error, clean} from '../error'
-import '../style/sign.scss'
 import {link} from '../comp'
 import {data} from '../data'
+import {setToken, getuser} from '../account'
+import '../style/sign.scss'
 
 var u = (a,c='') => [...Object.keys(a).map(b => b + '=' + encodeURIComponent(a[b])), ...(c ? [c] : [])].join('&')
 var ends = {
@@ -112,16 +113,31 @@ class sign extends page {
 					return 1
 				}
 				if((a == 4 || a == 6) && e.code == 404) {
-					error({code: e.code, message: `${a == 4 ? "Reset" : "Verification"} URL already used once`})
+					error({code: e.code, message: 'this URL already used before'})
 					this.data.mode = a == 4 ? 2 : 3
+					return 1
+				}
+				if(a == 6 && e.code == 400) {
+					error({code: e.code, message: TitleCase(b.method) + ' authentication Failed'})
+					this.data.mode = 0
 					return 1
 				}
 				this.wait = 1
 			}
-			var d = await data(`user:${(['login', 'signup', 'sendreset', 'sendverify', 'canreset', 'verify', 'social'])[a]}`, b, 0, errs)
+			if(a == 4) b = { code: this.code, password: b.password}
+			var d = await data(`user:${(['login', 'signup', 'sendreset', 'sendverify', 'reset', 'verify', 'social', 'canreset'])[a]}`, b, 0, errs)
 			if(!d.success) return this.update()
 			this.wait = 0
-			console.log(d)
+			if(a == 7) {
+				this.data.mode = 4
+				this.code = b.code
+			}
+			if([0, 4, 5, 6].some(b => a == b)) {
+				await setToken(d.result.token)
+				this.loadUrl(0, (await getuser()).web)
+			}
+			else this.wait = 2
+			this.update()
 		}
 		window.recaptcha_load = a => this.recaptcha_load()
 		;['submit'].forEach(a => this[a] = this[a].bind(this))
@@ -135,6 +151,7 @@ class sign extends page {
 		var valid_methods = ['reset', 'verify', 'google', 'facebook', 'github', 'gitlab', 'yahoo']
 		a.pram.ic_sign = (a.pram.ic_sign || '').toLowerCase()
 		var i = -1
+		this.wait = 0
 		this.data.mode = 0
 		if(a.pram.ic_sign && valid_methods.some((b,c) => a.pram.ic_sign == b ? [i = c] : 0) && (a.pram.code || a.pram.error)) {
 			try {
@@ -144,6 +161,7 @@ class sign extends page {
 			if(!a.pram.code && a.pram.error) error({code: 11, message: TitleCase(a.pram.ic_sign) + ' authentication Failed'})
 			else if(a.pram.code) {
 				this.wait = 1
+				this.parse(i == 0 ? 7 : (i == 1 ? 5 : 6), {method: a.pram.ic_sign, code: a.pram.code})
 			}
 		}
 		else if(a.pram.ui) {
@@ -166,7 +184,7 @@ class sign extends page {
 		try {
 			b.recaptcha = grecaptcha.getResponse(this.robotkey)
 		}catch (e) {console.error(e)}
-		if(!b.email) return error({code: 9, message: 'email required'})
+		if(this.data.mode != 4 && !b.email) return error({code: 9, message: 'email required'})
 		if([1,4].some(a => this.data.mode == a)) {
 			if(!b.password) return error({code: 9, message: 'password required'})
 			if(b.password != b.repeat_password) return error({code: 9, message: 'repeated password dose not match'})
@@ -211,8 +229,13 @@ class sign extends page {
 						{t: 'button', e: {onclick: a => this.signEx('yahoo')}, at: {title: 'Sign with Yahoo!'}, html: `<svg xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M223.69,141.06,167,284.23,111,141.06H14.93L120.76,390.19,82.19,480h94.17L317.27,141.06Zm105.4,135.79a58.22,58.22,0,1,0,58.22,58.22A58.22,58.22,0,0,0,329.09,276.85ZM394.65,32l-93,223.47H406.44L499.07,32Z"></path></svg>`}
 					]}
 				]},
-				{t: 'div', s: {display: this.wait ? 'block' : 'none'}, cl: 'load', ch: [
+				{t: 'div', s: {display: this.wait == 1 ? 'block' : 'none'}, cl: 'load', ch: [
 					{t: 'div'}
+				]},
+				{t: 'div', s: {display: this.wait == 2 ? 'block' : 'none'}, cl: 'done', ch: [
+					{t: 'span', txt: 'Done'},
+					{t: 'div', cl: 'ico', html: `<svg xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path></svg>`},
+					{t: 'span', txt: `${(['', 'Verification', 'Password Reset', 'Verification'])[this.data.mode]} email sent successfully`}
 				]}
 			]}
 		])
