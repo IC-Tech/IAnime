@@ -18,11 +18,6 @@
 	.nope {
 		display: none !important;
 	}
-	> .cont-r {
-		width: 80%;
-		max-width: 1000px;
-		margin: 0 auto;
-	}
 	> .cont {
 		display: block;
 		> * {
@@ -36,11 +31,12 @@
 		position: relative;
 		display: block;
 		margin-top: -40px;
-		height: 480px;
+		height: 440px;
 		width: 100%;
 		max-width: 100vw;
 		background-size: cover;
 		background-position: center;
+		@include skeleton;
 		&::after {
 			content: '';
 			position: absolute;
@@ -70,6 +66,8 @@
 			background-position: top center;
 			border-radius: 6px;
 			box-shadow: 0 0 20px #0008;
+			overflow: hidden;
+			@include skeleton-after;
 		}
 		.si1 {
 			padding-right: 20px;
@@ -79,6 +77,10 @@
 			font-size: 36px;
 			text-shadow: 2px 2px 4px #000;
 			margin-bottom: -20px;
+			@include skeleton-text(34px, null, '&.skeleton', 120, 200);
+			&.skeleton {
+				margin: 8px 0 -10px 0;
+			}
 		}
 	}
 	.tab-c {
@@ -88,15 +90,22 @@
 		margin-top: -60px;
 		z-index: 4;
 		position: relative;
+		pointer-events: none;
 		.hld {
 			width: 200px;
 			height: 80px;
 			padding-right: 20px;
+			pointer-events: none;
 		}
 		.tabs {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
+			@include skeleton('&.skeleton > *');
+			&, * {
+				pointer-events: initial;
+			}
+			/*
 			> * {
 				display: block;
 				padding: 8px 16px;
@@ -114,13 +123,42 @@
 					border-radius: 6px 0 0 6px;
 				}
 			}
+			*/
+			> * {
+				display: block;
+				background-color: $pcol2;
+				cursor: pointer;
+				border-left: 1px solid $pcol1;
+				text-decoration: none;
+				border-radius: 16px;
+				padding: 6px 12px;
+				margin: 4px;
+				&.sel {
+					background-color: $pcol3;
+				}
+			}
 		}
 	}
-	.cont-r {
+	.cont-r, .feed {
 		display: block;
+		width: 80%;
+		max-width: 1000px;
+		margin: 10px auto 0;
 		padding: 10px;
 		background-color: $pcol2;
 		border-radius: 4px;
+	}
+	.cont-r {
+		&.overview .des {
+			display: block;
+			text-align: center;
+		}
+	}
+	.feed {
+		.temp {
+			display: block;
+			text-align: center;
+		}
 	}
 }
 }

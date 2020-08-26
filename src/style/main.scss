@@ -23,7 +23,9 @@ $default-transition: .3s;
 }
 @mixin skeleton($sel: '&.skeleton'){
 	#{$sel} {
-		background-color: $skecol1;
+		background-color: $skecol1 !important;
+		color: transparent !important;
+		cursor: default;
 		animation: skeleton0 1.5s ease-in-out 0.5s infinite;
 	}
 }
@@ -45,6 +47,21 @@ $default-transition: .3s;
 	@for $i from 1 through $max {
 		#{$sel}:nth-child(#{$i}) {
 			width: (random($max - $min) + $min)+px;
+		}
+	}
+}
+@mixin skeleton-after($sel: '&.skeleton'){
+	@include skeleton($sel + '::after');
+	#{$sel} {
+		background-color: $pcol2;
+		&::after {
+			content: '';
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: relative;
+			left: 0;
+			right: 0;
 		}
 	}
 }
