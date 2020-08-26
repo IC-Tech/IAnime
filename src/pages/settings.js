@@ -33,7 +33,7 @@ class settings extends page {
 		this.ops = [
 			{name: 'profile', title: 'Profile', render: a => [
 				{t: 'span', cl: 'title', txt: a.ops[a.ui].title + ' Settings'},
-				fld({id: 'name', name: 'Display Name', des: 'Enter your name, so people you know can recognize you. Please use 32 characters at maximum.'}),
+				fld({id: 'name', name: 'Display Name', des: 'Enter your name, so people you know can recognize you. Please use 48 characters at maximum.'}),
 				save(a.changed.name),
 				fld({e: {t: 'textarea', cl: 'rez', at: {name: 'about'}}, name: 'About', des: 'Tell us about yourself'}),
 				save(a.changed.about),
@@ -42,7 +42,7 @@ class settings extends page {
 			]},
 			{name: 'account', title: 'Account', render: a => [
 				{t: 'span', cl: 'title', txt: a.ops[a.ui].title + ' Settings'},
-				fld({id: 'username', name: 'User Name', des: `Enter name for user profile url ("${location.origin}/user/{username}"). Please use 48 characters at maximum.`}),
+				fld({id: 'username', name: 'User Name', des: `Enter name for user profile url ("${location.origin}/user/{username}"). Please use 32 characters at maximum.`}),
 				save(a.changed.username),
 				fld({type: 'email', name: 'Email', des: 'Email will not be publicly displayed. We will email you to verify the change.'}),
 				save(a.changed.email),
