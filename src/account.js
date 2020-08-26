@@ -28,8 +28,7 @@ const com = (a,b,c=0) => {
 const token = a => _.token
 const user = a => _.user
 const getuser = async (a={}) => {
-	if(typeof a == 'string') a = parseInt(a)
-	if(typeof a == 'number') a = {id: a}
+	if(typeof a != 'object') a = {id: a}
 	if(!a.id) a.me = 1
 	if(a.me && !_.token) return null
 	const err = e => {
