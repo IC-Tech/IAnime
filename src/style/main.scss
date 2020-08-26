@@ -48,9 +48,47 @@ $default-transition: .3s;
 		}
 	}
 }
-@mixin button() {
+@mixin check() {
+	box-sizing: border-box;
+	div {
+		display: inline-block;
+		width: 18px;
+		height: 18px;
+		background-color: transparent;
+		border: 2px solid $pcol3;
+		border-radius: 4px;
+		margin: 0 2px 0;
+		transition-duration: $default-transition;
+		cursor: pointer;
+		box-sizing: border-box;
+		&::after {
+			content: '';
+			position: absolute;
+			display: block;
+			width: 8px;
+			height: 4px;
+			border: 3px solid $fcol1;
+			border-top-color: transparent;
+			border-right-color: transparent;
+			transform: rotate(-60deg);
+			opacity: 0;
+		}
+	}
+	input:checked + div {
+		background-color: $pcol3;
+		&::after {
+			opacity: 1;
+		}
+	}
+}
+@mixin button($col:null) {
+	@if $col == null {
+		background-color: $pcol2;
+	}
+	@else {
+		background-color: $col;
+	}
 	color: $fcol1;
-	background-color: $pcol2;
 	border: 0;
 	padding: 8px 16px;
 	box-shadow: 0 0 10px #0004;
@@ -302,6 +340,7 @@ a[href="#main"] {
 		> *:not(.prof) {
 			display: table-cell;
 			vertical-align: middle;
+			white-space: nowrap;
 		}
 	}
 	.top-l .topl {

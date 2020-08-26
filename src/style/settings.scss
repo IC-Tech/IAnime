@@ -1,9 +1,12 @@
 @import 'main.scss';
 [ui='settings'] {
 .content {
-	width: 80%;
-	max-width: 800px;
+	width: 90%;
+	max-width: 1000px;
 	margin: 0 auto;
+	.nope {
+		display: none !important;
+	}
 	.sign-req {
 		box-sizing: border-box;
 		padding: 40px 0 0 0;
@@ -15,9 +18,143 @@
 		.btn0 {
 			margin: 0 auto 20px;
 			display: block;
-			width: 120px;
+			width: 100px;
 			text-align: center;
 			@include button;
+		}
+	}
+	> .cont {
+		display: flex;
+		flex-direction: row;
+		padding: 40px 0 0;
+	}
+	.ops {
+		display: block;
+		padding: 10px;
+		min-width: 120px;
+		.op {
+			display: block;
+			text-decoration: none;
+			text-align: center;
+			background-color: $pcol2;
+			border-radius: 14px;
+			padding: 4px 8px;
+			margin: 6px 0;
+			&.sel {
+				background-color: $pcol3;
+			}
+		}
+	}
+	.opc {
+		display: block;
+		padding: 20px;
+		width: 100%;
+		background-color: $pcol2;
+		border-radius: 6px;
+		box-sizing: border-box;
+		> * {
+			display: block;
+		}
+		.title {
+			font-size: 24px;
+			text-align: center;
+		}
+	}
+	.fld {
+		> * {
+			display: block;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		.name {
+			font-size: 18px;
+			margin: 20px 0 0;
+		}
+		.des {
+			color: $fcol2;
+			font-size: 14px;
+			margin: 0 0 6px;
+		}
+		input, textarea {
+			color: $fcol1;
+			background-color: $pcol1;
+			border: 0;
+			border-radius: 6px;
+			font-size: 16px;
+			padding: 6px 12px;
+		}
+		.imgs {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			.img, .img-im {
+				width: 160px;
+				height: 160px;
+				margin: 10px 20px;
+				border-radius: 6px;
+				box-sizing: border-box;
+				&:nth-child(1) {
+					margin-left: 10px;
+				}
+			}
+			.img {
+				display: block;
+				background-size: cover;
+				background-position: center;
+			}
+			.img-im {
+				background-color: $pcol1;
+				padding: 20px;
+				display: table;
+				cursor: pointer;
+				span {
+					display: table-cell;
+					vertical-align: middle;
+					text-align: center;
+				}
+			}
+		}
+	}
+	.fld[data-id="banner"] .imgs .img {
+		width: 100%;
+		max-width: 460px;
+	}
+	.up {
+		display: block;
+		margin: 10px 0 20px;
+	}
+	.pass input {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		&:nth-child(1) {
+			margin-bottom: 6px;
+		}
+	}
+	.del, .rev, .up {
+		button {
+			@include button($pcol3);
+		}
+	}
+	.del > label {
+		display: block;
+		padding-bottom: 2px;
+		label {
+			@include check;
+			div {
+				margin-bottom: -2px;
+			}
+		}
+		span {
+			font-size: 16px;
+			padding: 0 0 2px 2px;
+		}
+	}
+}
+@media (max-width: 460px) {
+	.content {
+		> .cont {
+			flex-direction: column;
 		}
 	}
 }
