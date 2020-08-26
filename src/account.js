@@ -28,6 +28,8 @@ const com = (a,b,c=0) => {
 const token = a => _.token
 const user = a => _.user
 const getuser = async (a={}) => {
+	if(typeof a == 'string') a = parseInt(a)
+	if(typeof a == 'number') a = {id: a}
 	if(!a.id) a.me = 1
 	if(a.me && !_.token) return null
 	const err = e => {
@@ -41,11 +43,11 @@ const getuser = async (a={}) => {
 	}
 	var b = await data(a.me ? 'user:me' : 'user:profile', {id: a.id, token: _.token}, 0, err)
 	if(!b.success) return null
-	if(b.self) {
-		st('user', _.user = b.result)
+	if((b = b.result).self) {
+		st('user', _.user = b)
 		_.update()
 	}
-	return b.result
+	return b
 }
 
 export {logout, setToken, token, user, getuser, com}
