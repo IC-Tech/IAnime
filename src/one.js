@@ -105,6 +105,7 @@ class IAnime extends IAR {
 				}
 				this.switchPage(a[0], {
 					ex: a[1],
+					dirs: a,
 					url: b,
 					pram: pram(b)
 				})

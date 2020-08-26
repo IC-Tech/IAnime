@@ -1,5 +1,6 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
 import {meta_init} from '../meta'
+import {sign_req} from '../comp'
 import {page} from '../page'
 import '../style/settings.scss'
 
@@ -37,7 +38,7 @@ class settings extends page {
 				fld({e: {t: 'textarea', cl: 'rez', at: {name: 'about'}}, name: 'About', des: 'Tell us about yourself'}),
 				save(a.changed.about),
 				img({name: 'Avatar', id: 'avatar', img: (a.user && a.user.poster) || '/images/default/avatar_op.jpg', des: 'This is your image will display as your avatar. Allowed Formats: JPEG, PNG. Max size: 2mb.'}),
-				img({name: 'Banner', id: 'banner', img: (a.user && a.user.banner) || '/images/default/banner_2.jpg', des: 'This is your image will display as your banner. Allowed Formats: JPEG, PNG. Max size: 4mb.'})
+				img({name: 'Banner', id: 'banner', img: (a.user && a.user.banner) || '/images/default/banner_3_unoptimised.jpg', des: 'This is your image will display as your banner. Allowed Formats: JPEG, PNG. Max size: 4mb.'})
 			]},
 			{name: 'account', title: 'Account', render: a => [
 				{t: 'span', cl: 'title', txt: a.ops[a.ui].title + ' Settings'},
@@ -86,11 +87,7 @@ class settings extends page {
 	}
 	content() {
 		return ([
-			{t: 'div', cl: nope(!this.user, 'sign-req'), ch: [
-				{t: 'span', cl: 'des', txt: 'Create an account or log in to IAnime to continue'},
-				{t: 'a', cl: 'btn0', at: {href: '/sign?ui=register'}, txt: 'Sign Up'},
-				{t: 'a', cl: 'btn0', at: {href: '/sign'}, txt: 'Sign In'}
-			]},
+			sign_req(!this.user),
 			{t: 'div', cl: nope(this.user, 'cont'), ch: [
 				{t: 'div', cl: 'ops', ch: this.ops.map((a,b) => ({t: 'a', at: {href: '/settings/' + a.name}, cl: ['op', this.ui == b ? 'sel' : 'K'], txt: a.title}))},
 				{t: 'div', cl: 'opc', ch: this.ops[this.ui].render(this)}

@@ -141,4 +141,9 @@ const episodeUI = (a,b,op) => (op = op || {}).view == 'list' ? ({t: 'div', cl: [
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 ]})
 const link = a => ({t: 'a', txt: a.t, at: {href: a.l, target: '_blank', rel: 'noopener'}})
-export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search, link}
+const sign_req = a => ({t: 'div', cl: nope(a, 'sign-req'), ch: [
+	{t: 'span', cl: 'des', txt: 'Create an account or log in to IAnime to continue'},
+	{t: 'a', cl: 'btn0', at: {href: '/sign?ui=register'}, txt: 'Sign Up'},
+	{t: 'a', cl: 'btn0', at: {href: '/sign'}, txt: 'Sign In'}
+]})
+export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search, link, sign_req}

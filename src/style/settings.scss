@@ -7,22 +7,6 @@
 	.nope {
 		display: none !important;
 	}
-	.sign-req {
-		box-sizing: border-box;
-		padding: 40px 0 0 0;
-		.des {
-			display: block;
-			text-align: center;
-			padding: 20px 0;
-		}
-		.btn0 {
-			margin: 0 auto 20px;
-			display: block;
-			width: 100px;
-			text-align: center;
-			@include button;
-		}
-	}
 	> .cont {
 		display: flex;
 		flex-direction: row;
