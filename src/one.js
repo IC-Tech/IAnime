@@ -42,7 +42,7 @@ class IAnime extends IAR {
 			}
 		}
 		this.page_op = {}
-		this.switchPage = async (a, op) => {
+		this.switchPage = async (a, op={}) => {
 			try {
 				clean_errors()
 				var _t = Date.now()

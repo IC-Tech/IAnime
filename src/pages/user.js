@@ -42,7 +42,7 @@ class user extends page {
 		this.init = 0
 		a.ui = a.dirs[2] || ''
 		if(!this.ops.some((b,c) => b.page == a.ui ? [this.ui = c] : 0)) return this.switchPage('nope')
-		this.parse(this.id = a.ex)
+		this.parse(this.id = a.ex || 0)
 		console.log(a)
 		this.update()
 	}

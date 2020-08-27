@@ -29,7 +29,7 @@ const token = a => _.token
 const user = a => _.user
 const getuser = async (a={}) => {
 	if(typeof a != 'object') a = {id: a}
-	if(!a.id) a.me = 1
+	if(typeof a.id != 'number' && typeof a.id != 'string') a.me = 1
 	if(a.me && !_.token) return null
 	const err = e => {
 		if(a.me || (_.user && a.id == _.user.id)) {
