@@ -32,6 +32,7 @@ class settings extends page {
 			console.log(a)
 			var b = {}, c = new icApp(`[name="${a}"]`).val
 			if(a == 'password' && (!c || c != new icApp(`[name="repeat_password"]`).val)) return error({code: 9, message: 'repeated password dose not match'})
+			this.bnds.some(b => a == b[0] ? [a = b[1]] : 0)
 			b[a] = c
 			console.log(b)
 		}
