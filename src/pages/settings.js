@@ -78,8 +78,8 @@ class settings extends page {
 			{name: 'security', title: 'Security', render: a => [
 				{t: 'span', cl: 'title', txt: a.ops[a.ui].title + ' Settings'},
 				fld({e: {t: 'div', cl:'pass', ch: [
-					{t: 'input', at: {type: 'password', maxlength: 20, placeholder: 'New Password', name: 'password'}, e: {oninput: this.changed_fn}},
-					{t: 'input', at: {type: 'password', maxlength: 20, placeholder: 'Repeat New Password', name: 'repeat_password'}}
+					{t: 'input', at: {type: 'password', maxlength: 256, placeholder: 'New Password', name: 'password'}, e: {oninput: this.changed_fn}},
+					{t: 'input', at: {type: 'password', maxlength: 256, placeholder: 'Repeat New Password', name: 'repeat_password'}}
 				]}, name: 'Change Password', des: 'Change your account password. Change your password will revoke your account from every other logged sessions.'}),
 				save('password'),
 				fld({e: {t: 'div'}, name: 'Revoke Seasons', des: "This will logout from all your sessions logged sessions. IAnime doesn't collect any information like IP Address, Device names, Browser names, locations. We couldn't show what are the seasons."}),

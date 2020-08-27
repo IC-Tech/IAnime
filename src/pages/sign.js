@@ -205,9 +205,9 @@ class sign extends page {
 			{t: 'span', cl: 'desc', s: {display: this.data.mode == 1 ? 'block' : 'none'}, nodes: 1, ch: ["Email registration is not recommended due server issues. ", link({l: 'https://gist.github.com/IC-Tech/d367256b87fef431dc58956885dbf3a3', t: 'More Info'}), '. use the social media access if you can.']},
 			{t: 'div', cl: 'cont', ch: [
 				{t: 'form', s: {display: !this.wait ? 'block' : 'none'}, at: {method: 'post', action: location.pathname, target: '_self'}, e: {onsubmit: this.submit}, ch: [
-					{t: 'div', cl: 'fields', ch: [{t: 'email', n: 'Email', d: this.data.mode == 4}, {t: 'password', n: 'Password', d: ![0,1,4].some(a => this.data.mode == a)}, {t: 'password', f: 'repeat_password', n: 'Repeat Password', d: ![1,4].some(a => this.data.mode == a)}, {t: 'text', f: 'code', n: 'Code', d: 1}].map(a => ({t: 'div', cl: ['field', a.d ? 'nope' : 'K'], ch: [
+					{t: 'div', cl: 'fields', ch: [{t: 'email', s: 320, n: 'Email', d: this.data.mode == 4}, {t: 'password', s: 256, n: 'Password', d: ![0,1,4].some(a => this.data.mode == a)}, {t: 'password', s: 256, f: 'repeat_password', n: 'Repeat Password', d: ![1,4].some(a => this.data.mode == a)}, {t: 'text', f: 'code', n: 'Code', d: 1}].map(a => ({t: 'div', cl: ['field', a.d ? 'nope' : 'K'], ch: [
 						{t: 'span', cl: 'tit', txt: a.n},
-						{t: 'input', at: {type: a.t, placeholder: a.n, name: a.f || a.t}}
+						{t: 'input', at: {type: a.t, placeholder: a.n, name: a.f || a.t, maxlength: a.s}}
 					]}))},
 					{t: 'div', cl: 'ops', ch: [
 						opr(0), {t: 'span', cl: 'dot', txt: '•'}, opr(1), {t: 'span', cl: 'dot', txt: '•'}, opr(2)
