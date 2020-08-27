@@ -12,7 +12,7 @@ const logout = async a => {
 		del(a)
 		_[a] = null
 	})
-	_.update()
+	_.update(null)
 }
 const setToken = async a => {
 	logout()
@@ -44,7 +44,7 @@ const getuser = async (a={}) => {
 	if(!b.success) return null
 	if((b = b.result).self) {
 		st('user', _.user = b)
-		_.update()
+		_.update(b)
 	}
 	return b
 }
