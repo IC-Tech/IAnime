@@ -102,6 +102,24 @@
 				padding: 20px;
 				display: table;
 				cursor: pointer;
+				position: relative;
+				.drop {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					border: 2px solid $pcol1;
+					transition: border-color $default-transition;
+					box-sizing: border-box;
+					border-radius: 6px;
+					&[data-col="1"] {
+						border-color: #00b2c2;
+					}
+					&[data-col="2"] {
+						border-color: #c84753;
+					}
+				}
 				span {
 					display: table-cell;
 					vertical-align: middle;

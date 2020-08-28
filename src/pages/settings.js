@@ -1,9 +1,10 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import {icApp} from 'ic-app'
+import {icApp, xhr} from 'ic-app'
 import {meta_init} from '../meta'
 import {sign_req} from '../comp'
 import {page} from '../page'
 import {error} from '../error'
+import {token} from '../account'
 import '../style/settings.scss'
 
 const nope = (a,b) => [a ? 'K' : 'nope', b]
@@ -36,6 +37,47 @@ class settings extends page {
 			b[a] = c
 			console.log(b)
 		}
+		this.upload = async (a, b) => {
+			if(!b || !b.type.match(/image\/(jpeg|png)/i)) return error({code: 12, message: "Invalid File Format"})
+			if((a == 'avatar' && b.size > 2097152) || (a == 'banner' && b.size > 4194304)) return error({code: 12, message: "file size is too big"})
+			var prm = [token(), `${a}.${b.type.match(/png/i) ? 'png' : 'jpg'}`].map(a => encodeURIComponent(a))
+			var c = await xhr(`${location.origin}/cdn4/upload?name=${prm[1]}&token=${prm[0]}`, 0, await new Promise(_ => {
+				var c = new FileReader()
+				c.onload = a => _(a.target.result)
+				c.readAsArrayBuffer(b)
+			}))
+			if(c.error) return error(c.error)
+			else location.reload()
+		}
+		this._drag = a => {
+			var b = a.dataTransfer, c = new icApp(a.target), d = ''
+			;b && Array.from(b.items).some(a => a.kind == 'file' && a.type.match(/image\/(jpeg|png)/i) ? [d = a.type] : 0)
+			return ({a,b,c,d})
+		}
+		this.dragleave = a => {
+			var c = new icApp(a.target)
+			a.preventDefault()
+			c.d.col = '0'
+		}
+		this.dragover = a => {
+			a.preventDefault()
+			a.dataTransfer.dropEffect = 'move'
+		}
+		this.dragenter = a => {
+			a.preventDefault()
+			var {c,d} = this._drag(a)
+			c.d.col = d ? '1' : '2'
+		}
+		this.drop = a => {
+			this.dragleave(a)
+			var {b, c} = this._drag(a)
+			var id = c.p.p.p.d.id
+			if(!id) return
+			var d = b.files[0]
+			this.upload(id, !Array.from(b.files).some(a => a.type.match(/image\/(jpeg|png)/i) ? [d = a] : 0) ? null : d)
+			return !1
+		}
+		this.file = a => this.upload(a.target.name, a.target.files[0])
 		const fld = a => ({t: 'label', cl: 'fld', ch: [
 			{t: 'span', cl: 'name', txt: a.name},
 			{t: 'span', cl: 'des', txt: a.des},
@@ -47,7 +89,8 @@ class settings extends page {
 			{t: 'div', cl: 'imgs', ch: [
 				{t: 'label', cl: 'img-im', ch: [
 					{t: 'span', txt: 'Drop image here or click to upload'},
-					{t: 'input', s: {display: 'none'}, at: {type: 'file', name: a.id}}
+					{t: 'input', s: {display: 'none'}, at: {type: 'file', name: a.id}, e: {oninput: this.file}},
+					{t: 'div', cl: 'drop', e: {ondragleave: this.dragleave, ondrop: this.drop, ondragover: this.dragover, ondragenter: this.dragenter}}
 				]},
 				{t: 'div', cl: 'img', at: {title: a.name + ' Image'}, s: {'background-image': `url(${a.img})`}}
 			]}
