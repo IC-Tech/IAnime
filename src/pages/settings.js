@@ -4,7 +4,7 @@ import {meta_init} from '../meta'
 import {sign_req} from '../comp'
 import {page} from '../page'
 import {error} from '../error'
-import {token, updateUser} from '../account'
+import {token, updateUser, revoke, getuser} from '../account'
 import '../style/settings.scss'
 
 const nope = (a,b) => [a ? 'K' : 'nope', b]
@@ -82,6 +82,21 @@ class settings extends page {
 			return !1
 		}
 		this.file = a => this.upload(a.target.name, a.target.files[0])
+		this.revoke = async a => {
+			this._load = 1
+			this.update()
+			await revoke()
+			this._load = 0
+			this.update()
+		}
+		this.Delete = async a => {
+			if(!new icApp(`[name="delete"]`).v.checked) return error({code: 9, message: 'Confirm Account Delete'})
+			this._load = 1
+			this.update()
+			await Delete()
+			this._load = 0
+			this.update()
+		}
 		const fld = a => ({t: 'label', cl: 'fld', ch: [
 			{t: 'span', cl: 'name', txt: a.name},
 			{t: 'span', cl: 'des', txt: a.des},
@@ -131,7 +146,7 @@ class settings extends page {
 				save('password'),
 				fld({e: {t: 'div'}, name: 'Revoke Seasons', des: "This will logout from all your sessions logged sessions. IAnime doesn't collect any information like IP Address, Device names, Browser names, locations. We couldn't show what are the seasons."}),
 				{t: 'div', cl:'rev', ch: [
-					{t: 'button', txt: 'Revoke'}
+					{t: 'button', txt: 'Revoke', e: {onclick: this.revoke}}
 				]},
 				fld({e: {t: 'div'}, name: 'Delete Account', des: 'This action will remove all your IAnime account data. Once you delete your account, there is no going back. Please be certain.'}),
 				{t: 'div', cl: 'del', ch: [
@@ -142,7 +157,7 @@ class settings extends page {
 						]},
 						{t: 'span', txt: 'Confirm that I want to delete my account.'}
 					]},
-					{t: 'button', txt: 'Delete'}
+					{t: 'button', txt: 'Delete', e: {onclick: this.Delete}}
 				]}
 			]}
 		]
@@ -151,13 +166,14 @@ class settings extends page {
 		this.ui = 0
 		if(!this.ops.some((b,c) => b.name == a.ex ? [this.ui = c] : 0)) {
 			try {
-				history.pushState(history.state, document.title, '/settings/' + this.ops[this.ui].name)
+				history.replaceState(history.state, document.title, '/settings/' + this.ops[this.ui].name)
 			}catch(e){console.error(e)}
 		}
 		meta_init(0, this.ops[this.ui].title + ' Settings')
 		this.update()
 		this.fUpdate(this.user)
 		this.user_fn = a => {
+			if(!this.active) return
 			this.user = a
 			if(this.savep && this._load) this._load = 0
 			this.savep = 0

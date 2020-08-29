@@ -34,9 +34,8 @@ const getuser = async (a={}) => {
 	if(a.me && !_.token) return null
 	const err = e => {
 		if(a.me || (_.user && a.id == _.user.id)) {
-			if(e.code == 404) {
+			if(e.code == 404 || e.code == 401) {
 				logout()
-				location.reload()
 				return 1
 			}
 		}
@@ -53,4 +52,13 @@ const updateUser = async (a,b) => {
 	await data('user:' + a, {[a]: b, token: _.token}, 1)
 	return await getuser({f:1})
 }
-export {logout, setToken, token, user, getuser, com, updateUser}
+const revoke = async a => {
+	await data('user:revoke', {token: _.token}, 1)
+	getuser()
+}
+const Delete = async a => {
+	await data('user:delete', {token: _.token}, 1)
+	getuser()
+}
+const favorites = a => data('user:favorites', {id: a, token: _.token, filter: {id: 0, user: 0, name: 0, private: 0, elements: {title: 1, web: 1, poster: 1}}})
+export {logout, setToken, token, user, getuser, com, updateUser, revoke, Delete, favorites}
