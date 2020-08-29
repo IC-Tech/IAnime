@@ -3,7 +3,8 @@ import {data} from './data'
 
 const version = '1b', prefix = 'ianime-auth-' + version + '-', gt = a => JSON.parse(localStorage.getItem(prefix + a)), del = a => localStorage.removeItem(prefix + a), st = (a, b) => localStorage.setItem(prefix + a, JSON.stringify(b))
 var _ = {
-	update: a => -1,
+	updates: [],
+	update: a => _.updates.forEach(b => b(a)),
 	token: (gt('token') || {}).token, user: gt('user')
 }
 const logout = async a => {
@@ -40,7 +41,7 @@ const getuser = async (a={}) => {
 			}
 		}
 	}
-	var b = await data(a.me ? 'user:me' : 'user:profile', {id: a.id, token: _.token}, 0, err)
+	var b = await data(a.me ? 'user:me' : 'user:profile', {id: a.id, token: _.token}, !!a.f, err)
 	if(!b.success) return null
 	if((b = b.result).self) {
 		st('user', _.user = b)
@@ -48,5 +49,8 @@ const getuser = async (a={}) => {
 	}
 	return b
 }
-
-export {logout, setToken, token, user, getuser, com}
+const updateUser = async (a,b) => {
+	await data('user:' + a, {[a]: b, token: _.token}, 1)
+	return await getuser({f:1})
+}
+export {logout, setToken, token, user, getuser, com, updateUser}

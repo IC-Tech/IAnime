@@ -53,4 +53,9 @@ const api3 = (a,b) => new Promise(async _ => {
 	if(navigator.doNotTrack != '1') op.head['x-ic-analysis-url'] = location.href
 	XHR(API + '/v3/endpoint', _, op, JSON.stringify(Object.assign({query: a}, b)))
 })
-export {TitleCase, gtag, API, parentClass, num, ACreate, api3}
+const pro = async a => {
+	var b = [], c = async i => b[i] = await a[i]
+	await Promise.all(a.map((a,i) => c(i)))
+	return b
+}
+export {TitleCase, gtag, API, parentClass, num, ACreate, api3, pro}

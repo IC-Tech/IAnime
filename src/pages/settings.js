@@ -4,7 +4,7 @@ import {meta_init} from '../meta'
 import {sign_req} from '../comp'
 import {page} from '../page'
 import {error} from '../error'
-import {token} from '../account'
+import {token, updateUser} from '../account'
 import '../style/settings.scss'
 
 const nope = (a,b) => [a ? 'K' : 'nope', b]
@@ -22,20 +22,24 @@ class settings extends page {
 		]
 		this.changed = {}
 		this.fsf = (a,b) => this.bnds.forEach(c => (c[2] = new icApp(`[name="${c[0]}"]`)).v ? b([c[2], a && a[c[1]], c[0]]) : 0)
-		this.fUpdate = a => this.fsf(a, a => a[0].val = a[1] || '')
 		this.changed_fn = a => {
 			this.fsf(this.user, a => this.changed[a[2]] = a[0].val != (a[1] || ''))
 			if((a = new icApp(`[name="password"]`)).v) this.changed.password = !!a.val
 			this.update()
 		}
+		this.fUpdate = a => {
+			this.fsf(a, a => a[0].val = a[1] || '')
+			this.changed_fn()
+		}
 		this.save = a => {
 			if((a = new icApp(a.target).p).d.ty != 'save' || !(a = a.d.in)) return 0
-			console.log(a)
-			var b = {}, c = new icApp(`[name="${a}"]`).val
+			var c = new icApp(`[name="${a}"]`).val
 			if(a == 'password' && (!c || c != new icApp(`[name="repeat_password"]`).val)) return error({code: 9, message: 'repeated password dose not match'})
 			this.bnds.some(b => a == b[0] ? [a = b[1]] : 0)
-			b[a] = c
-			console.log(b)
+			this.savep = 1
+			this._load = 1
+			updateUser(a, c)
+			this.update()
 		}
 		this.upload = async (a, b) => {
 			if(!b || !b.type.match(/image\/(jpeg|png)/i)) return error({code: 12, message: "Invalid File Format"})
@@ -154,6 +158,9 @@ class settings extends page {
 		this.update()
 		this.fUpdate(this.user)
 		this.user_fn = a => {
+			this.user = a
+			if(this.savep && this._load) this._load = 0
+			this.savep = 0
 			this.update()
 			this.fUpdate(a)
 		}

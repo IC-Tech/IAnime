@@ -21,7 +21,7 @@ class page extends IAR {
 		}
 		this.user_fn = a => this.update()
 		com_error('update', a => this.update())
-		com('update', a => this.user_fn(a))
+		com('updates',0,1).push(a => this.user_fn(a))
 		getuser()
 	}
 	load() {}
