@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import {getuser} from '../account'
+import {getuser, favorites, bookmarks} from '../account'
 import {meta_init} from '../meta'
-import {sign_req} from '../comp'
+import {sign_req, AniUI} from '../comp'
 import {page} from '../page'
 import '../style/user.scss'
 
@@ -13,14 +13,28 @@ class user extends page {
 		this.name = 'user'
 		this.u = {}
 		this.ui = 0
+		this.uiParse = async a => {
+			if(this.ui == 0) return this._load = 0
+			if(this.ui == 1) {
+				var b = await favorites(a.id)
+				if(b.success && (b = b.result)) this.favs = (this.favs_ = b).elements
+				this._load = 0
+				return this.update()
+			}
+			if(this.ui == 2) {
+				var b = await bookmarks(a.id)
+				if(b.success && (b = b.result)) this.bkms = (this.bkms_ = b).elements
+				this._load = 0
+				return this.update()
+			}
+		}
 		this.parse = async a => {
 			a = await getuser(a)
-			if(!this.init) this._load = !(this.init = !0)
 			if(!a) return this.switchPage('nope')
-			this.load_ = 0
-			console.log(a)
 			a.title = a.display_name || a.name || (a.id && ('#' + a.id)) || ''
 			this.u = a
+			this.load_ = 0
+			this.uiParse(a)
 			this.update()
 			meta_init(0, a.title + "'s " + (this.ops[this.ui].title || this.ops[this.ui].name), a.title + "'s IAnime user profile", a.poster, a.web)
 		}
@@ -28,8 +42,8 @@ class user extends page {
 			{id: 'overview', title: 'Profile', name: 'Overview', page: '', render: a => [{t: 'div', cl: 'des-c', ch: [
 				{t: 'span', cl: 'des', txt: (a && a.description) || ''}
 			]}]},
-			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => []},
-			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => []},
+			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : []}] },
+			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => [{t: 'div', cl: ['bk-c', 'ani-li'], ch: this.bkms && this.bkms.length > 0 ? this.bkms.map(a => AniUI(a)) : []}] },
 			{id: 'followings', name: 'Followings', page: 'followings', render: a => []},
 			{id: 'followers', name: 'Followers', page: 'followers', render: a => []},
 		]
@@ -39,11 +53,9 @@ class user extends page {
 		this.ui = 0
 		this._load = 1
 		this.load_ = 1
-		this.init = 0
 		a.ui = a.dirs[2] || ''
 		if(!this.ops.some((b,c) => b.page == a.ui ? [this.ui = c] : 0)) return this.switchPage('nope')
 		this.parse(this.id = a.ex || 0)
-		console.log(a)
 		this.update()
 	}
 	content() {
