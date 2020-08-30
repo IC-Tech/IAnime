@@ -3,7 +3,7 @@ import {IAR, icApp} from 'ic-app'
 import {top, bottom, comp_init, clean_search} from './comp'
 import {TitleCase} from './comm'
 import {render as render_error, close as close_error, com as com_error} from './error'
-import {user, getuser, com} from './account'
+import {user, getuser, com, token} from './account'
 
 class page extends IAR {
 	constructor() {
@@ -20,6 +20,7 @@ class page extends IAR {
 			this.unload(a)
 		}
 		this.user_fn = a => this.active ? this.update() : 0
+		this.token = token
 		com_error('update', a => this.update())
 		com('updates',0,1).push(a => this.user_fn(a))
 		getuser()

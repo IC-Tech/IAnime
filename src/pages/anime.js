@@ -5,6 +5,7 @@ import {EpUI} from '../comp'
 import {data} from '../data'
 import {meta_init} from '../meta'
 import {page} from '../page'
+import {bookmark, favorite} from '../account'
 import '../style/anime.scss'
 
 const default_episodes = 12
@@ -43,10 +44,12 @@ class anime extends page {
 			}
 		}
 		this.parse = async a => {
-			var b = a = await data('anime:anime', {id: a, filter: {tags: {id: 0}, update: 0}})
+			var b = a = await data('anime:anime', {id: a, isbookmark: this.token(), isfavorite: this.token(), filter: {tags: {id: 0}, update: 0}})
 			if(!this.init) this._load = !(this.init = !0)
 			if(b = (b && b.success && b.result)) {
 				this.anime = b
+				this.fav = b.isfavorite && b.isfavorite.isfavorite
+				this.bkm = b.isbookmark && b.isbookmark.isbookmark
 				this.load_ = 0
 				this.loadSize = b.eps < default_episodes ? b.eps : ((this.loadSize = b.eps - (default_episodes * (this.page - 1))) > default_episodes ? default_episodes : this.loadSize)
 				this.update()
@@ -77,6 +80,33 @@ class anime extends page {
 			this.page = 1
 			this.update()
 		}
+		this.bkmclick = a => {
+			a.preventDefault()
+			if(this.load_ || this._load) return
+			if(!this.user || !this.token()) return this.loadUrl(0, '/sign')
+			;(async a => {
+				if(!(await bookmark(this.anime.id, !this.bkm)).success) return
+				this.bkm =! this.bkm
+				this._load = 0
+				this.update()
+			})()
+			this._load = 1
+			this.update()
+		}
+		this.favclick = a => {
+			a.preventDefault()
+			if(this.load_ || this._load) return
+			if(!this.user || !this.token()) return this.loadUrl(0, '/sign')
+			;(async a => {
+				if(!(await favorite(this.anime.id, !this.fav)).success) return
+				this.fav =! this.fav
+				this._load = 0
+				this.update()
+			})()
+			this._load = 1
+			this.update()
+		}
+
 	}
 	didMount() {
 		window.addEventListener('scroll', a => {
@@ -127,6 +157,10 @@ class anime extends page {
 				{t: 'div', cl: 'cont', ch: [
 					{t: 'div', cl: 'cont-l', ch: [
 						{t: 'div', at: {role: 'img', title: this.load_ ? '' : TitleCase(this.anime.title || '')}, cl: ['image', this.load_ ? 'skeleton' : 'k'], s: {'background-image': this.load_ ? '' : `url("${this.anime.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
+						{t: 'div', cl: 'usra', ch: [
+							{t: 'button', cl: ['ico', 'fav', this.load_ && 'skeleton', this.fav && 'ac'].filter(a => a), at: {title: `${this.fav ? 'Remove From' : 'Add To'} Favorites`}, e: {onclick: this.favclick}, html: this.fav ? `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg>` : `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path></svg>`},
+							{t: 'button', cl: ['ico', 'bkm', this.load_ && 'skeleton', this.bkm && 'ac'].filter(a => a), at: {title: `${this.bkm ? 'Remove From' : 'Add To'} Bookmarks`}, e: {onclick: this.bkmclick}, html: this.bkm ? `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 384 512"><path fill="currentColor" d="M0 512V48C0 21.49 21.49 0 48 0h288c26.51 0 48 21.49 48 48v464L192 400 0 512z"></path></svg>` : `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 384 512"><path fill="currentColor" d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm0 428.43l-144-84-144 84V54a6 6 0 0 1 6-6h276c3.314 0 6 2.683 6 5.996V428.43z"></path></svg>`},
+						]},
 						{t: 'div', cl: 'info', ch: a}
 					]},
 					{t: 'div', cl: 'cont-r', ch: [

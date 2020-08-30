@@ -54,6 +54,7 @@ $default-transition: .3s;
 	@include skeleton($sel + '::after');
 	#{$sel} {
 		background-color: $pcol2;
+		overflow: hidden;
 		&::after {
 			content: '';
 			display: block;
