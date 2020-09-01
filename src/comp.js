@@ -1,6 +1,8 @@
 import {icApp} from 'ic-app'
 import {TitleCase, parentClass} from './comm'
 import {data} from './data'
+import {logout} from './account'
+const _logout = a => logout()
 var _ev, fo, _res = {length: 0}, res = [], serTimeout, _search, up = a => {}, state = 0, req
 var search = a => {
 	if(!(a = _search)) return
@@ -44,7 +46,7 @@ document.addEventListener('click', a => {
 	else if(!b.clc('fo') && a) b.cla('fo')
 	if(!a && c.checked) c.checked = !!0
 })
-const nope = (a, b) => [b, a ? 'K' : 'nope']
+const nope = (a, b) => [...(typeof b == 'string' ? [b] : b), a ? 'K' : 'nope']
 const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 	{t:'a', txt: 'Skip to content', at: {href: '#main'}},
 	{t:'div', cl: 'top-l', ch: [
@@ -79,19 +81,29 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 		{t: 'a', cl: nope(!user, 'topl'), at: {href: '/sign'}, ch:[
 			{t: 'span', txt: 'Sign In'}
 		]},
-		{t: 'a', cl: nope(user, 'topl'), at: {href: user && user.web, title: 'Profile'}, ch:[
-			{t:'div', cl: 'prof', s: {'background-image': `url(${(user && user.poster) || '/images/default/avatar_op.jpg'})`}, ch: []}
+		{t: 'label', cl: nope(user, ['topl', 'prof']), at: {title: 'Profile', role: 'button', 'aria-label': 'user menu', tabindex: '0'}, ch:[
+			{t: 'div', cl: 'prof-c', at: {title: 'Profile'}, ch:[
+				{t:'div', s: {'background-image': `url(${(user && user.poster) || '/images/default/avatar_op.jpg'})`}},
+			]},
+			{t: 'input', at:[['type', 'checkbox']]},
+			{t: 'div', cl: 'men', ch: [
+				{t: 'a', txt: 'Profile', at: {href: user && user.web}},
+				{t: 'a', txt: 'Settings', at: {href: '/settings'}},
+				{t: 'button', txt: 'Logout', e: {onclick: _logout}},
+			]}
 		]}
 	]},
 	{t: 'label', cl: 'top-r-m', at: {role: 'button', 'aria-label': 'menu', tabindex: '0'}, ch: [
 		{t: 'input', at:[['type', 'checkbox']]},
 		{t: 'div', cl: 'btn', ch: [0,0,0].map(a => ({t: 'div'}))},
 		{t: 'div', cl: 'men', ch: [
-			{t: 'a', txt: 'Search', at: {href: '/search'}},
-			{t: 'a', cl: nope(!user, 'mi'), txt: 'Sign Up', at: {href: '/sign?ui=register'}},
-			{t: 'a', cl: nope(!user, 'mi'), txt: 'Sign In', at: {href: '/sign'}},
-			{t: 'a', cl: nope(user, 'mi'), txt: 'Profile', at: {href: user && user.web}}
-		]}
+			{t: 'a', cl: 'mi', txt: 'Search', at: {href: '/search'}},
+			{t: 'a', cl: 'mi', _: !!user, txt: 'Sign Up', at: {href: '/sign?ui=register'}},
+			{t: 'a', cl: 'mi', _: !!user, txt: 'Sign In', at: {href: '/sign'}},
+			{t: 'a', cl: 'mi', _: !user, txt: 'Profile', at: {href: user && user.web}},
+			{t: 'a', cl: 'mi', _: !user, txt: 'Settings', at: {href: '/settings'}},
+			{t: 'button', cl: 'mi', _: !user, txt: 'Logout', e: {onclick: _logout}},
+		].filter(a => !a._)}
 	]}
 ]})
 const bottom = a => ({t: 'footer', cl: 'bottom', ch: [

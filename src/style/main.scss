@@ -355,7 +355,7 @@ a[href="#main"] {
 		&.nope {
 			display: none;
 		}
-		> *:not(.prof) {
+		> *:not(.prof-c) {
 			display: table-cell;
 			vertical-align: middle;
 			white-space: nowrap;
@@ -407,6 +407,8 @@ a[href="#main"] {
 				transition-duration: $default-transition;
 			}
 		}
+	}
+	.top-r-m, .prof {
 		.men {
 			display: none;
 			position: absolute;
@@ -423,23 +425,28 @@ a[href="#main"] {
 					border-radius: 0 0 6px 6px;
 				}
 			}
-			> a {
+			> a, button {
 				display: block;
 				padding: 4px 8px;
+				min-width: 120px;
+				border: 1px solid $pcol1;
 				text-decoration: none;
 				background-color: $pcol2;
-				min-width: 120px;
+				color: $fcol1;
+				@include fonts;
+				font-size: 16px;
+				box-sizing: content-box;
+				margin: 0;
 				text-align: center;
-				border: 1px solid $pcol1;
-				transition-duration: $default-transition;
 				cursor: pointer;
+				transition-duration: $default-transition;
 				&:hover {
 					background-color: $pcol1;
 				}
 			}
 		}
 		input {
-			display: none;
+			display: none !important;
 			&:checked ~ .men {
 				display: block;
 			}
@@ -591,16 +598,13 @@ a[href="#main"] {
 			text-decoration: none;
 		}
 	}
-	.prof {
+	.prof-c > * {
 		width: 32px;
 		height: 32px;
 		margin: 4px;
 		border-radius: 50%;
 		background-size: cover;
 		cursor: pointer;
-		&.nope {
-			display: none;
-		}
 	}
 	&.fo {
 		.s-res {
