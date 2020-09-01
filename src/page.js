@@ -19,7 +19,7 @@ class page extends IAR {
 			this.update()
 			this.unload(a)
 		}
-		this.user_fn = a => this.active ? this.update() : 0
+		this.user_fn = a => this.active ? [this.user = a, this.update()] : 0
 		this.token = token
 		com_error('update', a => this.update())
 		com('updates',0,1).push(a => this.user_fn(a))
