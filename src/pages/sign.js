@@ -134,7 +134,7 @@ class sign extends page {
 			}
 			if([0, 4, 5, 6].some(b => a == b)) {
 				await setToken(d.result.token)
-				this.loadUrl(0, (await getuser()).web)
+				this.loadUrl(0, '/settings')
 			}
 			else this.wait = 2
 			this.update()

@@ -55,12 +55,16 @@ class user extends page {
 			]}]},
 			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : []}] },
 			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => [{t: 'div', cl: ['bk-c', 'ani-li'], ch: this.bkms && this.bkms.length > 0 ? this.bkms.map(a => AniUI(a)) : []}] },
-			{id: 'followings', name: 'Followings', page: 'followings', render: a => [{t: 'div', cl: ['bk-c', 'usrs'], ch: this.flis && this.flis.length > 0 ? this.flis.map(a => UsrUI(a)) : []}] },
-			{id: 'followers', name: 'Followers', page: 'followers', render: a => [{t: 'div', cl: ['bk-c', 'usrs'], ch: this.flrs && this.flrs.length > 0 ? this.flrs.map(a => UsrUI(a)) : []}] },
+			{id: 'followings', name: 'Followings', page: 'followings', render: a => [{t: 'div', cl: ['fi-c', 'usrs'], ch: this.flis && this.flis.length > 0 ? this.flis.map(a => UsrUI(a)) : []}] },
+			{id: 'followers', name: 'Followers', page: 'followers', render: a => [{t: 'div', cl: ['fr-c', 'usrs'], ch: this.flrs && this.flrs.length > 0 ? this.flrs.map(a => UsrUI(a)) : []}] },
 		]
 	}
 	load(a) {
 		this.u = null
+		this.favs = null
+		this.bkms = null
+		this.flis = null
+		this.flrs = null
 		this.ui = 0
 		this._load = 1
 		this.load_ = 1

@@ -161,4 +161,14 @@
 		}
 	}
 }
+@media (max-width: 420px) {
+	.content {
+		.scon .name {
+			font-size: 24px;
+		}
+		.tab-c .tabs > * {
+			font-size: 14px;
+		}
+	}
+}
 }
