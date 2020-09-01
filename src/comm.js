@@ -23,9 +23,9 @@ const parentClass = (a, b) => {
 	}
 	return a.v && a.clc(b)
 }
-const ACreate = a => {
+const ACreate = (a,c=1) => {
 	var b = []
-	for (var i = 0; i < a; i++) b.push(1)
+	for (var i = 0; i < a; i++) b.push(c)
 	return b
 }
 const cr = b => {

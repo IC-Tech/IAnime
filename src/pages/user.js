@@ -2,6 +2,7 @@
 import {getuser, favorites, bookmarks, followings, followers} from '../account'
 import {meta_init} from '../meta'
 import {sign_req, AniUI, UsrUI} from '../comp'
+import {ACreate} from '../comm'
 import {page} from '../page'
 import '../style/user.scss'
 
@@ -53,10 +54,26 @@ class user extends page {
 			{id: 'overview', title: 'Profile', name: 'Overview', page: '', render: a => [{t: 'div', cl: 'des-c', ch: [
 				{t: 'span', cl: 'des', txt: (a && a.description) || ''}
 			]}]},
-			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : []}] },
-			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => [{t: 'div', cl: ['bk-c', 'ani-li'], ch: this.bkms && this.bkms.length > 0 ? this.bkms.map(a => AniUI(a)) : []}] },
-			{id: 'followings', name: 'Followings', page: 'followings', render: a => [{t: 'div', cl: ['fi-c', 'usrs'], ch: this.flis && this.flis.length > 0 ? this.flis.map(a => UsrUI(a)) : []}] },
-			{id: 'followers', name: 'Followers', page: 'followers', render: a => [{t: 'div', cl: ['fr-c', 'usrs'], ch: this.flrs && this.flrs.length > 0 ? this.flrs.map(a => UsrUI(a)) : []}] },
+			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', !this.load_ && !this._load && this.favs && this.favs.length <= 0 ? 'no' : 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : (this.load_ || this._load ? ACreate(10, 'skeleton').map(a => AniUI(a)) : [
+				{t: 'div', cl: 'msg', ch: [
+					{t: 'span', txt: (this.u && this.u.title && (((this.u.self && 'You') || this.u.title) + ' ')) + 'does not have any favorites'}
+				]}
+			])}] },
+			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => [{t: 'div', cl: ['bk-c', !this.load_ && !this._load && this.bkms && this.bkms.length <= 0 ? 'no' : 'ani-li'], ch: this.bkms && this.bkms.length > 0 ? this.bkms.map(a => AniUI(a)) : (this.load_ || this._load ? ACreate(10, 'skeleton').map(a => AniUI(a)) : [
+				{t: 'div', cl: 'msg', ch: [
+					{t: 'span', txt: (this.u && this.u.title && (((this.u.self && 'You') || this.u.title) + ' ')) + 'does not have any bookmarks'}
+				]}
+			])}] },
+			{id: 'followings', name: 'Followings', page: 'followings', render: a => [{t: 'div', cl: ['fi-c', !this.load_ && !this._load && this.flis && this.flis.length <= 0 ? 'no' : 'usrs'], ch: this.flis && this.flis.length > 0 ? this.flis.map(a => UsrUI(a)) : (this.load_ || this._load ? ACreate(10, 'skeleton').map(a => UsrUI(a)) : [
+				{t: 'div', cl: 'msg', ch: [
+					{t: 'span', txt: (this.u && this.u.title && (((this.u.self && 'You') || this.u.title) + ' ')) + 'does not ' + ((this.u.self && 'follow anyone') || 'have any followings')}
+				]}
+			])}] },
+			{id: 'followers', name: 'Followers', page: 'followers', render: a => [{t: 'div', cl: ['fr-c', !this.load_ && !this._load && this.flrs && this.flrs.length <= 0 ? 'no' : 'usrs'], ch: this.flrs && this.flrs.length > 0 ? this.flrs.map(a => UsrUI(a)) : (this.load_ || this._load ? ACreate(10, 'skeleton').map(a => UsrUI(a)) : [
+				{t: 'div', cl: 'msg', ch: [
+					{t: 'span', txt: (this.u && this.u.title && (((this.u.self && 'You') || this.u.title) + ' ')) + 'does not have any followers'}
+				]}
+			])}] },
 		]
 	}
 	load(a) {
@@ -96,8 +113,8 @@ class user extends page {
 					]}
 				]},
 			]},
-			{t: 'div', cl: ['cont-r', this.ops[this.ui].id], ch: this.load_ ? [] : this.ops[this.ui].render(a, this)},
-			{t: 'div', cl: nope(this.ui == 0, 'feed'), at: {role: 'feed', 'aria-busy': !!this.load_}, ch: this.load_ ? [] : [{t: 'span', cl: 'temp', txt: `user haven't create any ${a && a.self ? '' : 'public '}activities to display`}]}
+			{t: 'div', cl: ['cont-r', this.ops[this.ui].id], ch: this.ops[this.ui].render(a, this)},
+			{t: 'div', s: {display: 'none'}, cl: nope(this.ui == 0, 'feed'), at: {role: 'feed', 'aria-busy': !!this.load_}, ch: this.load_ ? [] : [{t: 'span', cl: 'temp', txt: `user haven't create any ${a && a.self ? '' : 'public '}activities to display`}]}
 		])
 	}
 }

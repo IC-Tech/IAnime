@@ -32,7 +32,7 @@
 		display: block;
 		margin-top: -40px;
 		height: 440px;
-		width: 100%;
+		width: 100% !important;
 		max-width: 100vw;
 		background-size: cover;
 		background-position: center;
@@ -51,7 +51,7 @@
 		display: flex;
 		flex-direction: row;
 		z-index: 2;
-		margin-top: -50px;
+		margin-top: -80px;
 		position: relative;
 		flex-wrap: wrap;
 		> * {
@@ -147,11 +147,23 @@
 		padding: 10px;
 		background-color: $pcol2;
 		border-radius: 4px;
+		box-sizing: border-box;
 	}
 	.cont-r {
 		&.overview .des {
 			display: block;
 			text-align: center;
+		}
+		.no {
+			.msg {
+				margin: 20px auto;
+				border: 1px solid $pcol3;
+				padding: 16px;
+				text-align: center;
+				width: 100%;
+				max-width: 400px;
+				box-sizing: border-box;
+			}
 		}
 	}
 	.feed {
@@ -163,6 +175,12 @@
 }
 @media (max-width: 420px) {
 	.content {
+		> .cont > * {
+			width: 90%;
+		}
+		.cont-r {
+			width: 100%;
+		}
 		.scon .name {
 			font-size: 24px;
 		}

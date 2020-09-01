@@ -45,6 +45,8 @@ document.addEventListener('click', a => {
 	if(b.clc('fo') && !a) b.clr('fo')
 	else if(!b.clc('fo') && a) b.cla('fo')
 	if(!a && c.checked) c.checked = !!0
+	c = icApp.qs('.prof input')
+	if(!a && c.checked) c.checked = !!0
 })
 const nope = (a, b) => [...(typeof b == 'string' ? [b] : b), a ? 'K' : 'nope']
 const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [

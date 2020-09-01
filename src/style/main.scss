@@ -495,7 +495,7 @@ a[href="#main"] {
 			fill: $fcol1;
 		}
 		label {
-			margin-top: 4px;
+			margin-top: 5px;
 			position: relative;
 			input {
 				font-size: 14px;
@@ -902,6 +902,11 @@ a[href="#main"] {
 	.usr {
 		margin: 10px auto;
 		display: inline-block;
+		@include skeleton('&.skeleton .img');
+		@include skeleton-text(12px, 100%, '&.skeleton .name');
+		&.skeleton .name {
+			margin-top: 4px;
+		}
 		&, * {
 			text-decoration: none;
 		}
