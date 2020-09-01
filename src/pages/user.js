@@ -1,7 +1,7 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import {getuser, favorites, bookmarks} from '../account'
+import {getuser, favorites, bookmarks, followings, followers} from '../account'
 import {meta_init} from '../meta'
-import {sign_req, AniUI} from '../comp'
+import {sign_req, AniUI, UsrUI} from '../comp'
 import {page} from '../page'
 import '../style/user.scss'
 
@@ -27,11 +27,22 @@ class user extends page {
 				this._load = 0
 				return this.update()
 			}
+			if(this.ui == 3) {
+				var b = await followings(a.id)
+				if(b.success && (b = b.result)) this.flis = (this.flis_ = b).elements
+				this._load = 0
+				return this.update()
+			}
+			if(this.ui == 4) {
+				var b = await followers(a.id)
+				if(b.success && (b = b.result)) this.flrs = (this.flrs_ = b).elements
+				this._load = 0
+				return this.update()
+			}
 		}
 		this.parse = async a => {
 			a = await getuser(a)
 			if(!a) return this.switchPage('nope')
-			a.title = a.display_name || a.name || (a.id && ('#' + a.id)) || ''
 			this.u = a
 			this.load_ = 0
 			this.uiParse(a)
@@ -44,8 +55,8 @@ class user extends page {
 			]}]},
 			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : []}] },
 			{id: 'bookmarks', name: 'Bookmarks', page: 'bookmarks', p: 1, render: a => [{t: 'div', cl: ['bk-c', 'ani-li'], ch: this.bkms && this.bkms.length > 0 ? this.bkms.map(a => AniUI(a)) : []}] },
-			{id: 'followings', name: 'Followings', page: 'followings', render: a => []},
-			{id: 'followers', name: 'Followers', page: 'followers', render: a => []},
+			{id: 'followings', name: 'Followings', page: 'followings', render: a => [{t: 'div', cl: ['bk-c', 'usrs'], ch: this.flis && this.flis.length > 0 ? this.flis.map(a => UsrUI(a)) : []}] },
+			{id: 'followers', name: 'Followers', page: 'followers', render: a => [{t: 'div', cl: ['bk-c', 'usrs'], ch: this.flrs && this.flrs.length > 0 ? this.flrs.map(a => UsrUI(a)) : []}] },
 		]
 	}
 	load(a) {

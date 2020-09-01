@@ -117,7 +117,7 @@ const animeUI = a => ({t:'div', cl: 'ani-c', ch: [
 	{t:'a', cl: a == 'skeleton' ? ['skeleton', 'ani'] : 'ani', at: (b => a == 'skeleton' ? b.map(a => [a[0], undefined]) : b)([['href', a.web], ['title', TitleCase(a.title)]]), ch: [
 		{t:'div', cl: 'img-c', ch: [
 			{t:'div', cl: 'img', s: {'background-image': a == 'skeleton' ? '' : `url("${a.poster || '/images/default/poster_2.jpg'}"), url("/images/default/poster.gif")`}},
-			...(a.d_year ? [{t: 'span', cl: 'ani-yr', txt: a.d_year}] : []),		
+			...(a.d_year ? [{t: 'span', cl: 'ani-yr', txt: a.d_year}] : []),
 			...(a.ep ? [{t: 'span', cl: 'ani-ep', txt: 'Ep.' + a.ep}] : []),
 		]},
 		{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.title)}
@@ -140,10 +140,16 @@ const episodeUI = (a,b,op) => (op = op || {}).view == 'list' ? ({t: 'div', cl: [
 	{t:'span', cl: 'title', txt: a == 'skeleton' ? '' : TitleCase(a.title + ' ')},
 	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : TitleCase(a.name) || ''},
 ]})
+const userUI = a => ({t:'a', cl: a == 'skeleton' ? ['skeleton', 'usr'] : 'usr', at: (b => a == 'skeleton' ? b.map(a => [a[0], undefined]) : b)([['href', a.web], ['title', a.title]]), ch: [
+	{t:'div', cl: 'img-c', ch: [
+		{t:'div', cl: 'img', s: {'background-image': a == 'skeleton' ? '' : `url("${a.poster || '/images/default/avatar_op.jpg'}"), url("/images/default/poster.gif")`}},
+	]},
+	{t:'span', cl: 'name', txt: a == 'skeleton' ? '' : a.title}
+]})
 const link = a => ({t: 'a', txt: a.t, at: {href: a.l, target: '_blank', rel: 'noopener'}})
 const sign_req = a => ({t: 'div', cl: nope(a, 'sign-req'), ch: [
 	{t: 'span', cl: 'des', txt: 'Create an account or log in to IAnime to continue'},
 	{t: 'a', cl: 'btn0', at: {href: '/sign?ui=register'}, txt: 'Sign Up'},
 	{t: 'a', cl: 'btn0', at: {href: '/sign'}, txt: 'Sign In'}
 ]})
-export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search, link, sign_req}
+export {top, bottom, comp_init, serEv0, animeUI as AniUI, episodeUI as EpUI, clean_search, link, sign_req, userUI as UsrUI}

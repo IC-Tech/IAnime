@@ -491,7 +491,7 @@ a[href="#main"] {
 			margin-top: 4px;
 			position: relative;
 			input {
-				font-size: 16px;
+				font-size: 14px;
 				background-color: #0005;
 				border: 0;
 				line-height: 1;
@@ -891,6 +891,48 @@ a[href="#main"] {
 			@include button;
 		}
 	}
+	.usrs {
+		display: grid;
+		grid-template-columns: repeat(auto-fill,minmax(180px, 1fr));
+	}
+	.usr {
+		margin: 10px auto;
+		display: inline-block;
+		&, * {
+			text-decoration: none;
+		}
+		> * {
+			width: 140px;
+		}
+		.img-c {
+			height: 140px;
+			position: relative;
+			box-shadow: 0 2px 10px #0008;
+			overflow: hidden;
+			&, .img {
+				border-radius: 6px;
+			}
+			&:hover .img {
+				transform: scale(1.1);
+			}
+		}
+		.img {
+			height: 100%;
+			background-size: cover;
+			background-position: center;
+			transition-duration: $default-transition;
+		}
+		.name {
+			display: block;
+			font-size: 14px;
+			text-align: center;
+			padding: 2px 4px;
+			position: relative;
+			z-index: 2;
+			box-sizing: border-box;
+			@include trim();
+		}
+	}
 }
 .notis-c {
 	display: block;
@@ -973,6 +1015,20 @@ a[href="#main"] {
 	.content {
 		.ani-li {
 			grid-template-columns: repeat(auto-fill,minmax(150px, 1fr));
+		}
+		.usrs {
+			grid-template-columns: repeat(auto-fill,minmax(100px, 1fr));
+		}
+		.usr {
+			> * {
+				width: 80px;
+			}
+			.img-c {
+				height: 80px;
+			}
+			.name {
+				font-size: 12px;
+			}
 		}
 		.ani-c .ani {
 			.img-c, .name {
