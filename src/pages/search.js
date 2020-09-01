@@ -49,8 +49,7 @@ class search extends page {
 		;['input', 'search', 'aniLoad', 'loadNext', 'parse', 'parseNext'].forEach(a => this[a] = this[a].bind(this))
 	}
 	didMount() {
-		this.scroll = document.scrollingElement
-		this.escroll = (a => this.active && ((a = this.scroll).scrollHeight - (a.scrollTop + a.offsetHeight)) < 120 ? this.loadNext() : 0).bind(this)
+		this.escroll = (a => this.active && (((a = document.scrollingElement).scrollHeight - window.innerHeight) - a.scrollTop) < 400 ? this.loadNext() : 0).bind(this)
 		window.addEventListener('scroll', this.escroll)
 		window.addEventListener('resize', this.escroll)
 		this.inputE = new icApp(this.e.v.querySelector('.content .ser input'))

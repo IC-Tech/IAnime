@@ -81,7 +81,7 @@ const top = user => ({t: 'header', cl: fo ? ['top', 'fo'] : 'top', ch: [
 		{t: 'a', cl: nope(!user, 'topl'), at: {href: '/sign'}, ch:[
 			{t: 'span', txt: 'Sign In'}
 		]},
-		{t: 'label', cl: nope(user, ['topl', 'prof']), at: {title: 'Profile', role: 'button', 'aria-label': 'user menu', tabindex: '0'}, ch:[
+		{t: 'label', cl: nope(user, ['topl', 'prof']), at: {role: 'button', 'aria-label': 'user menu', tabindex: '0'}, ch:[
 			{t: 'div', cl: 'prof-c', at: {title: 'Profile'}, ch:[
 				{t:'div', s: {'background-image': `url(${(user && user.poster) || '/images/default/avatar_op.jpg'})`}},
 			]},
