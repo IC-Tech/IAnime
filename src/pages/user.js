@@ -7,6 +7,7 @@ import {page} from '../page'
 import '../style/user.scss'
 
 const nope = (a,b) => [a ? 'K' : 'nope', b]
+const skeleton = Math.ceil(Math.random() * 10) + 10
 
 class user extends page {
 	constructor() {
@@ -52,7 +53,7 @@ class user extends page {
 		}
 		this.ops = [
 			{id: 'overview', title: 'Profile', name: 'Overview', page: '', render: a => [{t: 'div', cl: 'des-c', ch: [
-				{t: 'span', cl: 'des', txt: (a && a.description) || ''}
+				{t: 'span', cl: ['des', this.load_ ? 'skeleton' : 'K'], txt: this.load_ ? '' : ((a && a.description) || ''), ch: this.load_ ? ACreate(skeleton).map(a => ({t: 'div'})) : !1}
 			]}]},
 			{id: 'favorites', name: 'Favorites', page: 'favorites', render: a => [{t: 'div', cl: ['fa-c', !this.load_ && !this._load && this.favs && this.favs.length <= 0 ? 'no' : 'ani-li'], ch: this.favs && this.favs.length > 0 ? this.favs.map(a => AniUI(a)) : (this.load_ || this._load ? ACreate(10, 'skeleton').map(a => AniUI(a)) : [
 				{t: 'div', cl: 'msg', ch: [
@@ -81,9 +82,10 @@ class user extends page {
 			await follow(this.u.id, !this.u.isfollow)
 			this.load_ = 1
 			this.update()
-			this.parse(this.u.id, 1)
+			this.parse(this.id, 1)
 		}
 		this.acbtn = a => {
+			if(this._load || this.load_) return
 			if(this.u && this.u.self) return this.loadUrl(0, '/settings')
 			this.flo()
 		}

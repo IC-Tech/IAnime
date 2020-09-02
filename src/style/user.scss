@@ -166,6 +166,12 @@
 		&.overview .des {
 			display: block;
 			text-align: center;
+			@include skeleton-text(16px, null, '&.skeleton>*');
+			@include skeleton-list(20, 80, 180);
+			&.skeleton>* {
+				display: inline-block;
+				margin: 0 6px 3px 0;
+			}
 		}
 		.no {
 			.msg {
