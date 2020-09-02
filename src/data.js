@@ -25,12 +25,7 @@ const eq = (a,b) => {
 }
 const data = async (a,b,fresh, err) => {
 	var c
-	if(!fresh && _data[a]) {
-		_data[a].some(a => {
-			if(!a || (Date.now() - a.t) > default_expire || !eq(a.req, b)) return 0
-			c = a.res
-		})
-	}
+	if(!fresh && _data[a]) _data[a].sort((a,b) => b.t - a.t).some(a => !a || (Date.now() - a.t) > default_expire || !eq(a.req, b) ? 0 : [c = a.res])
 	if(c) return c
 	c = await api3(a, b)
 	if(!c || !c.success) {
