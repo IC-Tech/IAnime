@@ -59,7 +59,7 @@
 			box-sizing: border-box;
 		}
 		.pos {
-			margin: -70px 0 0 0;
+			margin: -40px 0 0 0;
 			width: 200px;
 			height: 200px;
 			background-size: cover;
@@ -76,11 +76,24 @@
 			display: block;
 			font-size: 36px;
 			text-shadow: 2px 2px 4px #000;
-			margin-bottom: -20px;
-			@include skeleton-text(34px, null, '&.skeleton', 120, 200);
+			line-height: 1.3;
+			@include skeleton-text(30px, null, '&.skeleton', 120, 200);
 			&.skeleton {
-				margin: 8px 0 -10px 0;
+				margin: 8px 0 4px 0;
 			}
+		}
+		.flo {
+			padding: 6px 12px;
+			background-color: $pcol2;
+			@include fonts;
+			border: 0;
+			border-radius: 16px;
+			color: $fcol1;
+			font-size: 14px;
+			box-shadow: 0 0 10px #0006;
+			cursor: pointer;
+			@include skeleton;
+			margin-bottom: -10px;
 		}
 	}
 	.tab-c {

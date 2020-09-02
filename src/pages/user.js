@@ -1,5 +1,5 @@
 /* Copyright © 2020, Imesh Chamara. All rights reserved. */
-import {getuser, favorites, bookmarks, followings, followers} from '../account'
+import {getuser, favorites, bookmarks, followings, followers, follow} from '../account'
 import {meta_init} from '../meta'
 import {sign_req, AniUI, UsrUI} from '../comp'
 import {ACreate} from '../comm'
@@ -41,8 +41,8 @@ class user extends page {
 				return this.update()
 			}
 		}
-		this.parse = async a => {
-			a = await getuser(a)
+		this.parse = async (a,b) => {
+			a = await getuser({id: a, f: !!b})
 			if(!a) return this.switchPage('nope')
 			this.u = a
 			this.load_ = 0
@@ -75,6 +75,18 @@ class user extends page {
 				]}
 			])}] },
 		]
+		this.flo = async a => {
+			this._load = 1
+			this.update()
+			await follow(this.u.id, !this.u.isfollow)
+			this.load_ = 1
+			this.update()
+			this.parse(this.u.id, 1)
+		}
+		this.acbtn = a => {
+			if(this.u && this.u.self) return this.loadUrl(0, '/settings')
+			this.flo()
+		}
 	}
 	load(a) {
 		this.u = null
@@ -104,6 +116,7 @@ class user extends page {
 					]},
 					{t: 'div', cl: 'si2', ch: [
 						{t: 'span', cl: b('name'), txt: c(a && a.title)},
+						{t: 'button', cl: b('flo'), txt: a && a.self ? 'Edit' : (a.isfollow ? 'Following' : 'Follow'), e: {onclick: this.acbtn}}
 					]}
 				]},
 				{t: 'div', cl: 'tab-c', ch: [

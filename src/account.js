@@ -32,8 +32,9 @@ const favorites = async a => data('user:favorites', {id: a, token: _.token, filt
 const bookmarks = async a => data('user:bookmarks', {id: a, token: _.token, filter: {self:1, index: 1, length: 1, limit: 1, elements: {id: 1, title: 1, web: 1, poster: 1}}})
 const followings = async a => data('user:followings', {id: a, token: _.token, filter: {self:1, index: 1, length: 1, limit: 1, elements: {id: 1, title: 1, web: 1, poster: 1}}})
 const followers = async a => data('user:followers', {id: a, token: _.token, filter: {self:1, index: 1, length: 1, limit: 1, elements: {id: 1, title: 1, web: 1, poster: 1}}})
-const bookmark = async (a,b=1) => data('user:bookmark', Object.assign({anime: a, token: _.token}, b ? {} : {remove : 1}))
-const favorite = async (a,b=1) => data('user:favorite', Object.assign({anime: a, token: _.token}, b ? {} : {remove : 1}))
+const bookmark = async (a,b=1) => data('user:bookmark', Object.assign({anime: a, token: _.token}, b ? {} : {remove : 1}), 1)
+const favorite = async (a,b=1) => data('user:favorite', Object.assign({anime: a, token: _.token}, b ? {} : {remove : 1}), 1)
+const follow = async (a,b=1) => data('user:follow', Object.assign({user: a, token: _.token}, b ? {} : {remove : 1}), 1)
 const getuser = async (a={}) => {
 	if(typeof a != 'object') a = {id: a}
 	if(typeof a.id != 'number' && typeof a.id != 'string') a.me = 1
@@ -66,4 +67,4 @@ const Delete = async a => {
 	await data('user:delete', {token: _.token}, 1)
 	getuser()
 }
-export {logout, setToken, token, user, getuser, com, updateUser, revoke, Delete, favorites, bookmarks, bookmark, favorite, followings, followers}
+export {logout, setToken, token, user, getuser, com, updateUser, revoke, Delete, favorites, bookmarks, bookmark, favorite, followings, followers, follow}
